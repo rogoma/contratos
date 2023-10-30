@@ -49,9 +49,10 @@
                                 </div>
                                 <div class="card-footer">
                                     <p class="p-t-30">
-                                        Sistema de Gestión de Contrataciones Públicas.<br>
+                                        SENASA-Sistema de Gestión de Contratos<br>
+                                        {{-- SENASA<br> --}}
                                         Ministerio de Salud Pública y Bienestar Social.<br>
-                                        <small>&copy; {{date('Y')}} DGTIC - Dirección de Sistemas.</small>                                        
+                                        <small>&copy; {{date('Y')}} SENASA - MSPBS</small>
                                     </p>
                                     <br>
                                         {{-- Muestra vídeos de capacitación sólo para los roles Pedidos --}}

@@ -5,7 +5,7 @@
             <div class="navbar-wrapper">
                 <div class="navbar-logo">
                     <a href="{{ route('home') }}">
-                        SISTEDOC
+                        CONTRASIS
                     </a>
                     <a class="mobile-menu" id="mobile-collapse" href="#!">
                         <i class="feather icon-menu icon-toggle-right"></i>
@@ -36,8 +36,8 @@
                             <div class="dropdown-primary dropdown">
                                 <div class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="{{ asset('img/user.png') }}" class="img-radius" alt="User-Profile-Image">
-                                    <span>{{ Auth::user()->getFullName() }} -</span>                                    
-                                    <span>{{ Auth::user()->role->description }}</span>                                    
+                                    <span>{{ Auth::user()->getFullName() }} -</span>
+                                    <span>{{ Auth::user()->role->description }}</span>
 
                                     <i class="feather icon-chevron-down"></i>
                                 </div>
@@ -45,7 +45,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="{{ route('users.change_pass',Auth::user()->id)}}">Cambiar Contraseña</a>
                                     </li>
-                                    
+
                                     {{-- <button type="button" title="Editar" class="btn btn-warning btn-icon" onclick="updateUser({{  Auth::user()->id }})">
                                         <i class="fa fa-pencil"></i>
                                     </button> --}}
@@ -72,23 +72,23 @@
                 </div>
             </div>
         </nav>
-        
+
         @if (Auth::user()->role_id == 1)
             @include('include.menus.admin')
         @elseif(Auth::user()->role_id == 2)
-            @include('include.menus.orders')           
+            @include('include.menus.orders')
         @elseif(Auth::user()->role_id == 3)
             @include('include.menus.process_orders')
         @elseif(Auth::user()->role_id == 4)
             @include('include.menus.derive_orders')
         @elseif(Auth::user()->role_id == 5)
-            @include('include.menus.plannings')        
+            @include('include.menus.plannings')
         @elseif(Auth::user()->role_id == 6)
             @include('include.menus.minor_purchases')
         @elseif(Auth::user()->role_id == 7)
             @include('include.menus.awards')
         @elseif(Auth::user()->role_id == 8)
-            @include('include.menus.contracts')    
+            @include('include.menus.contracts')
         @elseif(Auth::user()->role_id == 9)
             @include('include.menus.tenders')
         @elseif(Auth::user()->role_id == 10)
@@ -100,13 +100,13 @@
         @elseif(Auth::user()->role_id == 21)
             @include('include.menus.legal_advices')
         @elseif(Auth::user()->role_id == 23)
-            @include('include.menus.coordinations') 
+            @include('include.menus.coordinations')
         @elseif(Auth::user()->role_id == 24)
             @include('include.menus.dgafs')
         @elseif(Auth::user()->role_id == 25)
             @include('include.menus.documentals')
         @elseif(Auth::user()->role_id == 27)
-            @include('include.menus.admin_users')     
+            @include('include.menus.admin_users')
         @endif
 
         {{-- Si hay rol derivar pedidos y SI ES usuario de UTA     --}}

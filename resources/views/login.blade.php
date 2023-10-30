@@ -2,14 +2,14 @@
 <html lang="es">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
-    <title>SISTEDOC</title>
+    <title>CONTRASIS</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="SISTEDOC" />
+    <meta name="description" content="CONTRASIS" />
     <meta name="robots" content="noindex, nofollow">
-    <meta name="author" content="Germán García - Rodolfo González" />
+    <meta name="author" content="Rodolfo González" />
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
@@ -35,11 +35,11 @@
 
                                 <div class="row">
                                     <div class="col-md-12 col-lg-6">
-                                        <img src="{{ asset('img/mspbs-logo.png') }}" width="100%" alt="SISTEDOC - MSPBS">
+                                        <img src="{{ asset('img/mspbs-logo.png') }}" width="100%" alt="CONTRASIS - MSPBS">
                                     </div>
                                     <div class="col-md-12 col-lg-6 p-t-30">
-                                        <h3 class="text-center mt-2">SISTEDOC</h3>
-                                        <h4 class="text-center text-mute">Sistema de Gestión de Contrataciones Públicas.</h4>
+                                        <h3 class="text-center mt-2">CONTRASIS</h3>
+                                        <h4 class="text-center text-mute">Sistema de Gestión de Contratos</h4>
                                         <hr class="mb-4">
 
                                         <div class="form-group">
@@ -67,7 +67,8 @@
                                         </div>
 
                                         <div class="text-center text-mute">
-                                            DGTIC / Dirección de Sistemas <br> Ministerio de Salud Pública y Bienestar Social <br> {{ date('Y') }}
+                                            SENASA<br>
+                                            Ministerio de Salud Pública y Bienestar Social <br> {{ date('Y') }}
                                         </div>
                                     </div>
                                 </div>

@@ -2,14 +2,14 @@
 <html lang="es">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
-    <title>SISTEDOC</title>
+    <title>CONTRASIS</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="SISTEDOC" />
+    <meta name="description" content="CONTRASIS" />
     <meta name="robots" content="noindex, nofollow">
-    <meta name="author" content="Germán García - Rodolfo González" />
+    <meta name="author" content="Rodolfo González" />
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
@@ -63,7 +63,7 @@
     <script src="{{ asset('template-admin/js/script.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-      
+
         @if (session()->has('success'))
             swal("Exito!", "{{session()->get('success')}}", "success");
         @endif
