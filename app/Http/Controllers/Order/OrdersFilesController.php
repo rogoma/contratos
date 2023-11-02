@@ -100,7 +100,7 @@ class OrdersFilesController extends Controller
                             'dgafs.files.update',
                             'documentals.files.update'];
 
-        $this->middleware('checkPermission:'.implode(',',$index_permissions))->only('index'); // Permiso para index 
+        $this->middleware('checkPermission:'.implode(',',$index_permissions))->only('index'); // Permiso para index
         $this->middleware('checkPermission:'.implode(',',$create_permissions))->only(['create', 'store']);   // Permiso para create
         $this->middleware('checkPermission:'.implode(',',$show_permissions))->only(['show']);   // Permiso para show
         $this->middleware('checkPermission:'.implode(',',$download_permissions))->only(['download']);   // Permiso para download
@@ -188,11 +188,11 @@ class OrdersFilesController extends Controller
     public function store(Request $request, $order_id)
     {
         $order = Order::findOrFail($order_id);
-        
+
         $rules = array(
             'description' => 'string|required|max:100',
         );
-        
+
         $validator =  Validator::make($request->input(), $rules);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -214,27 +214,27 @@ class OrdersFilesController extends Controller
 
         // Pasó todas las validaciones, guardamos el archivo
         $fileName = time().'-order-file.'.$extension; // nombre a guardar
-        // Cargamos el archivo (ruta storage/app/public/files, enlace simbolico desde public/files)
+        // Cargamos el archivo (ruta storage/app/public/files, enlace simbólico desde public/files)
         $path = $request->file('file')->storeAs('public/files', $fileName);
 
         $file = new File;
         $file->description = $request->input('description');
-        $file->file = $fileName;        
+        $file->file = $fileName;
 
         if ($request->user()->dependency->id <> 57){
-            $file->file_type = 0;        
+            $file->file_type = 0;
         }
-        // *** Usuario Asesoría Jurídica  tipo 5 = dictamenes*** 
+        // *** Usuario Asesoría Jurídica  tipo 5 = dictamenes***
         if ($request->user()->dependency->id == 57){
-            $file->file_type = 5;        
+            $file->file_type = 5;
         }
-        // *** Usuario Contratos tipo 3 = contratos*** 
+        // *** Usuario Contratos tipo 3 = contratos***
         if ($request->user()->dependency->id == 60){
-            $file->file_type = 3;        
+            $file->file_type = 3;
         }
 
-        // *** Usuario Licitaciones, Compras Menores y Excepciones tipo 7 = Cuadros comparativos*** 
-        // if (in_array($request->user()->dependency->id, [61,62,63])){        
+        // *** Usuario Licitaciones, Compras Menores y Excepciones tipo 7 = Cuadros comparativos***
+        // if (in_array($request->user()->dependency->id, [61,62,63])){
         //     // Ver bandera para preguntar si es cuadro comparativo o archivo normal
         //     $file->file_type = 7;
         // }
@@ -252,23 +252,23 @@ class OrdersFilesController extends Controller
         if($request->user()->hasPermission(['plannings.files.create'])){
             return redirect()->route('plannings.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }elseif($request->user()->hasPermission(['tenders.files.create'])){
-            return redirect()->route('tenders.show', $order_id);  
+            return redirect()->route('tenders.show', $order_id);
         }elseif($request->user()->hasPermission(['minor_purchases.files.create'])){
-            return redirect()->route('minor_purchases.show', $order_id);         
+            return redirect()->route('minor_purchases.show', $order_id);
         }elseif($request->user()->hasPermission(['awards.files.create'])){
             return redirect()->route('awards.show', $order_id);
         }elseif($request->user()->hasPermission(['exceptions.files.create'])){
             return redirect()->route('exceptions.show', $order_id);
         }elseif($request->user()->hasPermission(['contracts.files.create'])){
-            return redirect()->route('contracts.show', $order_id); 
+            return redirect()->route('contracts.show', $order_id);
         }elseif($request->user()->hasPermission(['utas.files.create'])){
             return redirect()->route('utas.show', $order_id);
         }elseif($request->user()->hasPermission(['legal_advices.files.create'])){
             return redirect()->route('legal_advices.show', $order_id);
         }elseif($request->user()->hasPermission(['comites.files.create'])){
-            return redirect()->route('comites.show', $order_id); 
+            return redirect()->route('comites.show', $order_id);
         }elseif($request->user()->hasPermission(['coordinations.files.create'])){
-            return redirect()->route('coordinations.show', $order_id); 
+            return redirect()->route('coordinations.show', $order_id);
         }elseif($request->user()->hasPermission(['dgafs.files.create'])){
             return redirect()->route('dgafs.show', $order_id);
         }elseif($request->user()->hasPermission(['documentals.files.create'])){
@@ -286,7 +286,7 @@ class OrdersFilesController extends Controller
     public function store_filedncp(Request $request, $order_id)
     {
         $order = Order::findOrFail($order_id);
-        
+
         $rules = array(
             'description' => 'string|required|max:100',
         );
@@ -317,11 +317,11 @@ class OrdersFilesController extends Controller
         $file = new File;
         $file->description = $request->input('description');
         $file->file = $fileName;
-        // *** filetype 1 = archivos de reparos // filetype 4 = Addendas ****        
+        // *** filetype 1 = archivos de reparos // filetype 4 = Addendas ****
         if ($request->user()->dependency->id == 60) {
             $file->file_type = 4;
         }else{
-            $file->file_type = 1;        
+            $file->file_type = 1;
         }
         $file->order_id = $order_id;
         $file->order_state_id = $order->actual_state;
@@ -333,27 +333,27 @@ class OrdersFilesController extends Controller
         if($request->user()->hasPermission(['plannings.files.create'])){
             return redirect()->route('plannings.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }elseif($request->user()->hasPermission(['tenders.files.create'])){
-            return redirect()->route('tenders.show', $order_id);  
+            return redirect()->route('tenders.show', $order_id);
         }elseif($request->user()->hasPermission(['minor_purchases.files.create'])){
-            return redirect()->route('minor_purchases.show', $order_id);         
+            return redirect()->route('minor_purchases.show', $order_id);
         }elseif($request->user()->hasPermission(['awards.files.create'])){
             return redirect()->route('awards.show', $order_id);
         }elseif($request->user()->hasPermission(['exceptions.files.create'])){
             return redirect()->route('exceptions.show', $order_id);
         }elseif($request->user()->hasPermission(['contracts.files.create'])){
-            return redirect()->route('contracts.show', $order_id);        
+            return redirect()->route('contracts.show', $order_id);
         }elseif($request->user()->hasPermission(['utas.files.create'])){
             return redirect()->route('utas.show', $order_id);
         }elseif($request->user()->hasPermission(['legal_advices.files.create'])){
             return redirect()->route('legal_advices.show', $order_id);
         }elseif($request->user()->hasPermission(['comites.files.create'])){
-            return redirect()->route('comites.show', $order_id);            
+            return redirect()->route('comites.show', $order_id);
         }elseif($request->user()->hasPermission(['coordinations.files.create'])){
             return redirect()->route('coordinations.show', $order_id);
         }elseif($request->user()->hasPermission(['dgafs.files.create'])){
             return redirect()->route('dgafs.show', $order_id);
         }elseif($request->user()->hasPermission(['documentals.files.create'])){
-            return redirect()->route('documentals.show', $order_id);    
+            return redirect()->route('documentals.show', $order_id);
         }else{
             return redirect()->route('orders.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }
@@ -367,7 +367,7 @@ class OrdersFilesController extends Controller
     public function store_filedncp_con(Request $request, $order_id)
     {
         $order = Order::findOrFail($order_id);
-        
+
         $rules = array(
             'description' => 'string|required|max:100',
         );
@@ -398,8 +398,8 @@ class OrdersFilesController extends Controller
         $file = new File;
         $file->description = $request->input('description');
         $file->file = $fileName;
-        // *** filetype 6 = archivos de consultas DNCP ****        
-        $file->file_type = 6;        
+        // *** filetype 6 = archivos de consultas DNCP ****
+        $file->file_type = 6;
         $file->order_id = $order_id;
         $file->order_state_id = $order->actual_state;
         $file->creator_user_id = $request->user()->id;  // usuario logueado
@@ -410,27 +410,27 @@ class OrdersFilesController extends Controller
         if($request->user()->hasPermission(['plannings.files.create'])){
             return redirect()->route('plannings.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }elseif($request->user()->hasPermission(['tenders.files.create'])){
-            return redirect()->route('tenders.show', $order_id);  
+            return redirect()->route('tenders.show', $order_id);
         }elseif($request->user()->hasPermission(['minor_purchases.files.create'])){
-            return redirect()->route('minor_purchases.show', $order_id);         
+            return redirect()->route('minor_purchases.show', $order_id);
         }elseif($request->user()->hasPermission(['awards.files.create'])){
             return redirect()->route('awards.show', $order_id);
         }elseif($request->user()->hasPermission(['exceptions.files.create'])){
             return redirect()->route('exceptions.show', $order_id);
         }elseif($request->user()->hasPermission(['contracts.files.create'])){
-            return redirect()->route('contracts.show', $order_id);        
+            return redirect()->route('contracts.show', $order_id);
         }elseif($request->user()->hasPermission(['utas.files.create'])){
             return redirect()->route('utas.show', $order_id);
         }elseif($request->user()->hasPermission(['legal_advices.files.create'])){
             return redirect()->route('legal_advices.show', $order_id);
         }elseif($request->user()->hasPermission(['comites.files.create'])){
-            return redirect()->route('comites.show', $order_id);            
+            return redirect()->route('comites.show', $order_id);
         }elseif($request->user()->hasPermission(['coordinations.files.create'])){
             return redirect()->route('coordinations.show', $order_id);
         }elseif($request->user()->hasPermission(['dgafs.files.create'])){
             return redirect()->route('dgafs.show', $order_id);
         }elseif($request->user()->hasPermission(['documentals.files.create'])){
-            return redirect()->route('documentals.show', $order_id);    
+            return redirect()->route('documentals.show', $order_id);
         }else{
             return redirect()->route('orders.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }
@@ -444,7 +444,7 @@ class OrdersFilesController extends Controller
     public function store_cuadro_compar(Request $request, $order_id)
     {
         $order = Order::findOrFail($order_id);
-        
+
         $rules = array(
             'description' => 'string|required|max:100',
         );
@@ -488,21 +488,21 @@ class OrdersFilesController extends Controller
         if($request->user()->hasPermission(['plannings.files.create'])){
             return redirect()->route('plannings.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }elseif($request->user()->hasPermission(['tenders.files.create'])){
-            return redirect()->route('tenders.show', $order_id);  
+            return redirect()->route('tenders.show', $order_id);
         }elseif($request->user()->hasPermission(['minor_purchases.files.create'])){
-            return redirect()->route('minor_purchases.show', $order_id);         
+            return redirect()->route('minor_purchases.show', $order_id);
         }elseif($request->user()->hasPermission(['awards.files.create'])){
             return redirect()->route('awards.show', $order_id);
         }elseif($request->user()->hasPermission(['exceptions.files.create'])){
             return redirect()->route('exceptions.show', $order_id);
         }elseif($request->user()->hasPermission(['contracts.files.create'])){
-            return redirect()->route('contracts.show', $order_id);        
+            return redirect()->route('contracts.show', $order_id);
         }elseif($request->user()->hasPermission(['utas.files.create'])){
             return redirect()->route('utas.show', $order_id);
         }elseif($request->user()->hasPermission(['legal_advices.files.create'])){
             return redirect()->route('legal_advices.show', $order_id);
         }elseif($request->user()->hasPermission(['comites.files.create'])){
-            return redirect()->route('comites.show', $order_id);            
+            return redirect()->route('comites.show', $order_id);
         }elseif($request->user()->hasPermission(['coordinations.files.create'])){
             return redirect()->route('coordinations.show', $order_id);
         }elseif($request->user()->hasPermission(['dgafs.files.create'])){
@@ -512,7 +512,7 @@ class OrdersFilesController extends Controller
         }else{
             return redirect()->route('orders.show', $order_id)->with('success', 'Archivo agregado correctamente');
         }
-        
+
     }
 
     /**
@@ -527,8 +527,8 @@ class OrdersFilesController extends Controller
         $name = Str::slug($file->description);
         //Separamos nombre y extensión de la descripción del archivo
         $filename = explode(".", $file->file);
-        //Obteemos extensión del archivo
-        $extension = $filename[1];        
+        //Obtenemos extensión del archivo
+        $extension = $filename[1];
         return Storage::download('public/files/'.$file->file, $name .'.'. $extension);
     }
 
@@ -542,7 +542,7 @@ class OrdersFilesController extends Controller
     {
         // Chequeamos que el usuario actual disponga de permisos de eliminacion
         if(!$request->user()->hasPermission(['admin.files.delete', 'orders.files.delete',
-            'process_orders.files.delete', 'derive_orders.files.delete', 
+            'process_orders.files.delete', 'derive_orders.files.delete',
             'plannings.files.delete','tenders.files.delete','minor_purchases.files.delete',
             'exceptions.files.delete','awards.files.delete','contracts.files.delete',
             'utas.files.delete','legal_advices.files.delete','comites.files.delete',
@@ -553,7 +553,7 @@ class OrdersFilesController extends Controller
         $file = File::find($file_id);
         // Eliminamos el archivo
         Storage::delete('public/files/'.$file->file);
-        
+
         // Eliminamos el registro del archivo
         $file->delete();
         return response()->json(['status' => 'success', 'message' => 'Se ha eliminado el archivo ', 'code' => 200], 200);
