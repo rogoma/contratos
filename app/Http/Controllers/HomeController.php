@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -18,7 +19,10 @@ class HomeController extends Controller
         // En caso de no estar logueado redirigimos a login
         if(is_null($request->user())){
             return redirect()->route('login');
-        }        
+        }
+        $usuarios = Http::get('https://jsonplaceholder.typicode.com/users');
+        $usuariosArray = 
+
         return view('home');
     }
 
@@ -50,8 +54,8 @@ class HomeController extends Controller
         // chequeamos si los datos enviados corresponden a algun usuario
         $credentials = $request->only('document', 'password');
         if(Auth::attempt($credentials)){    // intentamos iniciar sesion
-            
-            // COMPROBAMOS SI USUARIO ESTÁ ACTIVO (1)/INACTIVO (2)           
+
+            // COMPROBAMOS SI USUARIO ESTÁ ACTIVO (1)/INACTIVO (2)
             $user = User::where('document', $request->input('document'))
             ->where('state', '=', 1)
             ->get();
@@ -61,10 +65,10 @@ class HomeController extends Controller
                 return back()->withErrors($validator)->withInput();
             }
 
-            // En caso de inicio de sesión exitoso retornamos a la ruta 
+            // En caso de inicio de sesión exitoso retornamos a la ruta
             // intentada previamente por el usuario (en caso de no haber ruta intentada redirigimos a home)
             return redirect()->intended('/');
-            
+
         }else{
             $validator->errors()->add('bad_credentials', 'Credenciales incorrectas.');
             return back()->withErrors($validator)->withInput();
