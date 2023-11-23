@@ -66,6 +66,19 @@
                 </div>
             </div>
         </div>
+        @foreach ($usuariosArray as $usuario)
+        <div class="col-md-6">
+            <ul class="list-group mt-2 mb-4">
+                <li class="list-group-item active">{{$usuario['name']}}</li>
+                <li class="list-group-item">{{$usuario['email']}}</li>
+                <li class="list-group-item">{{$usuario['address']['street']}}</li>
+                
+                <li class="list-group-item">{{$usuario['phone']}}</li>
+                <li class="list-group-item">{{$usuario['website']}}</li>
+            </ul>
+        </div>
+
+        @endforeach
     </div>
 </div>
 @endsection

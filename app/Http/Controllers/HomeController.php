@@ -21,9 +21,9 @@ class HomeController extends Controller
             return redirect()->route('login');
         }
         $usuarios = Http::get('https://jsonplaceholder.typicode.com/users');
-        $usuariosArray = 
+        $usuariosArray = $usuarios->json();
 
-        return view('home');
+        return view('home', compact('usuariosArray'));
     }
 
     /**
