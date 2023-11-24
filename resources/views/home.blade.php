@@ -67,17 +67,39 @@
             </div>
         </div>
         @foreach ($usuariosArray as $usuario)
-        <div class="col-md-6">
-            <ul class="list-group mt-2 mb-4">
-                <li class="list-group-item active">{{$usuario['name']}}</li>
-                <li class="list-group-item">{{$usuario['email']}}</li>
-                <li class="list-group-item">{{$usuario['address']['street']}}</li>
-                
-                <li class="list-group-item">{{$usuario['phone']}}</li>
-                <li class="list-group-item">{{$usuario['website']}}</li>
-            </ul>
-        </div>
+        <div>
+            {{-- <ul class="list-group mt-2 mb-4"> --}}
+                <li class="list-group-item active">USUARIO: {{$usuario['name']}}</li>
+                <li class="list-group-item">MAIL: {{$usuario['email']}}</li>
+                <li class="list-group-item">DIRECCIÓN: {{$usuario['address']['street']}}</li>
 
+                <td>{{ is_null($usuario['address']['street']->first()) ? '' : number_format($orders[$i]->simese->last()['simese'],'0', ',','.') }}</td>
+                {{-- <td>{{ is_null($usuario['address']['street']->first()) ? '' : number_format($orders[$i]->simese->last()['simese'],'0', ',','.') }}</td> --}}
+
+                @if ($usuario['address']['zipcode'] == '92998-3874')
+                    CODIGO 92998-3874
+                @else
+                    OTRO CODIGO
+                @endif
+
+                <li class="list-group-item">CÓDZIP: {{$usuario['address']['zipcode']}}</li>
+                <li class="list-group-item">TELÉFONO: {{$usuario['phone']}}</li>
+                {{-- <li class="list-group-item">{{$usuario['zipcode']}}</li> --}}
+                <li class="list-group-item">WEB: {{$usuario['website']}}</li>
+            {{-- </ul> --}}
+
+            {{-- <tr>
+                <td>{{ ($i+1) }}</td>
+                <td>{{ $orders[$i]->modality->description }}</td>
+                @if ($orders[$i]->covid==0)
+                    <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description }}</td>
+                @else
+                    <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description}} - <span style="color:red;font-weight: bold"> (PROCESO COVID)</span></td>
+                @endif
+                {{-- <td>{{ is_null($orders[$i]->simese->first()) ? '' : number_format($orders[$i]->simese->last()['simese'],'0', ',','.') }}</td> --}}
+                {{-- <td>{{ is_null($orders[$i]->simese->first()) ? '' : number_format($orders[$i]->simese->first()['simese'],'0', ',','.')."/".$orders[$i]->simese->first()['year'] }}</td> --}}
+            {{-- </tr> --}}
+        </div>
         @endforeach
     </div>
 </div>

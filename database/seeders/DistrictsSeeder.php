@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Facades\DB;
 use App\Models\District;
 
 class DistrictsSeeder extends Seeder
