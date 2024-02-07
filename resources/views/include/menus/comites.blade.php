@@ -10,9 +10,9 @@
                             <a href="{{ route('home') }}" class="waves-effect waves-dark">
                                 <span class="pcoded-micon"><i class="feather icon-shield"></i></span>
                                 <span class="pcoded-mtext">Inicio</span>
-                                <a href="/pdf/secuencia" class="btn btn-info" target="_blank">Flujo-Licitaciones</a>  
-                                <a href="/pdf/secuencia2" class="btn btn-info" target="_blank">Flujo-Compras Menores</a>  
-                                <a href="/pdf/secuencia3" class="btn btn-info" target="_blank">Flujo-Procesos Compl.</a> 
+                                {{-- <a href="/pdf/secuencia" class="btn btn-info" target="_blank">Flujo-Licitaciones</a>
+                                <a href="/pdf/secuencia2" class="btn btn-info" target="_blank">Flujo-Compras Menores</a>
+                                <a href="/pdf/secuencia3" class="btn btn-info" target="_blank">Flujo-Procesos Compl.</a> --}}
                             </a>
                             <a href="/pdf/change_pass" class="btn btn-primary" target="_blank">
                                 <span class="pcoded-micon"><i class="feather icon-user"></i></span>

@@ -9,19 +9,19 @@
                         <li class="@if(Route::currentRouteName() == 'home') active @endif">
                             <a href="{{ route('home') }}" class="waves-effect waves-dark">
                                 <span class="pcoded-micon"><i class="feather icon-shield"></i></span>
-                                <span class="pcoded-mtext">Inicio</span>                                
-                                <a href="/pdf/secuencia" class="btn btn-info" target="_blank">Flujo-Licitaciones</a>                                  
-                                <a href="/pdf/modalities" class="btn btn-info" target="_blank">Plazos de Procesos</a> 
+                                <span class="pcoded-mtext">Inicio</span>
+                                {{-- <a href="/pdf/secuencia" class="btn btn-info" target="_blank">Flujo-Licitaciones</a>
+                                <a href="/pdf/modalities" class="btn btn-info" target="_blank">Plazos de Procesos</a>  --}}
                             </a>
                             <a href="/pdf/change_pass" class="btn btn-primary" target="_blank">
                                 <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                                 <span class="pcoded-mtext">Cambiar Password</span>
                             </a>
-                        </li>                        
+                        </li>
                     </ul>
-                    
+
                     {{-- <div class="pcoded-navigation-label">Plazos de Procesos</div>
-                        <a href="/pdf/modalities" class="btn btn-info" target="_blank">Plazos de Procesos</a>  
+                        <a href="/pdf/modalities" class="btn btn-info" target="_blank">Plazos de Procesos</a>
                     </div> --}}
 
                     <div class="pcoded-navigation-label">Módulo de Licitaciones</div>
