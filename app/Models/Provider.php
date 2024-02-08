@@ -17,6 +17,13 @@ class Provider extends Model
     }
 
     /**
+     * Para obtener el vinculo con la tabla contracts
+     */
+    public function contracts(){
+        return $this->belongsToMany('App\Models\Contract');
+    }
+
+    /**
      * Para obtener el vinculo con la tabla users
      */
     public function creatorUser(){
@@ -32,7 +39,7 @@ class Provider extends Model
 
     /**
      * Para obtener el vinculo con la tabla itemawards
-     */    
+     */
     public function itemAwards(){
        return $this->hasMany('App\Models\ItemAwards');
     }
