@@ -9,6 +9,23 @@
 .tab-content.card-block {
     padding: 1.25rem 0.5rem;
 }
+}
+.columna1 { width: 3%; text-align: center;}
+.columna2 { width: 70%; text-align: left;}
+.columna3 { width: 10%; text-align: center;}
+.columna4 { width: 10%; text-align: left;}
+.columna5 { width: 2%; text-align: center;}
+/* .columna6 { width: 4%; text-align: center;}
+.columna7 { width: 4%; text-align: center;}
+.columna8 { width: 3%; text-align: center;}
+.columna9 { width: 3%; text-align: left;}
+.columna10 { width: 3%; text-align: center;}
+.columna11 { width: 9%; text-align: left;}
+.columna12 { width: 10%; text-align: left;} */
+
+p.centrado {
+
+}
 </style>
 @endpush
 
@@ -59,74 +76,35 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Modalidad</th>                                                    
-                                                    <th>Descripción</th>
+                                                    {{-- <th>Modalidad</th> --}}
+                                                    <th>Llamado</th>
                                                     {{-- <th>Dependencia</th> --}}
-                                                    <th>SIMESE N°</th>                                                                                                        
-                                                    <th>Monto total LLAMADO</th>
                                                     <th>PAC ID</th>
-                                                    <th>Prioridad</th>
-                                                    <th>N° CDP - FECHA</th>                                                    
+                                                    <th>Link DNCP</th>
+                                                    <th>Monto total LLAMADO</th>
+                                                    {{-- <th>Prioridad</th>
+                                                    <th>N° CDP - FECHA</th>
                                                     <th>Monto CDP</th>
                                                     <th>Monto ADJUD.</th>
-                                                    <th>Estado</th>
+                                                    <th>Estado</th> --}}
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             @for ($i = 0; $i < count($orders); $i++)
                                                 <tr>
-                                                    <td>{{ ($i+1) }}</td>
-                                                    {{-- <td>{{ $orders[$i]->number }}</td> --}}
-                                                    <td>{{ $orders[$i]->modality->description }}</td>
+                                                    <td class="columna1">{{ ($i+1) }}</td>
+                                                    <td class="columna2">{{ $orders[$i]->description }}</td>
+                                                    <td class="columna3"> {{ number_format($orders[$i]->iddncp,'0', ',','.') }} </td>
+                                                    <td class="columna4"></td> <!-- Deja este td vacío para ser llenado por DataTables -->
+                                                    {{-- <td class="columna4">{{ $orders[$i]->linkdncp }}</td> --}}
+                                                    {{-- <td class="columna4"><link href="{{ $orders[$i]->linkdncp}}"></td> --}}
+                                                    {{-- <td><link rel="icon" href="{{ $orders[$i]->linkdncp}}" type="image/x-icon"></td> --}}
+                                                    {{-- <link rel="icon" href="{{ $orders[$i]->linkdncp }}" type="image/x-icon"> --}}
 
-                                                    {{-- @if ($orders[$i]->covid==0)                                                            
-                                                        <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description }}</td>
-                                                    @else                                                            
-                                                        <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description}} - <span style="color:red;font-weight: bold"> (PROCESO COVID)</span></td>
-                                                    @endif   --}}
-                                                    
-                                                    {{-- PARA MOSTRAR SI ES COVID Y SI ES URENCIA IMPOSTERGABLE --}}
-                                                    @if ($orders[$i]->covid==0)
-                                                        @if ($orders[$i]->unpostponable==0)
-                                                            <td>{{ is_null($orders[$i]->number)? $orders[$i]->description." - ".$orders[$i]->dependency->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description." - ".$orders[$i]->dependency->description }}</td>
-                                                        @else
-                                                            <td>{{ is_null($orders[$i]->number)? $orders[$i]->description." - ".$orders[$i]->dependency->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description." - ".$orders[$i]->dependency->description}} - <span style="color:red;font-weight: bold;background-color:yellow">(URGENCIA IMPOSTERGABLE)</span> </td>
-                                                        @endif
-                                                    @else
-                                                        @if ($orders[$i]->unpostponable==0)
-                                                            <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description." - ".$orders[$i]->dependency->description}} - <span style="color:red;font-weight: bold"> (PROCESO COVID)</span></td>
-                                                        @else
-                                                            <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description." - ".$orders[$i]->dependency->description}} - <span style="color:red;font-weight: bold"> (PROCESO COVID) - <span style="color:red;font-weight: bold;background-color:yellow">(URGENCIA IMPOSTERGABLE)</span></td>                                                        
-                                                        @endif                                                        
-                                                    @endif
 
-                                                    {{-- <td>{{ is_null($orders[$i]->number)? $orders[$i]->description : $orders[$i]->modality->code." N° ".$orders[$i]->number." - ".$orders[$i]->description }}</td> --}}
-                                                    
-                                                    {{-- <td>{{ $orders[$i]->dependency->description }}</td> --}}
-                                                    {{-- <td>{{ is_null($orders[$i]->simese->first()) ? '' : number_format($orders[$i]->simese->first()['simese'],'0', ',','.') }}</td> --}}
-                                                    <td>{{ is_null($orders[$i]->simese->first()) ? '' : number_format($orders[$i]->simese->first()['simese'],'0', ',','.')."/".$orders[$i]->simese->first()['year'] }}</td>                                                                                                   
-                                                    {{-- <td>{{ $orders[$i]->expenditureObject->code }}</td> --}}
-                                                    {{-- <td>{{ $orders[$i]->total_amount}}</td> --}}
-                                                    <td> Gs.{{ number_format($orders[$i]->total_amount,'0', ',','.') }} </td>
-                                                    <td>{{ $orders[$i]->dncpPacIdFormat() }}</td>
-                                                    @if ($orders[$i]->urgency_state == "ALTA")
-                                                            <td style="color:red;font-weight: bold">{{ $orders[$i]->urgency_state }}</td>
-                                                        @else
-                                                            @if ($orders[$i]->urgency_state == "MEDIA")
-                                                                <td style="color:orange;font-weight: bold">{{ $orders[$i]->urgency_state }}</td>
-                                                            @else
-                                                                <td>{{ $orders[$i]->urgency_state }}</td>
-                                                            @endif
-                                                        @endif
-                                                    <td class="text-center">{{ $orders[$i]->cdpNumberFormat()}} {{ $orders[$i]->cdpDateFormat()}}</td>                                                    
-                                                    <td>{{ $orders[$i]->cdpAmountFormat()}}</td>
-                                                    <td>{{ $orders[$i]->cdpAmountFormat()}}</td>
-                                                        @if (in_array($orders[$i]->orderState->id, [70,75]))
-                                                            <td style="color:#ff0000">{{ $orders[$i]->orderState->id."-".$orders[$i]->orderState->description }}</td>
-                                                        @else
-                                                            <td>{{ $orders[$i]->orderState->id."-".$orders[$i]->orderState->description }}</td>
-                                                        @endif
+                                                    <td class="columna5"> Gs.{{ number_format($orders[$i]->total_amount,'0', ',','.') }} </td>
+
                                                     <td>
                                                         <a href="{{ route('contracts.show', $orders[$i]->id) }}" class="btn btn-primary">Ver Más</a>
                                                     </td>
@@ -153,5 +131,19 @@ $(document).ready(function(){
     $('#orders').DataTable();
 
 });
+
+$(document).ready(function() {
+            $('#orders').DataTable({
+                "columnDefs": [
+                    {
+                        "targets": 3, // Índice de la columna que deseas personalizar
+                        "render": function (order, type, row, meta) {
+                            // Puedes personalizar el contenido de la columna aquí
+                            return '<a href="' + order + '">Enlace</a>'; // Suponiendo que el campo a enlazar está en el índice 2
+                        }
+                    }
+                ]
+            });
+        });
 </script>
 @endpush
