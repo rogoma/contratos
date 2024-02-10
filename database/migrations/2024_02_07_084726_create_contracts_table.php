@@ -60,8 +60,10 @@ class CreateContractsTable extends Migration
             $table->foreign('modality_id')->references('id')->on('modalities')->onUpdate('cascade');
             $table->foreign('financial_organism_id')->references('id')->on('financial_organisms')->onUpdate('cascade');
             $table->foreign('provider_id')->references('id')->on('providers')->onUpdate('cascade');
+            $table->foreign('contract_types_id')->references('id')->on('contract_types')->onUpdate('cascade');
             $table->foreign('creator_user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreign('modifier_user_id')->references('id')->on('users')->onUpdate('cascade');
+            
 
             // $table->integer('number')->nullable();
             // $table->integer('dependency_id');

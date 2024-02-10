@@ -17,4 +17,11 @@ class Modality extends Model
     public function orders(){
         return $this->hasMany('App\Models\Order');
     }
+
+    /**
+     * Para obtener el vinculo con la tabla contracts
+     */
+    public function contracts(){
+        return $this->hasMany('App\Models\Contract');
+    }
 }

@@ -20,7 +20,7 @@ class Provider extends Model
      * Para obtener el vinculo con la tabla contracts
      */
     public function contracts(){
-        return $this->belongsToMany('App\Models\Contract');
+        return $this->hasMany('App\Models\Contract');
     }
 
     /**

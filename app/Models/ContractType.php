@@ -5,18 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FinancialOrganism extends Model
+class ContractType extends Model
 {
     use HasFactory;
 
-    protected $table = 'financial_organisms';
-
-    /**
-     * Para obtener el vinculo con la tabla orders
-     */
-    public function orders(){
-        return $this->hasMany('App\Models\Order');
-    }
+    protected $table = 'contract_types';
 
     /**
      * Para obtener el vinculo con la tabla contracts
@@ -24,4 +17,11 @@ class FinancialOrganism extends Model
     public function contracts(){
         return $this->hasMany('App\Models\Contract');
     }
+
+    /**
+     * Para obtener el vinculo con la tabla orders_order_states
+     */
+    // public function ordersOrderStates(){
+    //     return $this->hasMany('App\Models\OrderOrderState');
+    // }
 }

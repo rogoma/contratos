@@ -20,11 +20,16 @@ class Contract extends Model
      * Para obtener el vinculo con la tabla contract_states
      */
     public function contractState(){
-        //se coloca así porque en la tabla contracts actual_state es la Fk de contract_states
-        // return $this->belongsTo('App\Models\OrderState', 'actual_state','id');
-        return $this->belongsTo('App\Models\ContractState', 'actual_state','id');
+        //se coloca así porque en la tabla contracts actual_state es la Fk de contract_states        
+        return $this->belongsTo('App\Models\ContractState', 'actual_state','id');        
     }
 
+    /**
+     * Para obtener el vinculo con la tabla contract_types
+     */
+    public function contractType(){
+        return $this->belongsTo('App\Models\ContractType');
+    }
 
     /**
      * Para obtener el vinculo con la tabla financial_organisms
@@ -32,7 +37,7 @@ class Contract extends Model
     public function financialOrganism(){
         return $this->belongsTo('App\Models\FinancialOrganism');
     }
-
+  
     /**
      * Para obtener el vinculo con la tabla users
      */
@@ -50,8 +55,10 @@ class Contract extends Model
     /**
      * Para obtener el vinculo con la tabla providers
      */
-    public function providers(){
-        return $this->belongsToMany('App\Models\Provider');
+    public function provider(){
+        // return $this->belongsToMany('App\Models\Provider');
+        return $this->belongsTo('App\Models\Provider');
+        // return $this->belongsToMany(Provider::class);
     }
 
 
