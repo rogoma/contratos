@@ -137,9 +137,9 @@ $(document).ready(function() {
                 "columnDefs": [
                     {
                         "targets": 3, // Índice de la columna que deseas personalizar
-                        "render": function (order, type, row, meta) {
+                        "render": function (orders, type, row, meta) {
                             // Puedes personalizar el contenido de la columna aquí
-                            return '<a href="' + order + '">Enlace</a>'; // Suponiendo que el campo a enlazar está en el índice 2
+                            return '<a href="' + orders + '">Enlace</a>'; // Suponiendo que el campo a enlazar está en el índice 2
                         }
                     }
                 ]
