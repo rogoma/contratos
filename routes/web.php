@@ -346,6 +346,10 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
 
     /*************** REPORTES DOMPDF **************/
+    //REPORTE DE CONTRATOS
+    Route::get('pdf/panel_contracts', [ReportsController::class, 'generarContracts'])->name('pdf.panel_contracts');
+
+
     Route::get('pdf/users', [ReportsController::class, 'pdfUsers'])->name('pdf.users');
     Route::get('pdf/users2', [ReportsController::class, 'pdfUsers2'])->name('pdf.users2');
 
@@ -366,6 +370,8 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
     Route::get('pdf/panel_uta', [ReportsController::class, 'generarPanelUta'])->name('pdf.panel_uta');
     Route::get('pdf/panel_uta2', [ReportsController::class, 'generarPanelUta2'])->name('pdf.panel_uta2');
     Route::get('pdf/panel_uta3', [ReportsController::class, 'generarPanelUta3'])->name('pdf.panel_uta3');
+
+
 
     Route::get('pdf/panel_pedidos/{dependency}', [ReportsController::class, 'generarPanelPedido'])->name('pdf.panel_pedido');
     Route::get('pdf/panel_pedidos2/{dependency}', [ReportsController::class, 'generarPanelPedido2'])->name('pdf.panel_pedido2');

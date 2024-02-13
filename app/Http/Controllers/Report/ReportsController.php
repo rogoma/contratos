@@ -38,6 +38,27 @@ class ReportsController extends Controller{
         return view('reports.tipres', compact('tipres'));        
     }
 
+    
+    // Para mostrar llamados que tienen contratos
+    public function generarContracts()
+    {
+        //Donde contracts es una vista
+        $contracts = DB::table('vista_contracts')//vista que muestra los datos                
+        ->select(['llamado', 'iddncp','number_year','year_adj','sign_date','contratista', 
+        'estado', 'code', 'modalidad', 'org_financ', 'tipo_contrato','contract_begin_date', 
+        'contract_end_date', 'total_amount', 'advance_validity','fidelity_validity','accidents_validity',
+        'risks_validity','civil_resp_validity','comentarios'])        
+        // ->where('actual_state', '>', 1) 
+        ->get();  
+
+        $view = View::make('reports.contracts', compact('contracts'))->render();
+        $pdf = App::make('dompdf.wrapper');        
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'landscape');//coloca en apaisado
+        return $pdf->stream('LLAMADO-CONTRATOS'.'.pdf');        
+    }
+
+
     // function to display preview
     public function generarModalities()
     {

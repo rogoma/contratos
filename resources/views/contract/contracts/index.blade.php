@@ -2,6 +2,7 @@
 
 @push('styles')
 <style type="text/css">
+
 .table td, .table th {
     padding: 0.2rem 0.5rem;
     font-size: 14px
@@ -9,7 +10,7 @@
 .tab-content.card-block {
     padding: 1.25rem 0.5rem;
 }
-}
+
 .columna1 { width: 3%; text-align: center;}
 .columna2 { width: 50%; text-align: left;}
 .columna3 { width: 5%; text-align: center;}
@@ -18,11 +19,6 @@
 .columna6 { width: 5%; text-align: center;}
 .columna7 { width: 5%; text-align: center;}
 .columna8 { width: 5%; text-align: center;}
-
-/* .columna9 { width: 3%; text-align: left;}
-.columna10 { width: 3%; text-align: center;}
-.columna11 { width: 9%; text-align: left;}
-.columna12 { width: 10%; text-align: left;} */
 
 p.centrado {
 
@@ -39,9 +35,9 @@ p.centrado {
                     <i class="fa fa-list bg-c-blue"></i>
                     <div class="d-inline">
                         <h5>Llamados</h5>
-                        <span>Listado de Llamados de Licitaciones</span>
-                            <a href="pdf/panel_uta" class="btn btn-primary" target="_blank">LLAMADOS EN CURSO</a>
-                            <a href="pdf/panel_uta2" class="btn btn-primary" target="_blank">LLAMADOS ADJUDICADOS</a>
+                        <span>Listado de Llamados de Licitaciones</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            <a href="pdf/panel_contracts" class="btn btn-primary" target="_blank"> LLAMADOS</a>
+                            {{-- <a href="pdf/panel_uta2" class="btn btn-primary" target="_blank">LLAMADOS ADJUDICADOS</a> --}}
                     </div>
                 </div>
             </div>
@@ -81,15 +77,16 @@ p.centrado {
                                                     <th>Llamado</th>                                                    
                                                     <th>IDDNCP</th>
                                                     <th>Link DNCP</th>
+{{-- 
                                                     <th>Contr./Año</th>
-
                                                     <th>Año Adjudicación</th>
-                                                    <th>Fecha firma</th>                                 
+                                                    <th>Fecha firma</th>                                  --}}
                                                     
                                                     <th>Monto total LLAMADO</th>
-                                                    <th>Modalidad</th>
-                                                    <th>Org. Financ.</th>
                                                     <th>Contratista</th>
+                                                    <th>Modalidad</th>
+                                                    {{-- <th>Org. Financ.</th> --}}
+                                                    
                                                     <th>Estado</th>                                    
                                                     <th>Tipo Contrato</th>                                                    
                                                     <th>Acciones</th>
@@ -99,20 +96,20 @@ p.centrado {
                                             @for ($i = 0; $i < count($contracts); $i++)
                                                 <tr>
                                                     <td>{{ ($i+1) }}</td>
-                                                    <td>{{ $contracts[$i]->description }}</td>
+                                                    <td class="columna2">{{ $contracts[$i]->description }}</td>
                                                     <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>                                                    
                                                     <td style="color:#ff0000">{{ $contracts[$i]->linkdncp }}</td>
                                                     
-                                                    <td>{{ $contracts[$i]->number_year }}</td>
-
+                                                    {{-- <td>{{ $contracts[$i]->number_year }}</td>
                                                     <td>{{ $contracts[$i]->year_adj }}</td>
-                                                    <td>{{ $contracts[$i]->signDateFormat() }}</td>
+                                                    <td>{{ $contracts[$i]->signDateFormat() }}</td> --}}
 
 
                                                     <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>                                                    
-                                                    <td>{{ $contracts[$i]->modality->code }}</td>                                                     
-                                                    <td>{{ $contracts[$i]->financialOrganism->description}}</td>
                                                     <td>{{ $contracts[$i]->provider->description }}</td>
+                                                    <td>{{ $contracts[$i]->modality->code }}</td>                                                     
+                                                    {{-- <td>{{ $contracts[$i]->financialOrganism->description}}</td> --}}
+                                                    
                                                     
                                                     {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}
                                                     <td style="color:#ff0000">{{ $contracts[$i]->contractState->id."-".$contracts[$i]->contractState->description }}</td>
@@ -139,22 +136,24 @@ p.centrado {
 
 
 {{-- <script type="text/javascript"> --}}
-    @push('scripts')
+@push('scripts')
     <script type="text/javascript">
-    $(document).ready(function() {
-                $('#contracts').DataTable({
-                    "columnDefs": [
-                        {
-                            "targets": 3, // Índice de la columna que deseas personalizar
-                            "data": "linkdncp",
-                            "render": function (data, type, row, meta) {
-                                // Puedes personalizar el contenido de la columna aquí
-                                return '<a href="' + data + '" target="_blank" style="color:blue">Link DNCP</a>'; // Suponiendo que el campo a enlazar está en el índice 2
-                                
-                            }
-                        }
-                    ]
-                });
+        $(document).ready(function() {
+            $('#contracts').DataTable({
+                "columnDefs": [
+                    {
+                        // { "width": "30%", "targets": 0 },  // Define el ancho de la primera columna
+                        // { "width": "30%", "targets": 1 },  // Define el ancho de la segunda columna
+                        "targets": 3, // Índice de la columna que deseas personalizar
+                        "data": "linkdncp",
+                        "render": function (data, type, row, meta) {
+                        // Puedes personalizar el contenido de la columna aquí
+                        return '<a href="' + data + '" target="_blank" style="color:blue">Link DNCP</a>'; // Suponiendo que el campo a enlazar está en el índice 2                            
+                        }                        
+                    }
+                ]
             });
+        });    
+
     </script>
-    @endpush
+@endpush

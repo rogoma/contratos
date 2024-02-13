@@ -15,10 +15,10 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->integer('id')->autoIncrement(); // set auto-increment and primary key
-            $table->string('description',200);
+            $table->string('description',300);
             $table->integer('iddncp');
             $table->string('linkdncp',300);
-            $table->string('number_year',6);
+            $table->string('number_year',7);
             $table->smallInteger('year_adj');
             $table->date('sign_date');
             $table->smallInteger('provider_id');
