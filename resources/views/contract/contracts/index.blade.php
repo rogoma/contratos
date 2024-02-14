@@ -74,21 +74,21 @@ p.centrado {
                                                 <tr>
                                                     <th>#</th>
                                                     {{-- <th>Modalidad</th> --}}
-                                                    <th>Llamado</th>                                                    
+                                                    <th>Llamado</th>
                                                     <th>IDDNCP</th>
                                                     <th>Link DNCP</th>
-{{-- 
+{{--
                                                     <th>Contr./Año</th>
                                                     <th>Año Adjudicación</th>
                                                     <th>Fecha firma</th>                                  --}}
-                                                    
+
                                                     <th>Monto total LLAMADO</th>
                                                     <th>Contratista</th>
                                                     <th>Modalidad</th>
                                                     {{-- <th>Org. Financ.</th> --}}
-                                                    
-                                                    <th>Estado</th>                                    
-                                                    <th>Tipo Contrato</th>                                                    
+
+                                                    <th>Estado</th>
+                                                    <th>Tipo Contrato</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -97,24 +97,24 @@ p.centrado {
                                                 <tr>
                                                     <td>{{ ($i+1) }}</td>
                                                     <td class="columna2">{{ $contracts[$i]->description }}</td>
-                                                    <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>                                                    
+                                                    <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>
                                                     <td style="color:#ff0000">{{ $contracts[$i]->linkdncp }}</td>
-                                                    
+
                                                     {{-- <td>{{ $contracts[$i]->number_year }}</td>
                                                     <td>{{ $contracts[$i]->year_adj }}</td>
                                                     <td>{{ $contracts[$i]->signDateFormat() }}</td> --}}
 
 
-                                                    <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>                                                    
+                                                    <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
                                                     <td>{{ $contracts[$i]->provider->description }}</td>
-                                                    <td>{{ $contracts[$i]->modality->code }}</td>                                                     
+                                                    <td>{{ $contracts[$i]->modality->code }}</td>
                                                     {{-- <td>{{ $contracts[$i]->financialOrganism->description}}</td> --}}
-                                                    
-                                                    
-                                                    {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}
-                                                    <td style="color:#ff0000">{{ $contracts[$i]->contractState->id."-".$contracts[$i]->contractState->description }}</td>
 
-                                                    <td class="columna11">{{ $contracts[$i]->contractType->description }}</td>                                                   
+
+                                                    {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}
+                                                    <td style="color:#ff0000">{{ $contracts[$i]->contractState->description }}</td>
+
+                                                    <td class="columna11">{{ $contracts[$i]->contractType->description }}</td>
                                                     <td>
                                                         <a href="{{ route('contracts.show', $contracts[$i]->id) }}" class="btn btn-primary">Ver Más</a>
                                                     </td>
@@ -148,12 +148,12 @@ p.centrado {
                         "data": "linkdncp",
                         "render": function (data, type, row, meta) {
                         // Puedes personalizar el contenido de la columna aquí
-                        return '<a href="' + data + '" target="_blank" style="color:blue">Link DNCP</a>'; // Suponiendo que el campo a enlazar está en el índice 2                            
-                        }                        
+                        return '<a href="' + data + '" target="_blank" style="color:blue">Link DNCP</a>'; // Suponiendo que el campo a enlazar está en el índice 2
+                        }
                     }
                 ]
             });
-        });    
+        });
 
     </script>
 @endpush
