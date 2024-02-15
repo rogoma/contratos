@@ -34,10 +34,14 @@ p.centrado {
                 <div class="page-header-title">
                     <i class="fa fa-list bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Llamados</h5>
-                        <span>Listado de Llamados de Licitaciones</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                            <a href="pdf/panel_contracts" class="btn btn-primary" target="_blank"> LLAMADOS</a>
-                            {{-- <a href="pdf/panel_uta2" class="btn btn-primary" target="_blank">LLAMADOS ADJUDICADOS</a> --}}
+                        <h5>Llamados - Listado de Llamados de Licitaciones</h5>
+                        {{-- <span>Listado de Llamados de Licitaciones</span> --}}
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <br>
+                            <a href="pdf/panel_contracts" class="btn btn-outline-primary" target="_blank"> TOTAL LLAMADOS</a>
+                            <a href="pdf/panel_contracts1" class="btn btn-outline-warning" target="_blank">LLAMADOS EN CURSO</a>
+                            <a href="pdf/panel_contracts3" class="btn btn-outline-danger" target="_blank">LLAMADOS CERRADOS</a>
+                            <a href="pdf/panel_contracts2" class="btn btn-outline-success" target="_blank">LLAMADOS RESCINDIDOS</a>
                     </div>
                 </div>
             </div>

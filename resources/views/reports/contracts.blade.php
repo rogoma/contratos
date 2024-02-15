@@ -15,10 +15,10 @@
         border:1px solid #dddddd;
         text-align: left;
         padding:4px;
-        font-size:10px;        
+        font-size:10px;
     }
     thead tr{
-        background-color:#dddddd;        
+        background-color:#dddddd;
         padding:2px;
         font-size:8px;
     }
@@ -45,59 +45,78 @@
     .pdf-btn{
         margin-top:30px;
     }
-    .columna1 { width: 1%; text-align: center;} 
+    .columna1 { width: 1%; text-align: center;}
     .columna2 { width: 25%; text-align: left;}
-    .columna3 { width: 7%; text-align: left;}    
+    .columna3 { width: 7%; text-align: left;}
     .columna4 { width: 16%; text-align: left;}
-    .columna5 { width: 2%; text-align: center;} 
-    .columna6 { width: 4%; text-align: center;} 
-    .columna7 { width: 4%; text-align: center;} 
-    .columna8 { width: 4%; text-align: center;} 
-    .columna9 { width: 5%; text-align: left;} 
-    .columna10 { width: 9%; text-align: center;} 
-    .columna11 { width: 2%; text-align: center;} 
+    .columna5 { width: 2%; text-align: center;}
+    .columna6 { width: 4%; text-align: center;}
+    .columna7 { width: 4%; text-align: center;}
+    .columna8 { width: 4%; text-align: center;}
+    .columna9 { width: 5%; text-align: left;}
+    .columna10 { width: 9%; text-align: center;}
+    .columna11 { width: 2%; text-align: center;}
 
     p.centrado {
         text-align: center;
 }
 
-</style> 
+</style>
 <body>
-<p class="centrado"> <img src="img/logoVI.png"> </p> 
-    <h2>LLAMADOS</h2>
+<p class="centrado"> <img src="img/logoVI.png"> </p>
+
+{{-- SE PREGUNTA POR EL NOMBRE DEL METODO DE ACUERDO A ESO SE ESCOGE EL TITULO DEL REPORTE --}}
+@if ($nombreMetodo == "App\Http\Controllers\Report\ReportsController::generarContracts")
+    <h2>LISTADO TOTAL DE LLAMADOS</h2>
+@endif
+
+@if ($nombreMetodo == "App\Http\Controllers\Report\ReportsController::generarContracts1")
+    <h2>LISTADO DE LLAMADOS EN CURSO</h2>
+@endif
+
+@if ($nombreMetodo == "App\Http\Controllers\Report\ReportsController::generarContracts3")
+    <h2>LISTADO DE LLAMADOS CERRADOS</h2>
+@endif
+
+@if ($nombreMetodo == "App\Http\Controllers\Report\ReportsController::generarContracts2")
+    <h2>LISTADO DE LLAMADOS RECINDIDOS</h2>
+@endif
+
+
+    {{-- <h2>LLAMADOS</h2> --}}
         <table>
-            <tr>                
+            <tr>
                 {{-- <th>#</th>
-                <th>LLAMADO</th> 
+                <th>LLAMADO</th>
                 <th>Nº LLAM.</th>
                 <th>NOMBRE DEL LLAMADO</th>
                 <th>METODO</th>
-                <th>DEPENDENCIA</th>                
-                <th>RESOL.</th>                               
+                <th>DEPENDENCIA</th>
+                <th>RESOL.</th>
                 <th>O.G.</th>
                 <th>IDPAC</th>
                 <th>MES PROGRAM.</th>
                 <th>MONTO PROGRAMADO</th> --}}
                 <th>#</th>
-                <th>Llamado</th>                                                    
+                <th>Llamado</th>
                 <th>IDDNCP</th>
                 <th>N°Contrato</th>
                 <th>Año adjud.</th>
-                <th>Fecha Firma Contr.</th>                
+                <th>Fecha Firma Contr.</th>
                 <th>Contratista</th>
                 <th>Estado</th>
                 <th>Modalidad</th>
                 <th>Monto total LLAMADO</th>
-                <th>Comentarios</th>                
+                <th>Comentarios</th>
                 {{-- <th>Tipo Contrato</th>                 --}}
-            </tr>           
-            
+            </tr>
+
             @for ($i = 0; $i < count($contracts); $i++)
             <tr>
                 <td>{{ ($i+1) }}</td>
-                <td> {{ $contracts[$i]->llamado }}</td>                
-                <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td> 
-                <td> {{ $contracts[$i]->number_year }}</td>  
+                <td> {{ $contracts[$i]->llamado }}</td>
+                <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>
+                <td> {{ $contracts[$i]->number_year }}</td>
                 <td> {{ $contracts[$i]->year_adj }}</td>
                 {{-- <td> {{ $contracts[$i]->sign_date }}</td> --}}
                 <td> {{ date('d/m/Y', strtotime($contracts[$i]->sign_date )) }}</td>
@@ -106,7 +125,7 @@
                 <td> {{ $contracts[$i]->estado}}</td>
                 <td> {{ $contracts[$i]->code}}-{{$contracts[$i]->modalidad }} </td>
                 <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
-                <td> {{ $contracts[$i]->comentarios}}</td>                              
+                <td> {{ $contracts[$i]->comentarios}}</td>
             </tr>
             @endfor
             {{-- @endforeach --}}

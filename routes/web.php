@@ -346,8 +346,14 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
 
     /*************** REPORTES DOMPDF **************/
-    //REPORTE DE CONTRATOS
+    //REPORTE DE CONTRATOS TODOS
     Route::get('pdf/panel_contracts', [ReportsController::class, 'generarContracts'])->name('pdf.panel_contracts');
+    //REPORTE DE CONTRATOS EN CURSO
+    Route::get('pdf/panel_contracts1', [ReportsController::class, 'generarContracts1'])->name('pdf.panel_contracts1');
+    //REPORTE DE CONTRATOS CERRADOS
+    Route::get('pdf/panel_contracts2', [ReportsController::class, 'generarContracts2'])->name('pdf.panel_contracts2');
+     //REPORTE DE CONTRATOS RESCINDIDOS
+     Route::get('pdf/panel_contracts3', [ReportsController::class, 'generarContracts3'])->name('pdf.panel_contracts3');
 
 
     Route::get('pdf/users', [ReportsController::class, 'pdfUsers'])->name('pdf.users');

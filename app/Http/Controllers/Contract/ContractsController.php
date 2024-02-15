@@ -54,8 +54,10 @@ class ContractsController extends Controller
     public function index(Request $request)
     {
         //Mostramos código >= 70 PROCESADO EN ADJUDICACIONES - 1RA ETAPA)
-        $contracts = Contract::where('actual_state', '>=', 0)->get();
-        // $contracts = DB::select('Select * from  contracts  where actual_state > 0');
+        $contracts = Contract::where('actual_state', '>=', 1)
+                    ->orderBy('iddncp','asc')
+                    ->get();
+        // $contracts = DB::select('Select * from  contracts  where actual_state > 0' orderby );
         return view('contract.contracts.index', compact('contracts'));
 
         $dependency = $request->user()->dependency_id;
