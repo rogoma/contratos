@@ -70,6 +70,24 @@ p.centrado {
                                     <div class="float-left">
                                         <h5>Listado de Llamados de Licitaciones</h5>
                                     </div>
+                                    @if (Auth::user()->hasPermission(['orders.orders.create', 'admin.orders.create']))
+                                        {{-- <div class="float-center">
+                                            <h5  style="color:blue">Modelos de Archivos Excel para Descargar y realizar importación de datos</h5>
+                                        </div> --}}
+                                        {{-- <a href="excel/pedidos" title="Descargar Modelo Pedido.xlsx" class="btn btn-danger" target="_blank">0-Pedidos</a>
+                                        <a href="excel/items" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">1-Items Contrato Abierto</a>
+                                        <a href="excel/items2" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">2-Items Contrato Cerrado</a>
+                                        <a href="excel/items3" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">3-Items Contrato Abierto MMin/MMáx</a> --}}
+
+                                        <div class="float-right">
+                                            <a href="{{ route('orders.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar pedido</a>
+                                        </div>
+
+
+                                        {{-- <a href="{{ route('orders.uploadExcel')}}" title="Cargar Archivo EXCEL" class="btn btn-success btn-icon">
+                                            <i class="fa fa-upload text-white"></i>
+                                        </a> --}}
+                                    @endif
                                 </div>
                                 <div class="card-block">
                                     <div class="dt-responsive table-responsive">
@@ -120,7 +138,7 @@ p.centrado {
 
                                                     <td class="columna11">{{ $contracts[$i]->contractType->description }}</td>
                                                     <td>
-                                                        <a href="{{ route('contracts.show', $contracts[$i]->id) }}" class="btn btn-primary">Ver Más</a>
+                                                        <a href="{{ route('contracts.show', $contracts[$i]->id) }}" class="btn btn-outline-danger">Ver Más</a>
                                                     </td>
                                                 </tr>
                                             @endfor
