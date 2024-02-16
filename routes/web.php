@@ -59,6 +59,8 @@ use App\Http\Controllers\Documental\DocumentalsController;
 
 // use App\Http\Controllers\Report\PdfsController;
 use App\Http\Controllers\Report\ReportsController;
+use App\Models\Contract;
+
 // use PHPJasper\PHPJasper;
 
 
@@ -119,6 +121,7 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
     Route::resource('dependencies', DependenciesController::class);
 
     Route::resource('order_states', OrderStatesController::class);
+    Route::resource('contracts', ContractsController::class);
     Route::resource('funding_sources', FundingSourcesController::class);
     Route::resource('financial_organisms', FinancialOrganismsController::class);
     Route::resource('financial_levels', FinancialLevelsController::class);

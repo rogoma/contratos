@@ -37,13 +37,13 @@ class ContractsController extends Controller
      */
     public function __construct()
     {
-        // $index_permissions = ['admin.orders.index','orders.orders.index','process_orders.orders.index','derive_orders.orders.index'];
-        // $create_permissions = ['admin.orders.create','orders.orders.create'];
-        // $update_permissions = ['admin.orders.update', 'orders.orders.update'];
+        $index_permissions = ['admin.orders.index','orders.orders.index','process_orders.orders.index','derive_orders.orders.index'];
+        $create_permissions = ['admin.orders.create','orders.orders.create'];
+        $update_permissions = ['admin.orders.update', 'orders.orders.update'];
 
-        // $this->middleware('checkPermission:'.implode(',',$index_permissions))->only('index'); // Permiso para index
-        // $this->middleware('checkPermission:'.implode(',',$create_permissions))->only(['create', 'store']);   // Permiso para create
-        // $this->middleware('checkPermission:'.implode(',',$update_permissions))->only(['edit', 'update']);   // Permiso para update
+        $this->middleware('checkPermission:'.implode(',',$index_permissions))->only('index'); // Permiso para index
+        $this->middleware('checkPermission:'.implode(',',$create_permissions))->only(['create', 'store']);   // Permiso para create
+        $this->middleware('checkPermission:'.implode(',',$update_permissions))->only(['edit', 'update']);   // Permiso para update
     }
 
     /**
@@ -97,7 +97,7 @@ class ContractsController extends Controller
         $funding_sources = FundingSource::all();
         $financial_organisms = FinancialOrganism::all();
         $expenditure_objects = ExpenditureObject::where('level', 3)->get();
-        return view('order.orders.create', compact('dependencies', 'modalities','sub_programs', 'funding_sources', 'financial_organisms','expenditure_objects'));
+        return view('contract.contracts.create', compact('dependencies', 'modalities','sub_programs', 'funding_sources', 'financial_organisms','expenditure_objects'));
     }
 
     /**

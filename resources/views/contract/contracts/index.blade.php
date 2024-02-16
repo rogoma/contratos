@@ -80,7 +80,7 @@ p.centrado {
                                         <a href="excel/items3" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">3-Items Contrato Abierto MMin/MMáx</a> --}}
 
                                         <div class="float-right">
-                                            <a href="{{ route('orders.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar pedido</a>
+                                            <a href="{{ route('contracts.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar pedido</a>
                                         </div>
 
 
@@ -138,7 +138,7 @@ p.centrado {
 
                                                     <td class="columna11">{{ $contracts[$i]->contractType->description }}</td>
                                                     <td>
-                                                        <a href="{{ route('contracts.show', $contracts[$i]->id) }}" class="btn btn-outline-danger">Ver Más</a>
+                                                        <a href="{{ route('contracts.show', $contracts[$i]->id) }}" class="btn btn-outline-success">Ver Más</a>
                                                     </td>
                                                 </tr>
                                             @endfor
