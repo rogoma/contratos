@@ -37,9 +37,9 @@ class ContractsController extends Controller
      */
     public function __construct()
     {
-        $index_permissions = ['admin.orders.index','orders.orders.index','process_orders.orders.index','derive_orders.orders.index'];
-        $create_permissions = ['admin.orders.create','orders.orders.create'];
-        $update_permissions = ['admin.orders.update', 'orders.orders.update'];
+        $index_permissions = ['admin.orders.index','contracts.contracts.index','process_contracts.contracts.index','derive_contracts.contracts.index'];
+        $create_permissions = ['admin.orders.create','contracts.contracts.create'];
+        $update_permissions = ['admin.orders.update', 'contracts.contracts.update'];
 
         $this->middleware('checkPermission:'.implode(',',$index_permissions))->only('index'); // Permiso para index
         $this->middleware('checkPermission:'.implode(',',$create_permissions))->only(['create', 'store']);   // Permiso para create

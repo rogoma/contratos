@@ -70,7 +70,7 @@ p.centrado {
                                     <div class="float-left">
                                         <h5>Listado de Llamados de Licitaciones</h5>
                                     </div>
-                                    @if (Auth::user()->hasPermission(['orders.orders.create', 'admin.orders.create']))
+                                    @if (Auth::user()->hasPermission(['contracts.contracts.create', 'admin.orders.create']))
                                         {{-- <div class="float-center">
                                             <h5  style="color:blue">Modelos de Archivos Excel para Descargar y realizar importación de datos</h5>
                                         </div> --}}
