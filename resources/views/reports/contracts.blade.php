@@ -3,6 +3,7 @@
 <head>
     <title>Panel General de Llamados</title>
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
 </head>
 <style type="text/css">
     table{

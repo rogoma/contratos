@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="fa fa-sitemap bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Proveedores</h5>
-                        <span>EditarProveedor</span>
+                        <h5>Contratistas</h5>
+                        <span>EditarContratista</span>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                             <a href="{{ route('home') }}"><i class="feather icon-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('providers.index') }}">Proveedores</a>
+                            <a href="{{ route('providers.index') }}">Contratistas</a>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +36,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>EditarProveedor</h5>
+                                    <h5>Editar Contratista</h5>
                                 </div>
                                 <div class="card-block">
                                     <form method="POST" action="{{ route('providers.update', $provider->id) }}">
@@ -55,7 +55,7 @@
 
                                         <div class="form-group row @error('ruc') has-danger @enderror">
                                             <label class="col-sm-2 col-form-label">RUC</label>
-                                            <div class="col-sm-10">                                                
+                                            <div class="col-sm-10">
                                                 <input type="text" id="ruc" name="ruc" value="{{ old('ruc', $provider->ruc) }}" class="form-control @error('ruc') form-control-danger @enderror" value="{{ old('ruc', $provider->ruc) }}">
                                                 @error('ruc')
                                                     <div class="col-form-label">{{ $message }}</div>

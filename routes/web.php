@@ -95,6 +95,9 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
     Route::resource('users', UsersController::class);   // index, create, update, delete
 
+    //PROVIDERS A EXCEL - //PARA GENERAR ARCHIVOS EXCEL PRIMERO SE COLOCA EL GET ANTES DEL RESOURCE
+    Route::get('/providers/exportarexcel', [ProvidersController::class, 'exportarExcel']);
+
 
     //ORDER_PRESENTATIONS A EXCEL - //PARA GENERAR ARCHIVOS EXCEL PRIMERO SE COLOCA EL GET ANTES DEL RESOURCE
     Route::get('/order_presentations/exportarexcel', [OrderPresentationsController::class, 'exportarExcel']);
@@ -361,6 +364,8 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
     Route::get('pdf/users', [ReportsController::class, 'pdfUsers'])->name('pdf.users');
     Route::get('pdf/users2', [ReportsController::class, 'pdfUsers2'])->name('pdf.users2');
+
+    Route::get('pdf/providers', [ReportsController::class, 'pdfProviders'])->name('pdf.providers');
 
     Route::get('pdf/dependencies', [ReportsController::class, 'dependencies'])->name('pdf.dependencies');
 

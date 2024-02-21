@@ -6,17 +6,17 @@
 
     <style type="text/css">
     }
-        .columna1 { width: 2%; text-align: center;} 
+        .columna1 { width: 2%; text-align: center;}
         .columna2 { width: 20%; text-align: left;}
-        .columna3 { width: 20%; text-align: left;}    
+        .columna3 { width: 20%; text-align: left;}
         .columna4 { width: 4%; text-align: center;}
-        .columna5 { width: 3%; text-align: center;} 
-        .columna6 { width: 8%; text-align: left;} 
-        .columna7 { width: 4%; text-align: center;} 
-        .columna8 { width: 4%; text-align: center;} 
-        .columna9 { width: 5%; text-align: left;} 
-        .columna10 { width: 5%; text-align: left;} 
-        .columna11 { width: 5%; text-align: center;} 
+        .columna5 { width: 3%; text-align: center;}
+        .columna6 { width: 8%; text-align: left;}
+        .columna7 { width: 4%; text-align: center;}
+        .columna8 { width: 4%; text-align: center;}
+        .columna9 { width: 5%; text-align: left;}
+        .columna10 { width: 5%; text-align: left;}
+        .columna11 { width: 5%; text-align: center;}
 
         p.centrado {
             text-align: center;
@@ -32,8 +32,8 @@
                 <div class="page-header-title">
                     <i class="fa fa-sitemap bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Proveedores</h5>
-                        <span>Listado de Proveedores</span>
+                        <h5>Contratistas</h5>
+                        <span>Listado de Contratistas</span>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                             <a href="{{ route('home') }}"><i class="feather icon-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('providers.index') }}">Proveedores</a>
+                            <a href="{{ route('providers.index') }}">Contratistas</a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="pcoded-inner-content">
-        <div class="main-body">Proveedor
+        <div class="main-body">Contratista
             <div class="page-wrapper">
                 <div class="page-body">
                     <div class="row">
@@ -60,10 +60,14 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="float-left">
-                                        <h5>Listado de Proveedores</h5>
+                                        <h5>Listado de Contratistas</h5>
+                                    </div>
+                                    <div class="float-left">
+                                        <a href="pdf/providers" class="btn btn-danger" target="_blank">Listado de Contratistas</a>
+                                        <a href="/providers/exportarexcel" class="btn btn-success">Bajar_en_Excel</a>
                                     </div>
                                     <div class="float-right">
-                                        <a href="{{ route('providers.create') }}" class="btn btn-primary">Agregar Proveedor</a>  
+                                        <a href="{{ route('providers.create') }}" class="btn btn-primary">Agregar Contratista</a>
                                     </div>
                                 </div>
                                 <div class="card-block">
@@ -72,12 +76,12 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Proveedor</th>
+                                                    <th>Contratista</th>
                                                     <th>Ruc</th>
                                                     <th>Teléfono</th>
                                                     <th>Email para Oferta</th>
                                                     <th>Email para Orden de Compra</th>
-                                                    <th>Representante</th>                                                    
+                                                    <th>Representante</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -91,8 +95,8 @@
                                                     <td>{{ $providers[$i]->email_oferta }}</td>
                                                     <td>{{ $providers[$i]->email_ocompra }}</td>
                                                     <td>{{ $providers[$i]->representante }}</td>
-                                                    
-                                                    <td style="white-space:nowrap">                                                        
+
+                                                    <td style="white-space:nowrap">
                                                         <button type="button" title="Editar" class="btn btn-warning btn-icon" onclick="updateProvider({{ $providers[$i]->id }})">
                                                             <i class="fa fa-pencil"></i>
                                                         </button>
@@ -167,7 +171,7 @@ $(document).ready(function(){
         }
       );
     };
-    
+
 });
 </script>
 @endpush

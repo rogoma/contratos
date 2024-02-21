@@ -113,7 +113,7 @@ p.centrado {
                                                     <td>{{ $contracts[$i]->year_adj }}</td>
                                                     <td>{{ $contracts[$i]->signDateFormat() }}</td> --}}
                                                     <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
-                                                    <td>{{ $contracts[$i]->provider->description }}</td>
+                                                    <td>{{ $contracts[$i]->provider->ruc }}-{{ $contracts[$i]->provider->description }}</td>
                                                     <td>{{ $contracts[$i]->modality->code }}-{{ $contracts[$i]->modality->description }}</td>
                                                     {{-- <td>{{ $contracts[$i]->financialOrganism->description}}</td> --}}
                                                     {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}

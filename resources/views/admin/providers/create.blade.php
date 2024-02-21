@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="fa fa-sitemap bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Proveedores</h5>
-                        <span>Agregar Proveedor</span>
+                        <h5>Contratistas</h5>
+                        <span>Agregar Contratista</span>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                             <a href="{{ route('home') }}"><i class="feather icon-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('providers.index') }}">Proveedores</a>
+                            <a href="{{ route('providers.index') }}">Contratistas</a>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +36,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>Agregar Proveedor</h5>
+                                    <h5>Agregar Contratista</h5>
                                 </div>
                                 <div class="card-block">
                                     <form method="POST" action="{{ route('providers.store') }}">

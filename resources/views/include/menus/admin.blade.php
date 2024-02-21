@@ -20,7 +20,7 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="pcoded-navigation-label">Módulo de Pedidos</div>
+                    {{-- <div class="pcoded-navigation-label">Módulo de Pedidos</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -40,8 +40,8 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
-                    <div class="pcoded-navigation-label">Módulo de Planificación</div>
+                    </ul> --}}
+                    {{-- <div class="pcoded-navigation-label">Módulo de Planificación</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -72,8 +72,8 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
-                    <div class="pcoded-navigation-label">Módulo de Compras Menores</div>
+                    </ul> --}}
+                    {{-- <div class="pcoded-navigation-label">Módulo de Compras Menores</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -88,8 +88,8 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
-                    <div class="pcoded-navigation-label">Módulo de Procesos Complementarios y Excepciones</div>
+                    </ul> --}}
+                    {{-- <div class="pcoded-navigation-label">Módulo de Procesos Complementarios y Excepciones</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -102,11 +102,6 @@
                                     <span class="pcoded-mtext">Listado de Llamados</span>
                                     </a>
                                 </li>
-                                {{-- <li class="@if(Route::currentRouteName() == 'exceptions.index') active @endif">
-                                    <a href="{{ route('exceptions.index') }}" class="waves-effect waves-dark">
-                                    <span class="pcoded-mtext">Difusión Previa</span>
-                                    </a>
-                                </li> --}}
                             </ul>
                         </li>
                     </ul>
@@ -125,7 +120,7 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <div class="pcoded-navigation-label">Módulo de Contratos y Garantías</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
@@ -143,7 +138,7 @@
                         </li>
                     </ul>
 
-                    <div class="pcoded-navigation-label">Módulo de Gestión Documental</div>
+                    {{-- <div class="pcoded-navigation-label">Módulo de Gestión Documental</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -175,7 +170,7 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <div class="pcoded-navigation-label">Panel de Administración</div>
                     <ul class="pcoded-item pcoded-left-item">
                         <li class="pcoded-hasmenu">
@@ -229,7 +224,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="pcoded-hasmenu">
+                        {{-- <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="fa fa-bookmark"></i></span>
                             <span class="pcoded-mtext">Pedidos</span>
@@ -266,7 +261,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="pcoded-hasmenu">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="fa fa-money"></i></span>
@@ -341,7 +336,7 @@
                         <li class="@if(Route::currentRouteName() == 'providers.index') active @endif">
                             <a href=" {{ route('providers.index') }} " class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="fa fa-suitcase"></i></span>
-                            <span class="pcoded-mtext">Proveedores</span>
+                            <span class="pcoded-mtext">Contratistas</span>
                             </a>
                         </li>
                     </ul>

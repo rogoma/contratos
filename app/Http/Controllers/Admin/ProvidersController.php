@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Provider;
 use App\Models\Order;
+use App\Models\Contract;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProvidersExport;
 
 class ProvidersController extends Controller
 {
@@ -23,6 +26,13 @@ class ProvidersController extends Controller
         $this->middleware('checkPermission:admin.providers.update')->only(['edit', 'update']);   // Permiso para update
     }
 
+    //Para exportar a Excel usuarios
+    public function exportarExcel()
+    {
+        return Excel::download(new ProvidersExport, 'Contratistas.xlsx');
+
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -164,10 +174,10 @@ class ProvidersController extends Controller
         //controla si proveedor está asociado a items_awards
         $provider = Provider::find($id);
 
-        // // Chequeamos si existen usuarios referenciando a la dependencia
-        // if($provider->orders->count() > 0){
-        //     return response()->json(['status' => 'error', 'message' => 'No se ha podido eliminar el proveedor debido a que se encuentra vinculado a detalle de items', 'code' => 200], 200);
-        // }
+        //Chequeamos si existen usuarios referenciando a contratos
+          if($provider->contracts->count() > 0){
+              return response()->json(['status' => 'error', 'message' => 'No se ha podido eliminar el proveedor debido a que se encuentra vinculado a Contratos', 'code' => 200], 200);
+          }
 
         // Eliminamos en caso de no existir usuarios vinculados al proveedor
         $provider->delete();

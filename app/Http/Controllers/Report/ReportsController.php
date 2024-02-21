@@ -450,6 +450,26 @@ class ReportsController extends Controller{
 
     }
 
+     //MUESTRA PROVIDERS
+    public function pdfProviders()
+    {
+        //SE ORDENA POR CI SE CASTEA VARCHAR A INTEGER EN ORDERBYRAW
+        $providers = DB::table('providers')
+        ->select(['description','ruc','telefono','email_oferta','email_ocompra','representante'])
+        ->orderBy('description')
+        ->get();
+
+        // PARA MOSTRAR COMO PDF
+        $view = View::make('reports.providers', compact('providers'))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('Contratistas'.'.pdf');
+
+        // PARA MOSTRAR COMO VISTA EN HTML
+        // return view('reports.users2', compact('users'));
+
+    }
+
     //MUESTRA DEPENDENCIAS
     public function dependencies()
     {
