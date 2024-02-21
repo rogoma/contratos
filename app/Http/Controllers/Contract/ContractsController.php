@@ -37,7 +37,7 @@ class ContractsController extends Controller
      */
     public function __construct()
     {
-        $index_permissions = ['admin.orders.index','contracts.contracts.index','process_contracts.contracts.index','derive_contracts.contracts.index'];
+        $index_permissions = ['admin.orders.index','contracts.contracts.index','derive_contracts.contracts.show'];
         $create_permissions = ['admin.orders.create','contracts.contracts.create'];
         $update_permissions = ['admin.orders.update', 'contracts.contracts.update'];
 
@@ -1076,7 +1076,7 @@ class ContractsController extends Controller
         $user_files = $order->files()->where('dependency_id', $user_dependency)->where('file_type', '=', 0)->get();
 
         // chequeamos que el usuario tenga permisos para visualizar el pedido
-        if($request->user()->hasPermission(['admin.orders.show', 'process_orders.orders.show', 'derive_orders.orders.index']) || $order->dependency_id == $request->user()->dependency_id){
+        if($request->user()->hasPermission(['admin.orders.show', 'process_orders.orders.show', 'contracts.contracts.index','derive_contracts.contracts.index']) || $order->dependency_id == $request->user()->dependency_id){
             return view('order.orders.show', compact('order', 'related_simese', 'related_simese_user', 'other_files', 'user_files'));
         }else{
             return back()->with('error', 'No tiene los suficientes permisos para acceder a esta sección.');

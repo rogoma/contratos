@@ -36,8 +36,8 @@
                             <div class="dropdown-primary dropdown">
                                 <div class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="{{ asset('img/user.png') }}" class="img-radius" alt="User-Profile-Image">
-                                    <span>{{ Auth::user()->getFullName() }} -</span>
-                                    <span>{{ Auth::user()->role->description }}</span>
+                                    <span style="color:blue">{{ Auth::user()->getFullName() }} -</span>
+                                    <span style="color:#ff0000">{{ Auth::user()->role->description }}</span>
 
                                     <i class="feather icon-chevron-down"></i>
                                 </div>
@@ -87,7 +87,7 @@
             @include('include.menus.minor_purchases')
         @elseif(Auth::user()->role_id == 7)
             @include('include.menus.awards')
-        @elseif(Auth::user()->role_id == 8)
+        @elseif(Auth::user()->role_id == 8 || Auth::user()->role_id == 26)
             @include('include.menus.contracts')
         @elseif(Auth::user()->role_id == 9)
             @include('include.menus.tenders')

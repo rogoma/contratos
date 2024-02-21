@@ -15,16 +15,16 @@
 
                 @foreach ($main_menu as $menu_level1)
                     @php
-                        $childs_level2 = DB::select("SELECT DISTINCT b.id, b.description, b.route, b.icon 
-                        FROM roles_menus as a INNER JOIN menus as b ON a.menu_id = b.id 
+                        $childs_level2 = DB::select("SELECT DISTINCT b.id, b.description, b.route, b.icon
+                        FROM roles_menus as a INNER JOIN menus as b ON a.menu_id = b.id
                         WHERE a.role_id IN(".$role_id.") AND b.level = 2 AND b.superior_menu_id = ".$menu_level1->id);
                     @endphp
                     <div class="pcoded-navigation-label">{{ $menu_level1->description }}</div>
                     <ul class="pcoded-item pcoded-left-item">
                     @foreach ($childs_level2 as $menu_level2)
                         @php
-                            $childs_level3 = DB::select("SELECT DISTINCT b.id, b.description, b.route, b.icon 
-                            FROM roles_menus as a INNER JOIN menus as b ON a.menu_id = b.id 
+                            $childs_level3 = DB::select("SELECT DISTINCT b.id, b.description, b.route, b.icon
+                            FROM roles_menus as a INNER JOIN menus as b ON a.menu_id = b.id
                             WHERE a.role_id IN(".$role_id.") AND b.level = 3 AND b.superior_menu_id = ".$menu_level2->id);
                         @endphp
                         @if (count($childs_level3) == 0)
@@ -54,7 +54,6 @@
                     @endforeach
                     </ul>
                 @endforeach
-
                 </div>
             </div>
         </nav>

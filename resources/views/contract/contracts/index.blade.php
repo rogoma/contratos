@@ -70,23 +70,11 @@ p.centrado {
                                     <div class="float-left">
                                         <h5>Listado de Llamados de Licitaciones</h5>
                                     </div>
-                                    @if (Auth::user()->hasPermission(['contracts.contracts.create', 'admin.orders.create']))
-                                        {{-- <div class="float-center">
-                                            <h5  style="color:blue">Modelos de Archivos Excel para Descargar y realizar importación de datos</h5>
-                                        </div> --}}
-                                        {{-- <a href="excel/pedidos" title="Descargar Modelo Pedido.xlsx" class="btn btn-danger" target="_blank">0-Pedidos</a>
-                                        <a href="excel/items" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">1-Items Contrato Abierto</a>
-                                        <a href="excel/items2" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">2-Items Contrato Cerrado</a>
-                                        <a href="excel/items3" title="Descargar Modelo Items.xlsx" class="btn btn-danger" target="_blank">3-Items Contrato Abierto MMin/MMáx</a> --}}
 
+                                    @if (Auth::user()->hasPermission(['derive_contracts.contracts.show','contracts.contracts.create','admin.orders.create']))
                                         <div class="float-right">
                                             <a href="{{ route('contracts.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar pedido</a>
                                         </div>
-
-
-                                        {{-- <a href="{{ route('orders.uploadExcel')}}" title="Cargar Archivo EXCEL" class="btn btn-success btn-icon">
-                                            <i class="fa fa-upload text-white"></i>
-                                        </a> --}}
                                     @endif
                                 </div>
                                 <div class="card-block">
@@ -121,20 +109,19 @@ p.centrado {
                                                     <td class="columna2">{{ $contracts[$i]->description }}</td>
                                                     <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>
                                                     <td style="color:#ff0000">{{ $contracts[$i]->linkdncp }}</td>
-
                                                     {{-- <td>{{ $contracts[$i]->number_year }}</td>
                                                     <td>{{ $contracts[$i]->year_adj }}</td>
                                                     <td>{{ $contracts[$i]->signDateFormat() }}</td> --}}
-
-
                                                     <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
                                                     <td>{{ $contracts[$i]->provider->description }}</td>
-                                                    <td>{{ $contracts[$i]->modality->code }}</td>
+                                                    <td>{{ $contracts[$i]->modality->code }}-{{ $contracts[$i]->modality->description }}</td>
                                                     {{-- <td>{{ $contracts[$i]->financialOrganism->description}}</td> --}}
-
-
                                                     {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}
-                                                    <td style="color:#ff0000">{{ $contracts[$i]->contractState->description }}</td>
+                                                    @if ($contracts[$i]->contractState->id >1)
+                                                        <td style="color:#ff0000">{{ $contracts[$i]->contractState->description }}</td>
+                                                    @else
+                                                        <td style="color:green">{{ $contracts[$i]->contractState->description }}</td>
+                                                    @endif
 
                                                     <td class="columna11">{{ $contracts[$i]->contractType->description }}</td>
                                                     <td>
