@@ -65,7 +65,7 @@
                 <th>Contratista</th>
                 <th>RUC</th>
                 <th>Teléfono</th>
-                <th>Email oferta</th>
+                <th>Email Oferta</th>
                 <th>Email OCompra</th>
                 <th>Representante</th>
             </tr>

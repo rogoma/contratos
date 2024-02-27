@@ -73,7 +73,7 @@ p.centrado {
 
                                     @if (Auth::user()->hasPermission(['derive_contracts.contracts.show','contracts.contracts.create','admin.orders.create']))
                                         <div class="float-right">
-                                            <a href="{{ route('contracts.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar pedido</a>
+                                            <a href="{{ route('contracts.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar Llamado</a>
                                         </div>
                                     @endif
                                 </div>

@@ -16,6 +16,8 @@ use App\Models\FundingSource;
 use App\Models\FinancialOrganism;
 use App\Models\ExpenditureObject;
 use App\Models\OrderOrderState;
+use App\Models\ContractState;
+use App\Models\ContractType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -97,7 +99,11 @@ class ContractsController extends Controller
         $funding_sources = FundingSource::all();
         $financial_organisms = FinancialOrganism::all();
         $expenditure_objects = ExpenditureObject::where('level', 3)->get();
-        return view('contract.contracts.create', compact('dependencies', 'modalities','sub_programs', 'funding_sources', 'financial_organisms','expenditure_objects'));
+        $providers = Provider::all();//se podria filtrar por estado sólo activo
+        $contr_states = ContractState::all();
+        $contract_types = ContractType::all();
+        return view('contract.contracts.create', compact('dependencies', 'modalities','sub_programs', 'funding_sources', 'financial_organisms',
+        'expenditure_objects', 'providers', 'contr_states','contract_types'));
     }
 
     /**
