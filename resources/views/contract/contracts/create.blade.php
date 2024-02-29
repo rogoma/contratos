@@ -39,7 +39,7 @@
                                     <h5>Agregar Llamado</h5>
                                 </div>
                                 <div class="card-block">
-                                    <h4 class="text-center">Datos de cabecera para los formularios</h4>
+                                    <h3 class="text-center">Datos para cargar Llamados</h3>
                                     <form class="row" method="POST" action="{{ route('contracts.store') }}">
                                         @csrf
 
@@ -181,8 +181,8 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                         {{-- #11 --}}
-                                         <div class="col-sm-3">
+                                        {{-- #11 --}}
+                                        <div class="col-sm-3">
                                             <div class="form-group @error('contract_type') has-danger @enderror">
                                                 <label class="col-form-label">Tipo de Contrato</label>
                                                 <select id="contract_type" name="contract_type" class="form-control">
@@ -197,7 +197,7 @@
                                             </div>
                                         </div>
                                         {{-- #12 --}}
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-3" style="padding-bottom: 10px;">
                                             <div class="form-group @error('total_amount') has-danger @enderror">
                                                 <label class="col-form-label">Monto Total</label>
                                                 {{-- <input type="number" id="total_amount" name="total_amount" value="{{ old('total_amount') }}" class="form-control"> --}}
@@ -207,160 +207,210 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <br>
-                                        <br>
-                                         {{-- #13 --}}
-                                         <div class="col-sm-2">
-                                            <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
-                                            <div class="input-group @error('advance_validity_from') has-danger @enderror">
-                                                <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
-                                                </span>
+
+                                        <!-- Agrega estos enlaces en la sección head de tu archivo de diseño o la vista directamente -->
+                                        {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                        <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script> --}}
+
+
+                                            <h3 style="text-align: center;">Opciones de Pólizas</h3>
+                                        <div class="container">
+                                                    {{-- PRIMERA FILA --}}
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group @error('control_1') has-danger @enderror">
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
+                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                </div>
                                             </div>
-                                            @error('advance_validity_from')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #14 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('advance_validity_to') has-danger @enderror">Anticipo <br><small>(Vigencia Hasta)</small></label>
-                                            <div class="input-group @error('advance_validity_to') has-danger @enderror">
-                                                <input type="text" id="advance_validity_to" name="advance_validity_to" value="{{ old('advance_validity_to') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('advance_validity_to');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('advance_validity_to')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        <br>
-                                        {{-- #15 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('fidelity_validity_from') has-danger @enderror">Fiel Cumplimiento<br><small>(Vigencia Desde)</small></label>
-                                            <div class="input-group @error('fidelity_validity_from') has-danger @enderror">
-                                                <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('fidelity_validity_from');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('fidelity_validity_from')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #16 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('fidelity_validity_to') has-danger @enderror">Fiel Cumplimiento <br><small>(Vigencia Hasta)</small></label>
-                                            <div class="input-group @error('fidelity_validity_to') has-danger @enderror">
-                                                <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('fidelity_validity_to');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('fidelity_validity_to')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #17 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('accidents_validity_from') has-danger @enderror">Accidentes Personales<br><small>(Vigencia Desde)</small></label>
-                                            <div class="input-group @error('accidents_validity_from') has-danger @enderror">
-                                                <input type="text" id="accidents_validity_from" name="accidents_validity_from" value="{{ old('accidents_validity_from') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('accidents_validity_from');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('accidents_validity_from')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #18 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('accidents_validity_to') has-danger @enderror">Accidentes Personales <br><small>(Vigencia Hasta)</small></label>
-                                            <div class="input-group @error('accidents_validity_to') has-danger @enderror">
-                                                <input type="text" id="accidents_validity_to" name="accidents_validity_to" value="{{ old('accidents_validity_to') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('accidents_validity_to');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('accidents_validity_to')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #19 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('risks_validity_from') has-danger @enderror">Todo Riesgo<br><small>(Vigencia Desde)</small></label>
-                                            <div class="input-group @error('risks_validity_from') has-danger @enderror">
-                                                <input type="text" id="risks_validity_from" name="risks_validity_from" value="{{ old('risks_validity_from') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('risks_validity_from');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('risks_validity_from')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #20 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('risks_validity_to') has-danger @enderror">Todo Riesgo <br><small>(Vigencia Hasta)</small></label>
-                                            <div class="input-group @error('risks_validity_to') has-danger @enderror">
-                                                <input type="text" id="risks_validity_to" name="risks_validity_to" value="{{ old('risks_validity_to') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('risks_validity_to');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('risks_validity_to')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #21 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('civil_resp_validity_from') has-danger @enderror">Responsabilidad Civil<br><small>(Vigencia Desde)</small></label>
-                                            <div class="input-group @error('civil_resp_validity_from') has-danger @enderror">
-                                                <input type="text" id="civil_resp_validity_from" name="civil_resp_validity_from" value="{{ old('civil_resp_validity_from') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('civil_resp_validity_from');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('civil_resp_validity_from')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        {{-- #22 --}}
-                                        <div class="col-sm-2">
-                                            <label class="col-form-label @error('civil_resp_validity_to') has-danger @enderror">Responsabilidad Civil <br><small>(Vigencia Hasta)</small></label>
-                                            <div class="input-group @error('civil_resp_validity_to') has-danger @enderror">
-                                                <input type="text" id="civil_resp_validity_to" name="civil_resp_validity_to" value="{{ old('civil_resp_validity_to') }}" class="form-control" autocomplete="off">
-                                                <span class="input-group-append" id="basic-addon">
-                                                    <label class="input-group-text" onclick="show('civil_resp_validity_to');"><i class="fa fa-calendar"></i></label>
-                                                </span>
-                                            </div>
-                                            @error('risks_validity_to')
-                                            <div class="has-danger">
-                                                <div class="col-form-label">{{ $message }}</div>
-                                            </div>
-                                            @enderror
                                         </div>
 
+                                        <div class="container">
+                                            {{-- SEGUNDA FILA --}}
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group @error('control_1') has-danger @enderror">
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
+                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            {{-- SEGUNDA FILA --}}
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group @error('control_1') has-danger @enderror">
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
+                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            {{-- SEGUNDA FILA --}}
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group @error('control_1') has-danger @enderror">
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
+                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            {{-- SEGUNDA FILA --}}
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
+                                                    <div class="input-group @error('advance_validity_from') has-danger @enderror">
+                                                        <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
+                                                        <span class="input-group-append" id="basic-addon">
+                                                            <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                        </span>
+                                                    </div>
+                                                    @error('advance_validity_from')
+                                                    <div class="has-danger">
+                                                        <div class="col-form-label">{{ $message }}</div>
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group @error('control_1') has-danger @enderror">
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
+                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
                                     <br>
                                     <div class="col-sm-12">
@@ -382,7 +432,6 @@
 @push('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
-
     $('#dependency').select2();
     $('#provider').select2();
     $('#modality').select2();
@@ -392,14 +441,68 @@ $(document).ready(function(){
     $('#financial_organism').select2();
     // $('#expenditure_object').select2();
 
-    $('#begin_date').datepicker({
+    $('#sign_date').datepicker({
         language: 'es',
-        format: 'dd/mm/yyyy'
+        format: 'dd/mm/yyyy',
+        autoclose: true
     });
-    $('#form4_date').datepicker({
+    $('#advance_validity_from').datepicker({
         language: 'es',
-        format: 'dd/mm/yyyy'
+        format: 'dd/mm/yyyy',
+        autoclose: true
     });
+    $('#advance_validity_to').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+
+    $('#fidelity_validity_from').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+    $('#fidelity_validity_to').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+
+    $('#accidents_validity_from').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+    $('#accidents_validity_to').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+
+    $('#risks_validity_from').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+    $('#risks_validity_to').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+    $('#civil_resp_validity_from').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+    $('#civil_resp_validity_to').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+
+
+
+
     $('#dncp_resolution_date').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy'
