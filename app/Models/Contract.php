@@ -109,6 +109,14 @@ class Contract extends Model
     //     }
     // }
 
+    public function systemDateFormat(){
+        if(empty($this->contract_begin_date)){
+            return "";
+        }else{
+            return date('d/m/Y', strtotime($this->contract_begin_date));
+        }
+    }
+    
     public function beginDateFormat(){
         if(empty($this->contract_begin_date)){
             return "";

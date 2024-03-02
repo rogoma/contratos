@@ -39,12 +39,8 @@
                                     <h5>Agregar Llamado</h5>
                                 </div>
                                 <div class="card-block">
-                                    <div class="form-group">
-                                        {{-- <label style="font-size: 20px;color: #FF0000;float: right;" for="fecha">Fecha:</label> --}}
-                                        <label style="font-size: 20px;color: #FF0000;float: right;" for="fecha_actual">FECHA: {{ Carbon\Carbon::now()->format('d/m/Y') }}</label>                                        
-
                                     <h3 class="text-center">Datos para cargar Llamados</h3>
-                                    <form class="row" method="POST" action="{{ route('contracts.store') }}">
+                                    <form class="rows" method="POST" action="{{ route('contracts.store') }}">
                                         @csrf
 
                                         <div class="col-sm-12">
@@ -218,12 +214,18 @@
                                         <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script> --}}
 
                                         <div class="container">
-                                            <h3 style="text-align: center;">Opciones de Pólizas</h3>                                            
+                                            <h3 style="text-align: center;">Opciones de Pólizas</h3>
+                                            {{-- <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="date1">Fecha 1:</label>
+                                                        <input type="text" class="form-control datepicker" id="date1" name="date1" autocomplete="off">
+                                                    </div>
+                                            </div> --}}
 
                                             <div class="row">
                                                 {{-- #13 ANTICIPO--}}
-                                                <div class="col-md-3">
-                                                        <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo-Vigencia Desde</label>
+                                                <div class="col-sm-2">
+                                                        <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo <br><small>(Vigencia Desde)</small></label>
                                                         <div class="input-group @error('advance_validity_from') has-danger @enderror">
                                                             <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from') }}" class="form-control text-align: left" autocomplete="off">
                                                             <span class="input-group-append" id="basic-addon">
@@ -237,8 +239,8 @@
                                                         @enderror
                                                 </div>
                                                 {{-- #14 ANTICIPO--}}
-                                                <div class="col-md-3">
-                                                        <label class="col-form-label @error('advance_validity_to') has-danger @enderror">Anticipo-Vigencia Hasta</label>
+                                                <div class="col-sm-2">
+                                                        <label class="col-form-label @error('advance_validity_to') has-danger @enderror">Anticipo <br><small>(Vigencia Hasta)</small></label>
                                                         <div class="input-group @error('advance_validity_to') has-danger @enderror">
                                                             <input type="text" id="advance_validity_to" name="advance_validity_to" value="{{ old('advance_validity_to') }}" class="form-control" autocomplete="off">
                                                             <span class="input-group-append" id="basic-addon">
@@ -252,20 +254,17 @@
                                                         @enderror
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group @error('control_1') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
                                                         <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
-                                                    </div>    
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="container">
                                             <div class="row">
                                                 {{-- #15 FIEL CUMPL.--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('fidelity_validity_from') has-danger @enderror">Fiel Cumplimiento-Vigencia Desde</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('fidelity_validity_from') has-danger @enderror">Fiel Cumplimiento<br><small>(Vigencia Desde)</small></label>
                                                     <div class="input-group @error('fidelity_validity_from') has-danger @enderror">
                                                         <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -279,8 +278,8 @@
                                                     @enderror
                                                 </div>
                                                 {{-- #16 FIEL CUMPL.--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('fidelity_validity_to') has-danger @enderror">Fiel Cumplimiento -Vigencia Hasta</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('fidelity_validity_to') has-danger @enderror">Fiel Cumplimiento <br><small>(Vigencia Hasta)</small></label>
                                                     <div class="input-group @error('fidelity_validity_to') has-danger @enderror">
                                                         <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -293,20 +292,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group @error('control_2') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
                                                         <input type="text" id="control_2" disabled="disabled" name="control_2" class="form-control">
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="container">
                                             <div class="row">
                                                 {{-- #17 ACCIDENTES--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('accidents_validity_from') has-danger @enderror">Accid.Personales-Vigencia Desde</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('accidents_validity_from') has-danger @enderror">Accidentes Personales<br><small>(Vigencia Desde)</small></label>
                                                     <div class="input-group @error('accidents_validity_from') has-danger @enderror">
                                                         <input type="text" id="accidents_validity_from" name="accidents_validity_from" value="{{ old('accidents_validity_from') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -320,8 +316,8 @@
                                                     @enderror
                                                 </div>
                                                 {{-- #18 ACCIDENTES--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('accidents_validity_to') has-danger @enderror">Accid.Personales-Vigencia Hasta</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('accidents_validity_to') has-danger @enderror">Accidentes Personales <br><small>(Vigencia Hasta)</small></label>
                                                     <div class="input-group @error('accidents_validity_to') has-danger @enderror">
                                                         <input type="text" id="accidents_validity_to" name="accidents_validity_to" value="{{ old('accidents_validity_to') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -334,20 +330,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group @error('control_3') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
                                                         <input type="text" id="control_3" disabled="disabled" name="control_3" class="form-control">
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="container">
                                             <div class="row">
                                                 {{-- #19 TODO RIESGO--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('risks_validity_from') has-danger @enderror">Todo Riesgo-Vigencia Desde</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('risks_validity_from') has-danger @enderror">Todo Riesgo<br><small>(Vigencia Desde)</small></label>
                                                     <div class="input-group @error('risks_validity_from') has-danger @enderror">
                                                         <input type="text" id="risks_validity_from" name="risks_validity_from" value="{{ old('risks_validity_from') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -361,8 +354,8 @@
                                                     @enderror
                                                 </div>
                                                 {{-- #20 TODO RIESGO--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('risks_validity_to') has-danger @enderror">Todo Riesgo-Vigencia Hasta</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('risks_validity_to') has-danger @enderror">Todo Riesgo <br><small>(Vigencia Hasta)</small></label>
                                                     <div class="input-group @error('risks_validity_to') has-danger @enderror">
                                                         <input type="text" id="risks_validity_to" name="risks_validity_to" value="{{ old('risks_validity_to') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -375,20 +368,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group @error('control_4') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
                                                         <input type="text" id="control_4" disabled="disabled" name="control_4" class="form-control">
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="container">
                                             <div class="row">
                                                 {{-- #21 RESP. CIVIL--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('civil_resp_validity_from') has-danger @enderror">Resp. Civil-Vigencia Desde</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('civil_resp_validity_from') has-danger @enderror">Responsabilidad Civil<br><small>(Vigencia Desde)</small></label>
                                                     <div class="input-group @error('civil_resp_validity_from') has-danger @enderror">
                                                         <input type="text" id="civil_resp_validity_from" name="civil_resp_validity_from" value="{{ old('civil_resp_validity_from') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -402,8 +392,8 @@
                                                     @enderror
                                                 </div>
                                                 {{-- #22 RESP. CIVIL--}}
-                                                <div class="col-md-3">
-                                                    <label class="col-form-label @error('civil_resp_validity_to') has-danger @enderror">Resp. Civil -Vigencia Hasta</label>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label @error('civil_resp_validity_to') has-danger @enderror">Responsabilidad Civil <br><small>(Vigencia Hasta)</small></label>
                                                     <div class="input-group @error('civil_resp_validity_to') has-danger @enderror">
                                                         <input type="text" id="civil_resp_validity_to" name="civil_resp_validity_to" value="{{ old('civil_resp_validity_to') }}" class="form-control" autocomplete="off">
                                                         <span class="input-group-append" id="basic-addon">
@@ -416,11 +406,10 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group @error('control_5') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
-                                                        <input type="text" id="control_5" disabled="disabled" name="control_5" class="form-control">                                                
-                                                    </div>
+                                                        <label class="col-form-label">Control<br><small>(Control)</small></label>
+                                                        <input type="text" id="control_5" disabled="disabled" name="control_5" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -458,10 +447,7 @@ $(document).ready(function(){
     $('#sign_date').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true,
-        todayHighlight: true,
-        startDate: '-3d',
-        endDate: '+3d',
+        autoclose: true
     });
     $('#advance_validity_from').datepicker({
         language: 'es',
@@ -516,13 +502,26 @@ $(document).ready(function(){
         format: 'dd/mm/yyyy',
         autoclose: true
     });
-    
+
+
+
+
+    $('#dncp_resolution_date').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy'
+    });
 
     show = function(id){
         $('#'+id).datepicker('show');
     }
 
-    
+    $('#plurianualidad').change(function(){
+        if($('#plurianualidad').val() == 1){
+            $('#multi_years').removeClass('d-none');
+        }else{
+            $('#multi_years').addClass('d-none');
+        }
+    });
 
     $('#addRow').click(function(){
         new_row = $('#multi_year_template').clone();
@@ -535,64 +534,6 @@ $(document).ready(function(){
         element.closest('#multi_year_template').remove();
     }
 
-
-    
-
-
 });
-
-// $(document).ready(function() {
-//   $('.datepicker').datepicker({
-//     format: 'dd/mm/yyyy',
-//     autoclose: true,
-//     todayHighlight: true,
-//     startDate: '-3d',
-//     endDate: '+3d',
-//   });
-
-   $('#advance_validity_from').on('changeDate', function() {
-    var fechaInicio = $(this).datepicker('getDate');
-     var fechaFin = $('#advance_validity_to').datepicker('getDate');
-
-     if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_from').datepicker('setDate', null); // Limpiar el datapicker
-    }
-   });
-
-   $('#advance_validity_to').on('changeDate', function() {
-    var fechaFin = $(this).datepicker('getDate');
-     var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-
-     if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_to').datepicker('setDate', null); // Limpiar el datapicker
-    }
-   });
-
-
-
-  $('#advance_validity_to').on('blur', function() {
-    var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-    var fechaFin = $('#advance_validity_to').datepicker('getDate');
-
-    if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_to').datepicker('setDate', null); // Limpiar el datapicker
-    }
-  });
-
-  $('#advance_validity_from').on('blur', function() {    
-    var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-    var fechaFin = $('#advance_validity_to').datepicker('getDate');
-    
-    if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_from').datepicker('setDate', null); // Limpiar el datapicker
-    }
-  });
-// });
-
-
 </script>
 @endpush
