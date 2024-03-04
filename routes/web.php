@@ -501,10 +501,20 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
 
     /********** MODULO CONTRACTS - CONTRATOS Y GARANTIAS **********/
+    Route::post('contracts/create}', [ContractsController::class, 'calculo'])->name('contracts.calculo');
+    
+        
     Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
+    
     Route::resource('contracts', ContractsController::class);
+    
+    Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
+
     Route::resource('contracts.objections', ObjectionsController::class);
     Route::resource('contracts.objections_responses', ObjectionsResponsesController::class);
+    
+    
+
     Route::post('contracts/recibe_order/{order_id}', [ContractsController::class, 'recibeOrder'])->name('contracts.recibeOrder');
     Route::get('contracts/orders/{order_id}/edit', [ContractsController::class, 'edit'])->name('contracts.orders.edit');
     Route::put('contracts/orders/{order_id}/edit', [ContractsController::class, 'update'])->name('contracts.orders.update');

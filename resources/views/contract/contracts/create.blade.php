@@ -1,3 +1,8 @@
+<!-- Incluye las librerías de Datepicker y jQuery -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 @extends('layouts.app')
 
 @section('content')
@@ -37,11 +42,11 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Agregar Llamado</h5>
+                                    <label id="fecha_actual" name="fecha_actual"  style="font-size: 20px;color: #FF0000;float: right;" for="fecha_actual">{{ Carbon\Carbon::now()->format('d/m/Y') }}</label>
+                                    <label style="font-size: 20px;color: #FF0000;float: right;">FECHA: </label>
                                 </div>
                                 <div class="card-block">
                                     <div class="form-group">
-                                        {{-- <label style="font-size: 20px;color: #FF0000;float: right;" for="fecha">Fecha:</label> --}}
-                                        <label style="font-size: 20px;color: #FF0000;float: right;" for="fecha_actual">FECHA: {{ Carbon\Carbon::now()->format('d/m/Y') }}</label>                                        
 
                                     <h3 class="text-center">Datos para cargar Llamados</h3>
                                     <form class="row" method="POST" action="{{ route('contracts.store') }}">
@@ -218,7 +223,7 @@
                                         <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script> --}}
 
                                         <div class="container">
-                                            <h3 style="text-align: center;">Opciones de Pólizas</h3>                                            
+                                            <h3 style="text-align: center;">Opciones de Pólizas</h3>                                                                                        
 
                                             <div class="row">
                                                 {{-- #13 ANTICIPO--}}
@@ -252,10 +257,17 @@
                                                         @enderror
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="form-group @error('control_1') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Días Vigencia</label>
                                                         <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                    </div>    
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group @error('control_a') has-danger @enderror">
+                                                        <label class="col-form-label">Días para Vencer</label>
+                                                        <input type="text" id="control_a" disabled="disabled" name="control_a" class="form-control">
                                                     </div>    
                                                 </div>
                                             </div>
@@ -293,11 +305,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="form-group @error('control_2') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Dias Vigencia</label>
                                                         <input type="text" id="control_2" disabled="disabled" name="control_2" class="form-control">
                                                     </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group @error('control_b') has-danger @enderror">
+                                                        <label class="col-form-label">Días para Vencer</label>
+                                                        <input type="text" id="control_b" disabled="disabled" name="control_b" class="form-control">
+                                                    </div>    
                                                 </div>
                                             </div>
                                         </div>
@@ -334,11 +352,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="form-group @error('control_3') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Días Vigencia</label>
                                                         <input type="text" id="control_3" disabled="disabled" name="control_3" class="form-control">
                                                     </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group @error('control_c') has-danger @enderror">
+                                                        <label class="col-form-label">Días para Vencer</label>
+                                                        <input type="text" id="control_c" disabled="disabled" name="control_c" class="form-control">
+                                                    </div>    
                                                 </div>
                                             </div>
                                         </div>
@@ -375,11 +399,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="form-group @error('control_4') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Días Vigencia</label>
                                                         <input type="text" id="control_4" disabled="disabled" name="control_4" class="form-control">
                                                     </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group @error('control_d') has-danger @enderror">
+                                                        <label class="col-form-label">Días para Vencer</label>
+                                                        <input type="text" id="control_d" disabled="disabled" name="control_d" class="form-control">
+                                                    </div>    
                                                 </div>
                                             </div>
                                         </div>
@@ -416,11 +446,17 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="form-group @error('control_5') has-danger @enderror">
-                                                        <label class="col-form-label">Control</label>
+                                                        <label class="col-form-label">Días Vigencia</label>
                                                         <input type="text" id="control_5" disabled="disabled" name="control_5" class="form-control">                                                
                                                     </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group @error('control_e') has-danger @enderror">
+                                                        <label class="col-form-label">Días para Vencer</label>
+                                                        <input type="text" id="control_e" disabled="disabled" name="control_e" class="form-control">
+                                                    </div>    
                                                 </div>
                                             </div>
                                         </div>
@@ -444,6 +480,7 @@
 
 @push('scripts')
 <script type="text/javascript">
+
 $(document).ready(function(){
 
     $('#dependency').select2();
@@ -536,63 +573,402 @@ $(document).ready(function(){
     }
 
 
+    //VALIDACIÓN DE FECHAS DE ANTICIPOS
+    $('#advance_validity_from').on('changeDate', function() {        
+        var fechaInicio = $(this).datepicker('getDate');
+        var fechaFin = $('#advance_validity_to').datepicker('getDate');
+        
+
+        if (fechaFin == null){
+
+        }else{    
+            if (fechaInicio > fechaFin) {
+                alert('La fecha de inicio no puede ser mayor a la fecha final.');
+                $('#advance_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#advance_validity_to').val('');
+                $('#control_1').val('');
+                $('#control_a').val('');                  
+            }else{
+
+                //controla días para vigencia
+                restaFechas = function(f1,f2)
+                {
+                    var aFecha1 = f1.split('/'); 
+                    var aFecha2 = f2.split('/'); 
+                    var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                    var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                    var dif = fFecha2 - fFecha1;
+                    var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                    return dias;
+                }               
+                
+                $('#control_1').val(restaFechas(f1,f2));              
+                
+            }
+        }   
+    });
+
+    $('#advance_validity_to').on('changeDate', function() {        
+        var fechaInicio = $('#advance_validity_from').datepicker('getDate');
+        var fechaFin = $(this).datepicker('getDate');
+        
+        if (fechaInicio > fechaFin) {
+            alert('La fecha de inicio no puede ser mayor a la fecha final.');
+            $('#advance_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#advance_validity_to').val('');
+            $('#control_1').val('');
+            $('#control_a').val('');
+        }else{
+            
+            ///calcula dias de vigencia
+            restaFechas = function(f1,f2)
+            {
+                var aFecha1 = f1.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            ///calcula dias que faltan para vencer
+            restaFechas2 = function(f2,f3)
+            {
+                var aFecha1 = f3.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            var f1 = $('#advance_validity_from').val();//fecha dtpicker inicio
+            var f2=  $('#advance_validity_to').val(); //fecha dtpicker final
+            var f3= $('#fecha_actual').text();//fecha actual           
+            $('#control_1').val(restaFechas(f1,f2));//resultado fecha vigencia
+            $('#control_a').val(restaFechas2(f2,f3));//resultado fecha días para vencer
+        }             
+    });
+
+    //VALIDACIÓN DE FECHAS DE FIEL CUMPLIMIENTO
+    $('#fidelity_validity_from').on('changeDate', function() {        
+        var fechaInicio = $(this).datepicker('getDate');
+        var fechaFin = $('#fidelity_validity_to').datepicker('getDate');
+        
+
+        if (fechaFin == null){
+
+        }else{    
+            if (fechaInicio > fechaFin) {
+                alert('La fecha de inicio no puede ser mayor a la fecha final.');
+                $('#fidelity_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#fidelity_validity_to').val('');
+                $('#control_2').val('');
+                $('#control_b').val('');          
+            }else{
+
+                //controla días para vigencia
+                restaFechas = function(f1,f2)
+                {
+                    var aFecha1 = f1.split('/'); 
+                    var aFecha2 = f2.split('/'); 
+                    var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                    var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                    var dif = fFecha2 - fFecha1;
+                    var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                    return dias;
+                }               
+                
+                $('#control_2').val(restaFechas(f1,f2));              
+                
+            }
+        }   
+    });
+
+    $('#fidelity_validity_to').on('changeDate', function() {        
+        var fechaInicio = $('#fidelity_validity_from').datepicker('getDate');
+        var fechaFin = $(this).datepicker('getDate');
+        
+        if (fechaInicio > fechaFin) {
+            alert('La fecha de inicio no puede ser mayor a la fecha final.');
+            $('#fidelity_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#fidelity_validity_to').val('');
+            $('#control_2').val('');
+            $('#control_b').val('');        
+        }else{
+            
+            ///calcula dias de vigencia
+            restaFechas = function(f1,f2)
+            {
+                var aFecha1 = f1.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            ///calcula dias que faltan para vencer
+            restaFechas2 = function(f2,f3)
+            {
+                var aFecha1 = f3.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            var f1 = $('#fidelity_validity_from').val();//fecha dtpicker inicio
+            var f2=  $('#fidelity_validity_to').val(); //fecha dtpicker final
+            var f3= $('#fecha_actual').text();//fecha actual           
+            $('#control_2').val(restaFechas(f1,f2));//resultado fecha vigencia
+            $('#control_b').val(restaFechas2(f2,f3));//resultado fecha días para vencer
+        }             
+    });
+
+    //VALIDACIÓN DE FECHAS DE ACCIDENTES PERSONALES
+    $('#accidents_validity_from').on('changeDate', function() {        
+        var fechaInicio = $(this).datepicker('getDate');
+        var fechaFin = $('#accidents_validity_to').datepicker('getDate');
+        
+
+        if (fechaFin == null){
+
+        }else{    
+            if (fechaInicio > fechaFin) {
+                alert('La fecha de inicio no puede ser mayor a la fecha final.');
+                $('#accidents_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#accidents_validity_to').val('');
+                $('#control_3').val('');
+                $('#control_c').val('');          
+            }else{
+
+                //controla días para vigencia
+                restaFechas = function(f1,f2)
+                {
+                    var aFecha1 = f1.split('/'); 
+                    var aFecha2 = f2.split('/'); 
+                    var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                    var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                    var dif = fFecha2 - fFecha1;
+                    var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                    return dias;
+                }               
+                
+                $('#control_3').val(restaFechas(f1,f2));              
+                
+            }
+        }   
+    });
+
+    $('#accidents_validity_to').on('changeDate', function() {        
+        var fechaInicio = $('#accidents_validity_from').datepicker('getDate');
+        var fechaFin = $(this).datepicker('getDate');
+        
+        if (fechaInicio > fechaFin) {
+            alert('La fecha de inicio no puede ser mayor a la fecha final.');
+            $('#accidents_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#accidents_validity_to').val('');
+            $('#control_3').val('');
+            $('#control_c').val('');
+        }else{
+            
+            ///calcula dias de vigencia
+            restaFechas = function(f1,f2)
+            {
+                var aFecha1 = f1.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            ///calcula dias que faltan para vencer
+            restaFechas2 = function(f2,f3)
+            {
+                var aFecha1 = f3.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            var f1 = $('#accidents_validity_from').val();//fecha dtpicker inicio
+            var f2=  $('#accidents_validity_to').val(); //fecha dtpicker final
+            var f3= $('#fecha_actual').text();//fecha actual           
+            $('#control_3').val(restaFechas(f1,f2));//resultado fecha vigencia
+            $('#control_c').val(restaFechas2(f2,f3));//resultado fecha días para vencer
+        }             
+    });
+
+    //VALIDACIÓN DE FECHAS DE TODO RIESGO
+    $('#risks_validity_from').on('changeDate', function() {        
+        var fechaInicio = $(this).datepicker('getDate');
+        var fechaFin = $('#risks_validity_to').datepicker('getDate');
+        
+
+        if (fechaFin == null){
+
+        }else{    
+            if (fechaInicio > fechaFin) {
+                alert('La fecha de inicio no puede ser mayor a la fecha final.');
+                $('#risks_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#risks_validity_to').val('');
+                $('#control_4').val('');
+                $('#control_d').val('');          
+            }else{
+
+                //controla días para vigencia
+                restaFechas = function(f1,f2)
+                {
+                    var aFecha1 = f1.split('/'); 
+                    var aFecha2 = f2.split('/'); 
+                    var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                    var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                    var dif = fFecha2 - fFecha1;
+                    var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                    return dias;
+                }               
+                
+                $('#control_4').val(restaFechas(f1,f2));              
+                
+            }
+        }   
+    });
+
+    $('#risks_validity_to').on('changeDate', function() {        
+        var fechaInicio = $('#risks_validity_from').datepicker('getDate');
+        var fechaFin = $(this).datepicker('getDate');
+        
+        if (fechaInicio > fechaFin) {
+            alert('La fecha de inicio no puede ser mayor a la fecha final.');
+            $('#risks_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#risks_validity_to').val(''); 
+            $('#control_4').val('');
+            $('#control_d').val('');         
+        }else{
+            
+            ///calcula dias de vigencia
+            restaFechas = function(f1,f2)
+            {
+                var aFecha1 = f1.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            ///calcula dias que faltan para vencer
+            restaFechas2 = function(f2,f3)
+            {
+                var aFecha1 = f3.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            var f1 = $('#risks_validity_from').val();//fecha dtpicker inicio
+            var f2=  $('#risks_validity_to').val(); //fecha dtpicker final
+            var f3= $('#fecha_actual').text();//fecha actual           
+            $('#control_4').val(restaFechas(f1,f2));//resultado fecha vigencia
+            $('#control_d').val(restaFechas2(f2,f3));//resultado fecha días para vencer
+        }             
+    });
+
+    //VALIDACIÓN DE FECHAS DE RESPONSABILIDAD CIVIL
+    $('#civil_resp_validity_from').on('changeDate', function() {        
+        var fechaInicio = $(this).datepicker('getDate');
+        var fechaFin = $('#civil_resp_validity_to').datepicker('getDate');
+        
+
+        if (fechaFin == null){
+
+        }else{    
+            if (fechaInicio > fechaFin) {
+                alert('La fecha de inicio no puede ser mayor a la fecha final.');
+                $('#civil_resp_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#civil_resp_validity_to').val('');
+                $('#control_5').val('');
+                $('#control_e').val('');          
+            }else{
+
+                //controla días para vigencia
+                restaFechas = function(f1,f2)
+                {
+                    var aFecha1 = f1.split('/'); 
+                    var aFecha2 = f2.split('/'); 
+                    var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                    var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                    var dif = fFecha2 - fFecha1;
+                    var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                    return dias;
+                }               
+                
+                $('#control_5').val(restaFechas(f1,f2));              
+                
+            }
+        }   
+    });
+
+    $('#civil_resp_validity_to').on('changeDate', function() {        
+        var fechaInicio = $('#civil_resp_validity_from').datepicker('getDate');
+        var fechaFin = $(this).datepicker('getDate');
+        
+        if (fechaInicio > fechaFin) {
+            alert('La fecha de inicio no puede ser mayor a la fecha final.');
+            $('#civil_resp_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#civil_resp_validity_to').val('');
+            $('#control_5').val('');
+            $('#control_e').val('');
+        }else{
+            
+            ///calcula dias de vigencia
+            restaFechas = function(f1,f2)
+            {
+                var aFecha1 = f1.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            ///calcula dias que faltan para vencer
+            restaFechas2 = function(f2,f3)
+            {
+                var aFecha1 = f3.split('/'); 
+                var aFecha2 = f2.split('/');                  
+                var fFecha1 = Date.UTC(aFecha1[2],aFecha1[1]-1,aFecha1[0]); 
+                var fFecha2 = Date.UTC(aFecha2[2],aFecha2[1]-1,aFecha2[0]); 
+                var dif = fFecha2 - fFecha1;
+                var dias = Math.floor(dif / (1000 * 60 * 60 * 24)); 
+                return dias;
+            }
+
+            var f1 = $('#civil_resp_validity_from').val();//fecha dtpicker inicio
+            var f2=  $('#civil_resp_validity_to').val(); //fecha dtpicker final
+            var f3= $('#fecha_actual').text();//fecha actual           
+            $('#control_5').val(restaFechas(f1,f2));//resultado fecha vigencia
+            $('#control_e').val(restaFechas2(f2,f3));//resultado fecha días para vencer
+        }             
+    });
+
     
-
-
 });
-
-// $(document).ready(function() {
-//   $('.datepicker').datepicker({
-//     format: 'dd/mm/yyyy',
-//     autoclose: true,
-//     todayHighlight: true,
-//     startDate: '-3d',
-//     endDate: '+3d',
-//   });
-
-   $('#advance_validity_from').on('changeDate', function() {
-    var fechaInicio = $(this).datepicker('getDate');
-     var fechaFin = $('#advance_validity_to').datepicker('getDate');
-
-     if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_from').datepicker('setDate', null); // Limpiar el datapicker
-    }
-   });
-
-   $('#advance_validity_to').on('changeDate', function() {
-    var fechaFin = $(this).datepicker('getDate');
-     var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-
-     if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_to').datepicker('setDate', null); // Limpiar el datapicker
-    }
-   });
-
-
-
-  $('#advance_validity_to').on('blur', function() {
-    var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-    var fechaFin = $('#advance_validity_to').datepicker('getDate');
-
-    if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_to').datepicker('setDate', null); // Limpiar el datapicker
-    }
-  });
-
-  $('#advance_validity_from').on('blur', function() {    
-    var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-    var fechaFin = $('#advance_validity_to').datepicker('getDate');
-    
-    if (fechaInicio > fechaFin) {
-      alert('La fecha de inicio no puede ser mayor a la fecha final.');
-      $('#advance_validity_from').datepicker('setDate', null); // Limpiar el datapicker
-    }
-  });
-// });
-
-
 </script>
 @endpush

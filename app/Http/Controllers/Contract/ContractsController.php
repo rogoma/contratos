@@ -28,7 +28,8 @@ use App\Exports\OrdersExport2;
 use App\Exports\OrdersExport3;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Carbon;
+// use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 
 class ContractsController extends Controller
@@ -48,6 +49,17 @@ class ContractsController extends Controller
         $this->middleware('checkPermission:'.implode(',',$create_permissions))->only(['create', 'store']);   // Permiso para create
         $this->middleware('checkPermission:'.implode(',',$update_permissions))->only(['edit', 'update']);   // Permiso para update
     }
+
+    public function calculo(Request $request)
+    {
+        
+        dd($request->date);        
+
+        // Envía el resultado a la vista
+        // return view('contract.contracts.create');
+    }
+
+
 
     /**
      * Listado de todos los pedidos.
@@ -95,8 +107,7 @@ class ContractsController extends Controller
     public function create()
     {
         
-        $fechaActual = Carbon::now()->toDateString(); // Obtener la fecha actual en formato YYYY-MM-DD
-
+        // $fechaActual = Carbon::now()->toDateString(); // Obtener la fecha actual en formato YYYY-MM-DD
         $dependencies = Dependency::all();
         $modalities = Modality::all();
         $sub_programs = SubProgram::all();
@@ -107,7 +118,7 @@ class ContractsController extends Controller
         $contr_states = ContractState::all();
         $contract_types = ContractType::all();
         return view('contract.contracts.create', compact('dependencies', 'modalities','sub_programs', 'funding_sources', 'financial_organisms',
-        'expenditure_objects', 'providers', 'contr_states','contract_types', 'fechaActual'));
+        'expenditure_objects', 'providers', 'contr_states','contract_types'));
     }
 
     /**
