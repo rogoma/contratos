@@ -131,7 +131,7 @@ class ContractsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'description' => 'string|required|max:200',
+            // 'description' => 'string|required|max:200',
             'iddncp' => 'string|required|max:7',
             'linkdncp' => 'string|required|max:300',
             'number_year' => 'string|required|max:7',
@@ -140,7 +140,7 @@ class ContractsController extends Controller
             
             'provider_id' => 'numeric|required|max:999999',
 
-            // 'actual_state' => 'numeric|required|max:999999',
+            'contract_state_id' => 'numeric|required|max:999999',
 
             'modality_id' => 'numeric|required|max:999999',
             'financial_organism_id' => 'numeric|required|max:999999',
@@ -167,7 +167,8 @@ class ContractsController extends Controller
         }
 
         $contract = new Contract;
-        $contract->description=$request->input('description ' );
+
+        $contract->description=$request->input('description');
 
         // $contract->iddncp=$request->input('iddncp');
         $iddncp_fin = str_replace('.', '',($request->input('iddncp')));
@@ -181,11 +182,11 @@ class ContractsController extends Controller
         $contract->year_adj = $year_adj_fin;
 
         $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
-        $contract->provider_id=$request->input('provider_id ' );
-        // $contract->actual_state=$request->input('actual_state ' );
-        $contract->modality_id=$request->input('modality_id ' );
-        $contract->financial_organism_id=$request->input('financial_organism_id ' );
-        $contract->contract_type_id=$request->input('contract_type_id ' );
+        $contract->provider_id=$request->input('provider_id');
+        $contract->actual_state=$request->input('contract_state_id');
+        $contract->modality_id=$request->input('modality_id');
+        $contract->financial_organism_id=$request->input('financial_organism_id');
+        $contract->contract_type_id=$request->input('contract_type_id');
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
         $contract->total_amount = $total_amount_fin;
         $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
