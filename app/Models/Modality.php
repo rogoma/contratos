@@ -14,9 +14,9 @@ class Modality extends Model
     /**
      * Para obtener el vinculo con la tabla orders
      */
-    public function orders(){
-        return $this->hasMany('App\Models\Order');
-    }
+    // public function orders(){
+    //     return $this->hasMany('App\Models\Order');
+    // }
 
     /**
      * Para obtener el vinculo con la tabla contracts

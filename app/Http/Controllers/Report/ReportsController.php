@@ -49,8 +49,8 @@ class ReportsController extends Controller{
         $contracts = DB::table('vista_contracts')//vista que muestra los datos
         ->select(['llamado', 'iddncp','number_year','year_adj','sign_date','contratista',
         'estado', 'code', 'modalidad', 'org_financ', 'tipo_contrato','contract_begin_date',
-        'contract_end_date', 'total_amount', 'advance_validity','fidelity_validity','accidents_validity',
-        'risks_validity','civil_resp_validity','comentarios'])
+        'contract_end_date', 'total_amount', 'advance_validity_to','fidelity_validity_to','accidents_validity_to',
+        'risks_validity_to','civil_resp_validity_to','comentarios'])
         // ->where('actual_state', '>', 1)
         ->get();
 
@@ -71,8 +71,8 @@ class ReportsController extends Controller{
         $contracts = DB::table('vista_contracts')//vista que muestra los datos
         ->select(['llamado', 'iddncp','number_year','year_adj','sign_date','contratista',
         'estado', 'code', 'modalidad', 'org_financ', 'tipo_contrato','contract_begin_date',
-        'contract_end_date', 'total_amount', 'advance_validity','fidelity_validity','accidents_validity',
-        'risks_validity','civil_resp_validity','comentarios'])
+        'contract_end_date', 'total_amount', 'advance_validity_to','fidelity_validity_to','accidents_validity_to',
+        'risks_validity_to','civil_resp_validity_to','comentarios'])
         ->where('state_id', '=', 1)
         ->get();
 
@@ -93,8 +93,8 @@ class ReportsController extends Controller{
         $contracts = DB::table('vista_contracts')//vista que muestra los datos
         ->select(['llamado', 'iddncp','number_year','year_adj','sign_date','contratista',
         'estado', 'code', 'modalidad', 'org_financ', 'tipo_contrato','contract_begin_date',
-        'contract_end_date', 'total_amount', 'advance_validity','fidelity_validity','accidents_validity',
-        'risks_validity','civil_resp_validity','comentarios'])
+        'contract_end_date', 'total_amount', 'advance_validity_to','fidelity_validity_to','accidents_validity_to',
+        'risks_validity_to','civil_resp_validity_to','comentarios'])
         ->where('state_id', '=', 2)
         ->get();
 
@@ -115,8 +115,8 @@ class ReportsController extends Controller{
         $contracts = DB::table('vista_contracts')//vista que muestra los datos
         ->select(['llamado', 'iddncp','number_year','year_adj','sign_date','contratista',
         'estado', 'code', 'modalidad', 'org_financ', 'tipo_contrato','contract_begin_date',
-        'contract_end_date', 'total_amount', 'advance_validity','fidelity_validity','accidents_validity',
-        'risks_validity','civil_resp_validity','comentarios'])
+        'contract_end_date', 'total_amount', 'advance_validity_to','fidelity_validity_to','accidents_validity_to',
+        'risks_validity_to','civil_resp_validity_to','comentarios'])
         ->where('state_id', '=', 3)
         ->get();
 
@@ -519,7 +519,7 @@ class ReportsController extends Controller{
         'alternative_offers','open_contract','period_time','manufacturer_authorization',
         'financial_advance_percentage_amount','technical_specifications','samples','delivery_plan',
         'evaluation_committee_proposal','payment_conditions','contract_guarantee',
-        'product_guarantee','contract_administrator','contract_validity','additional_technical_documents',
+        'product_guarantee','contract_administrator','contract_validity_to','additional_technical_documents',
         'additional_qualified_documents','price_sheet','property_title','magnetic_medium',
         'referring_person_data','og1','og2','og3','og4','og5','og6'])
         ->where('order_id', '=', $order_id)

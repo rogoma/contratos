@@ -80,24 +80,13 @@
 @endif
 
 @if ($nombreMetodo == "App\Http\Controllers\Report\ReportsController::generarContracts2")
-    <h2>LISTADO DE LLAMADOS RECINDIDOS</h2>
+    <h2>LISTADO DE LLAMADOS RESCINDIDOS</h2>
 @endif
 
 
     {{-- <h2>LLAMADOS</h2> --}}
         <table>
             <tr>
-                {{-- <th>#</th>
-                <th>LLAMADO</th>
-                <th>Nº LLAM.</th>
-                <th>NOMBRE DEL LLAMADO</th>
-                <th>METODO</th>
-                <th>DEPENDENCIA</th>
-                <th>RESOL.</th>
-                <th>O.G.</th>
-                <th>IDPAC</th>
-                <th>MES PROGRAM.</th>
-                <th>MONTO PROGRAMADO</th> --}}
                 <th>#</th>
                 <th>Llamado</th>
                 <th>IDDNCP</th>
@@ -109,7 +98,6 @@
                 <th>Modalidad</th>
                 <th>Monto total LLAMADO</th>
                 <th>Comentarios</th>
-                {{-- <th>Tipo Contrato</th>                 --}}
             </tr>
 
             @for ($i = 0; $i < count($contracts); $i++)

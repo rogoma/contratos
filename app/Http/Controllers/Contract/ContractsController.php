@@ -63,10 +63,10 @@ class ContractsController extends Controller
     public function index(Request $request)
     {
         //Mostramos código >= 70 PROCESADO EN ADJUDICACIONES - 1RA ETAPA)
-        $contracts = Contract::where('actual_state', '>=', 1)
+        $contracts = Contract::where('contract_state_id', '>=', 1)
                     ->orderBy('iddncp','asc')
                     ->get();
-        // $contracts = DB::select('Select * from  contracts  where actual_state > 0' orderby );
+        // $contracts = DB::select('Select * from  contracts  where contract_state_id > 0' orderby );
         return view('contract.contracts.index', compact('contracts'));
 
         $dependency = $request->user()->dependency_id;
@@ -137,17 +137,12 @@ class ContractsController extends Controller
             'number_year' => 'string|required|max:7',
             'year_adj' => 'numeric|required|max:9999',
             'sign_date' => 'date_format:d/m/Y|required',
-            
             'provider_id' => 'numeric|required|max:999999',
-
             'contract_state_id' => 'numeric|required|max:999999',
-
             'modality_id' => 'numeric|required|max:999999',
             'financial_organism_id' => 'numeric|required|max:999999',
             'contract_type_id' => 'numeric|required|max:999999',
-
             'total_amount' => 'string|required|max:9223372036854775807',
-
             'advance_validity_from' => 'date_format:d/m/Y',
             'advance_validity_to' => 'date_format:d/m/Y',
             'fidelity_validity_from' => 'date_format:d/m/Y',
@@ -183,7 +178,7 @@ class ContractsController extends Controller
 
         $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
         $contract->provider_id=$request->input('provider_id');
-        $contract->actual_state=$request->input('contract_state_id');
+        $contract->contract_state_id=$request->input('contract_state_id');
         $contract->modality_id=$request->input('modality_id');
         $contract->financial_organism_id=$request->input('financial_organism_id');
         $contract->contract_type_id=$request->input('contract_type_id');
