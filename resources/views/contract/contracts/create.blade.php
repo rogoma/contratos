@@ -495,61 +495,71 @@ $(document).ready(function(){
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
-        startDate: '-3d',
-        endDate: '+3d',
+        // startDate: '-3d',
+        // endDate: '+3d',
     });
     $('#advance_validity_from').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
     $('#advance_validity_to').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
 
     $('#fidelity_validity_from').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
     $('#fidelity_validity_to').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
 
     $('#accidents_validity_from').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
     $('#accidents_validity_to').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
 
     $('#risks_validity_from').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
     $('#risks_validity_to').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
     $('#civil_resp_validity_from').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
     $('#civil_resp_validity_to').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        todayHighlight: true,
     });
 
 
@@ -559,22 +569,32 @@ $(document).ready(function(){
 
 
 
-    $('#addRow').click(function(){
-        new_row = $('#multi_year_template').clone();
-        new_row.removeClass('d-none');
-        new_row.find('#multi_year_year').attr('name', 'multi_year_year[]');
-        new_row.find('#multi_year_amount').attr('name', 'multi_year_amount[]');
-        $('#multi_years').append(new_row);
-    });
-    delRow = function(element){
-        element.closest('#multi_year_template').remove();
-    }
+    // $('#addRow').click(function(){
+    //     new_row = $('#multi_year_template').clone();
+    //     new_row.removeClass('d-none');
+    //     new_row.find('#multi_year_year').attr('name', 'multi_year_year[]');
+    //     new_row.find('#multi_year_amount').attr('name', 'multi_year_amount[]');
+    //     $('#multi_years').append(new_row);
+    // });
+    // delRow = function(element){
+    //     element.closest('#multi_year_template').remove();
+    // }
 
 
     //VALIDACIÓN DE FECHAS DE ANTICIPOS
     $('#advance_validity_from').on('changeDate', function() {
         var fechaInicio = $(this).datepicker('getDate');
         var fechaFin = $('#advance_validity_to').datepicker('getDate');
+
+        $('#advance_validity_to').val('23/03/2024');
+        $('#fidelity_validity_from').val('23/03/2024');
+        $('#fidelity_validity_to').val('23/03/2024');
+        $('#accidents_validity_from').val('23/03/2024');
+        $('#accidents_validity_to').val('23/03/2024');
+        $('#risks_validity_from').val('23/03/2024');
+        $('#risks_validity_to').val('23/03/2024');
+        $('#civil_resp_validity_from').val('23/03/2024');
+        $('#civil_resp_validity_to').val('23/03/2024');
 
 
         if (fechaFin == null){

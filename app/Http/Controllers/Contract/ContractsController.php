@@ -131,8 +131,8 @@ class ContractsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            // 'description' => 'string|required|max:200',
-            'iddncp' => 'string|required|max:7',
+            'description' => 'string|required|max:200',
+            'iddncp' => 'string|required|max:999999',
             'linkdncp' => 'string|required|max:300',
             'number_year' => 'string|required|max:7',
             'year_adj' => 'numeric|required|max:9999',
@@ -164,18 +164,24 @@ class ContractsController extends Controller
         $contract = new Contract;
 
         $contract->description=$request->input('description');
-
         // $contract->iddncp=$request->input('iddncp');
+
+
         $iddncp_fin = str_replace('.', '',($request->input('iddncp')));
-        $contract->iddncp = $iddncp_fin;
+
+        if ($iddncp_fin > 999999) {
+            $validator->errors()->add('iddncp', 'Número no debe sobrepasar 999.999');
+            return back()->withErrors($validator)->withInput()->with('fila');
+        }else{
+            $contract->iddncp = $iddncp_fin;
+        }
+        // $contract->iddncp = $request->input('iddncp');
 
         $contract->linkdncp=$request->input('linkdncp');
         $contract->number_year=$request->input('number_year');
-
         // $contract->year_adj=$request->input('year_adj ' );
         $year_adj_fin = str_replace('.', '',($request->input('year_adj')));
         $contract->year_adj = $year_adj_fin;
-
         $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
         $contract->provider_id=$request->input('provider_id');
         $contract->contract_state_id=$request->input('contract_state_id');
@@ -185,7 +191,7 @@ class ContractsController extends Controller
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
         $contract->total_amount = $total_amount_fin;
         $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
-        $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_ to'))));;
+        $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));;
         $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
         $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
         $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
@@ -197,7 +203,6 @@ class ContractsController extends Controller
         $contract->comments=$request->input('comments');
         $contract->creator_user_id = $request->user()->id;  // usuario logueado
         $contract->save();
-
         return redirect()->route('contracts.index')->with('success', 'Llamado agregado correctamente');
 
          // Si plurianualidad es 1 chequeamos que la suma no sobrepase el monto total

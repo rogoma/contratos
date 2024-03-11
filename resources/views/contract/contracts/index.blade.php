@@ -117,13 +117,13 @@ p.centrado {
                                                     <td>{{ $contracts[$i]->modality->code }}-{{ $contracts[$i]->modality->description }}</td>
                                                     {{-- <td>{{ $contracts[$i]->financialOrganism->description}}</td> --}}
 
-                                                    <td class="columna10">{{ $contracts[$i]->contractState->description }}</td>
+                                                    {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}
 
-                                                    {{-- @if ($contracts[$i]->contractState->id >1)
+                                                    @if ($contracts[$i]->contractState->id >1)
                                                         <td style="color:#ff0000">{{ $contracts[$i]->contractState->description }}</td>
                                                     @else
                                                         <td style="color:green">{{ $contracts[$i]->contractState->description }}</td>
-                                                    @endif --}}
+                                                    @endif
 
                                                     <td class="columna11">{{ $contracts[$i]->contractType->description }}</td>
                                                     <td>
