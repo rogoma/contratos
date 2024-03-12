@@ -153,7 +153,7 @@ class ContractsController extends Controller
             'risks_validity_to' => 'date_format:d/m/Y',
             'civil_resp_validity_from' => 'date_format:d/m/Y',
             'civil_resp_validity_to' => 'date_format:d/m/Y',
-            'comments' => 'string|max:300',
+            'comments' => 'max:300'
         );
 
         $validator =  Validator::make($request->input(), $rules);

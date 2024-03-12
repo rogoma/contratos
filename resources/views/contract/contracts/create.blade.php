@@ -214,6 +214,16 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        {{-- #13 --}}
+                                        <div class="col-sm-3">
+                                            <div class="form-group @error('comments') has-danger @enderror">
+                                                <label class="col-form-label">Comentarios</label>
+                                                <input type="text" id="comments" name="comments" maxlength="300" value="{{ old('comments') }}" class="form-control">
+                                                @error('comments')
+                                                    <div class="col-form-label">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
                                         <!-- Agrega estos enlaces en la sección head de tu archivo de diseño o la vista directamente -->
                                         {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
@@ -459,6 +469,7 @@
                                             </div>
                                         </div>
                                         <br>
+
                                         <div class="col-sm-12">
                                             <div class="form-group text-center">
                                                 <button type="submit" class="btn btn-primary m-b-0 f-12">Guardar</button>

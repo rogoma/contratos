@@ -16,7 +16,7 @@
         border:1px solid #dddddd;
         text-align: left;
         padding:4px;
-        font-size:10px;
+        font-size:8px;
     }
     thead tr{
         background-color:#dddddd;
@@ -106,11 +106,18 @@
                 <td> {{ $contracts[$i]->number_year }}</td>
                 <td> {{ $contracts[$i]->contratista}}</td>
                 <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
-
                 {{-- <td>{{ is_null($contract->number)? $contract->description : $contract->modality->description." N° ".$contract->number."/".$contract->year."-".$contract->description }} --}}
                 {{-- <td>{{ is_null($orders[$i]->number)? $orders[$i]->description." - ".$orders[$i]->dependency->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description." - ".$orders[$i]->dependency->description }}</td> --}}
                 <td>{{ is_null($contracts[$i]->advance_validity_from)? "-" : date('d/m/Y', strtotime($contracts[$i]->advance_validity_from )) }}</td>
-
+                <td>{{ is_null($contracts[$i]->advance_validity_to)? "-" : date('d/m/Y', strtotime($contracts[$i]->advance_validity_to )) }}</td>
+                <td>{{ is_null($contracts[$i]->fidelity_validity_from)? "-" : date('d/m/Y', strtotime($contracts[$i]->fidelity_validity_from )) }}</td>
+                <td>{{ is_null($contracts[$i]->fidelity_validity_to)? "-" : date('d/m/Y', strtotime($contracts[$i]->fidelity_validity_to )) }}</td>
+                <td>{{ is_null($contracts[$i]->accidents_validity_from)? "-" : date('d/m/Y', strtotime($contracts[$i]->accidents_validity_from )) }}</td>
+                <td>{{ is_null($contracts[$i]->accidents_validity_to)? "-" : date('d/m/Y', strtotime($contracts[$i]->accidents_validity_to )) }}</td>
+                <td>{{ is_null($contracts[$i]->risks_validity_from)? "-" : date('d/m/Y', strtotime($contracts[$i]->risks_validity_from )) }}</td>
+                <td>{{ is_null($contracts[$i]->risks_validity_to)? "-" : date('d/m/Y', strtotime($contracts[$i]->risks_validity_to )) }}</td>
+                <td>{{ is_null($contracts[$i]->civil_resp_validity_from)? "-" : date('d/m/Y', strtotime($contracts[$i]->civil_resp_validity_from )) }}</td>
+                <td>{{ is_null($contracts[$i]->civil_resp_validity_to)? "-" : date('d/m/Y', strtotime($contracts[$i]->civil_resp_validity_to )) }}</td>
 
                 {{-- <td> {{ date('d/m/Y', strtotime($contracts[$i]->advance_validity_from )) }}</td>
                 <td> {{ date('d/m/Y', strtotime($contracts[$i]->advance_validity_to )) }}</td> --}}
@@ -123,7 +130,7 @@
                 <td> {{ date('d/m/Y', strtotime($contracts[$i]->risks_validity_to )) }}</td>
                 <td> {{ date('d/m/Y', strtotime($contracts[$i]->civil_resp_validity_from )) }}</td>
                 <td> {{ date('d/m/Y', strtotime($contracts[$i]->civil_resp_validity_to )) }}</td> --}}
-                {{-- <td> {{ $contracts[$i]->comentarios}}</td> --}}
+                <td> {{ $contracts[$i]->comentarios}}</td>
             </tr>
             @endfor
             {{-- @endforeach --}}
