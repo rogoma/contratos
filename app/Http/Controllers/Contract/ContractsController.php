@@ -132,7 +132,7 @@ class ContractsController extends Controller
     {
         $rules = array(
             'description' => 'string|required|max:200',
-            'iddncp' => 'string|required|max:999999',
+            'iddncp' => 'string|required|max:999999|min:7',
             'linkdncp' => 'string|required|max:300',
             'number_year' => 'string|required|max:7',
             'year_adj' => 'numeric|required|max:9999',
@@ -834,35 +834,36 @@ class ContractsController extends Controller
      */
     public function show(Request $request, $contract_id)
     {
-        $contract = Order::findOrFail($contract_id);
+        $contract = Contract::findOrFail($contract_id);
         $user_dependency = $request->user()->dependency_id;
         $role_user = $request->user()->role_id;
         // Obtenemos los simese cargados por otras dependencias
-        $related_simese = $contract->simese()->where('dependency_id', '!=', $user_dependency)->get();
+        // $related_simese = $contract->simese()->where('dependency_id', '!=', $user_dependency)->get();
         // Obtenemos los simese cargados por la dependencia del usuario
-        $related_simese_user = $contract->simese()->where('dependency_id', $user_dependency)->get();
+        // $related_simese_user = $contract->simese()->where('dependency_id', $user_dependency)->get();
 
         // Obtenemos los archivos cargados por otras dependencias y que no sean de reparo
-        $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
-                                            ->whereIn('file_type', [3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
-                                            ->orderBy('created_at','asc')
-                                            ->get();
+        // $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
+        //                                     ->whereIn('file_type', [3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
+        //                                     ->orderBy('created_at','asc')
+        //                                     ->get();
 
 
         // ROL ADMINSTRADOR Obtenemos los archivos cargados por otras dependencias
-        if($role_user == 1){
-            $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
-            ->whereIn('file_type', [0,3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
-            ->orderBy('created_at','asc')
-            ->get();
-        }
+        // if($role_user == 1){
+        //     $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
+        //     ->whereIn('file_type', [0,3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
+        //     ->orderBy('created_at','asc')
+        //     ->get();
+        // }
 
         // Obtenemos los archivos cargados por usuario con tipo de archivos que no sean 1 (reparos dncp)z
-        $user_files = $contract->files()->where('dependency_id', $user_dependency)->where('file_type', '=', 0)->get();
+        // $user_files = $contract->files()->where('dependency_id', $user_dependency)->where('file_type', '=', 0)->get();
 
         // chequeamos que el usuario tenga permisos para visualizar el pedido
-        if($request->user()->hasPermission(['admin.orders.show', 'process_orders.orders.show', 'contracts.contracts.index','derive_contracts.contracts.index']) || $contract->dependency_id == $request->user()->dependency_id){
-            return view('order.orders.show', compact('order', 'related_simese', 'related_simese_user', 'other_files', 'user_files'));
+        if($request->user()->hasPermission(['admin.contracts.show', 'process_contracts.contracts.show',
+        'contracts.contracts.index','derive_contracts.contracts.index']) || $contract->dependency_id == $request->user()->dependency_id){
+            return view('contract.contracts.show', compact('contract'));
         }else{
             return back()->with('error', 'No tiene los suficientes permisos para acceder a esta sección.');
         }

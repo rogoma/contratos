@@ -586,6 +586,7 @@ $(document).ready(function(){
         var fechaInicio = $(this).datepicker('getDate');
         var fechaFin = $('#advance_validity_to').datepicker('getDate');
 
+        //CARGA DE DATOS PARA PODER ACELERAR CARGA
         $('#advance_validity_to').val('23/03/2024');
         $('#fidelity_validity_from').val('23/03/2024');
         $('#fidelity_validity_to').val('23/03/2024');

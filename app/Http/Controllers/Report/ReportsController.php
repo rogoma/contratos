@@ -127,6 +127,48 @@ class ReportsController extends Controller{
         return $pdf->stream('LLAMADO-CONTRATOS RESCINDIDOS'.'.pdf');
     }
 
+    // Para mostrar detalles de las pólizas
+    public function generarContracts4()
+    {
+        //capturamos el nombre del método para poder cambiar el título del reporte en la vista
+        $nombreMetodo = __METHOD__;
+
+        //Donde contracts es una vista
+        $contracts = DB::table('vista_contracts')//vista que muestra los datos
+        ->select(['llamado','iddncp',
+        'number_year',
+        // 'year_adj',
+        // 'sign_date',
+        'contratista',
+        // 'estado',
+        // 'code',
+        // 'modalidad',
+        // 'org_financ',
+        // 'tipo_contrato',
+        // 'contract_begin_date',
+        // 'contract_end_date',
+        'total_amount',
+        'advance_validity_from',
+        'advance_validity_to',
+        'fidelity_validity_from',
+        'fidelity_validity_to',
+        'accidents_validity_from',
+        'accidents_validity_to',
+        'risks_validity_from',
+        'risks_validity_to',
+        'civil_resp_validity_from',
+        'civil_resp_validity_to',
+        'comentarios'])
+        // ->where('state_id', '=', 3)
+        ->get();
+
+        $view = View::make('reports.contracts_polizas', compact('contracts', 'nombreMetodo'))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'landscape');//coloca en apaisado
+        return $pdf->stream('LLAMADOS-DETALLES DE PÓLIZAS'.'.pdf');
+    }
+
 
     // function to display preview
     public function generarModalities()

@@ -356,10 +356,12 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
     Route::get('pdf/panel_contracts', [ReportsController::class, 'generarContracts'])->name('pdf.panel_contracts');
     //REPORTE DE CONTRATOS EN CURSO
     Route::get('pdf/panel_contracts1', [ReportsController::class, 'generarContracts1'])->name('pdf.panel_contracts1');
-    //REPORTE DE CONTRATOS CERRADOS
+    //REPORTE DE CONTRATOS RESCINDIDOS
     Route::get('pdf/panel_contracts2', [ReportsController::class, 'generarContracts2'])->name('pdf.panel_contracts2');
-     //REPORTE DE CONTRATOS RESCINDIDOS
-     Route::get('pdf/panel_contracts3', [ReportsController::class, 'generarContracts3'])->name('pdf.panel_contracts3');
+    //REPORTE DE CONTRATOS CERRADOS
+    Route::get('pdf/panel_contracts3', [ReportsController::class, 'generarContracts3'])->name('pdf.panel_contracts3');
+    //REPORTE DE DETALLE DE PÓLIZAS
+    Route::get('pdf/panel_contracts4', [ReportsController::class, 'generarContracts4'])->name('pdf.panel_contracts4');
 
 
     Route::get('pdf/users', [ReportsController::class, 'pdfUsers'])->name('pdf.users');
@@ -502,18 +504,18 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
     /********** MODULO CONTRACTS - CONTRATOS Y GARANTIAS **********/
     Route::post('contracts/create}', [ContractsController::class, 'calculo'])->name('contracts.calculo');
-    
-        
+
+
     Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
-    
+
     Route::resource('contracts', ContractsController::class);
-    
+
     Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
 
     Route::resource('contracts.objections', ObjectionsController::class);
     Route::resource('contracts.objections_responses', ObjectionsResponsesController::class);
-    
-    
+
+
 
     Route::post('contracts/recibe_order/{order_id}', [ContractsController::class, 'recibeOrder'])->name('contracts.recibeOrder');
     Route::get('contracts/orders/{order_id}/edit', [ContractsController::class, 'edit'])->name('contracts.orders.edit');
