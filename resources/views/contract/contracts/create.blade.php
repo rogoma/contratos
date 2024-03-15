@@ -598,15 +598,15 @@ $(document).ready(function(){
         var fechaFin = $('#advance_validity_to').datepicker('getDate');
 
         //CARGA DE DATOS PARA PODER ACELERAR CARGA
-        $('#advance_validity_to').val('23/03/2024');
-        $('#fidelity_validity_from').val('23/03/2024');
-        $('#fidelity_validity_to').val('23/03/2024');
-        $('#accidents_validity_from').val('23/03/2024');
-        $('#accidents_validity_to').val('23/03/2024');
-        $('#risks_validity_from').val('23/03/2024');
-        $('#risks_validity_to').val('23/03/2024');
-        $('#civil_resp_validity_from').val('23/03/2024');
-        $('#civil_resp_validity_to').val('23/03/2024');
+        // $('#advance_validity_to').val('23/03/2024');
+        // $('#fidelity_validity_from').val('23/03/2024');
+        // $('#fidelity_validity_to').val('23/03/2024');
+        // $('#accidents_validity_from').val('23/03/2024');
+        // $('#accidents_validity_to').val('23/03/2024');
+        // $('#risks_validity_from').val('23/03/2024');
+        // $('#risks_validity_to').val('23/03/2024');
+        // $('#civil_resp_validity_from').val('23/03/2024');
+        // $('#civil_resp_validity_to').val('23/03/2024');
 
 
         if (fechaFin == null){

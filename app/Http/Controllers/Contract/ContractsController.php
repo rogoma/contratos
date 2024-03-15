@@ -210,8 +210,20 @@ class ContractsController extends Controller
         $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
         $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
         $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
+        $contract->comments=$request->input('control_1');
+        $contract->comments=$request->input('control_a');
+        $contract->comments=$request->input('control_2');
+        $contract->comments=$request->input('control_b');
+        $contract->comments=$request->input('control_3');
+        $contract->comments=$request->input('control_c');
+        $contract->comments=$request->input('control_4');
+        $contract->comments=$request->input('control_d');
+        $contract->comments=$request->input('control_5');
+        $contract->comments=$request->input('control_e');
         $contract->comments=$request->input('comments');
         $contract->creator_user_id = $request->user()->id;  // usuario logueado
+
+
         $contract->save();
         return redirect()->route('contracts.index')->with('success', 'Llamado agregado correctamente');
 
