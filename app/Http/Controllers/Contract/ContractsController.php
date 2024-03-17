@@ -120,7 +120,7 @@ class ContractsController extends Controller
      */
     public function uploadExcel()
     {
-        return view('order.orders.uploadExcel');
+        return view('contract.contracts.uploadExcel');
     }
 
     /**
@@ -899,16 +899,16 @@ class ContractsController extends Controller
      */
     public function edit(Request $request, $contract_id)
     {
-        $contract = Order::findOrFail($contract_id);
-        // chequeamos que el usuario tenga permisos para editar el pedido
-        if($request->user()->hasPermission(['admin.orders.update']) || $contract->dependency_id == $request->user()->dependency_id){
+        $contract = Contract::findOrFail($contract_id);
+        // chequeamos que el usuario tenga permisos para editar el llamado
+        if($request->user()->hasPermission(['admin.contracts.update','contracts.contracts.update'])){
             $dependencies = Dependency::all();
             $modalities = Modality::all();
             $sub_programs = SubProgram::all();
             $funding_sources = FundingSource::all();
             $financial_organisms = FinancialOrganism::all();
             $expenditure_objects = ExpenditureObject::where('level', 3)->get();
-            return view('order.orders.update', compact('order', 'dependencies','modalities', 'sub_programs', 'funding_sources',
+            return view('contract.contracts.update', compact('contract', 'dependencies','modalities', 'sub_programs', 'funding_sources',
                 'financial_organisms', 'expenditure_objects'));
         }else{
             return back()->with('error', 'No tiene los suficientes permisos para acceder a esta sección.');

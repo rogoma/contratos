@@ -38,7 +38,9 @@ use App\Http\Controllers\Order\ItemAwardHistoriesController;
 use App\Http\Controllers\Order\BudgetRequestProvidersController;
 use App\Http\Controllers\DeriveOrder\DeriveOrdersController;
 use App\Http\Controllers\Order\SimeseOrdersController;
-use App\Http\Controllers\Order\OrdersFilesController;
+
+use App\Http\Controllers\Contract\ContractsController;
+use App\Http\Controllers\Contract\ContractsFilesController;
 
 use App\Http\Controllers\Planning\PlanningsController;
 use App\Http\Controllers\Planning\ObjectionsController;
@@ -47,7 +49,7 @@ use App\Http\Controllers\Planning\ObjectionsResponsesController;
 use App\Http\Controllers\Tender\TendersController;
 use App\Http\Controllers\MinorPurchase\MinorPurchasesController;
 use App\Http\Controllers\Award\AwardsController;
-use App\Http\Controllers\Contract\ContractsController;
+
 use App\Http\Controllers\Exception\ExceptionsController;
 
 use App\Http\Controllers\Uta\UtasController;
@@ -504,6 +506,8 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
     /********** MODULO CONTRACTS - CONTRATOS Y GARANTIAS **********/
     Route::post('contracts/create}', [ContractsController::class, 'calculo'])->name('contracts.calculo');
+    
+    Route::get('contracts/files/{contract_id}/create', [ContractsFilesController::class, 'create'])->name('contracts.files.create');
 
 
     Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');

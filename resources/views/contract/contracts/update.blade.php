@@ -6,10 +6,10 @@
         <div class="row align-items-end">
             <div class="col-lg-8">
                 <div class="page-header-title">
-                    <i class="fa fa-users bg-c-blue"></i>
+                    <i class="fa fa-file-text bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Usuarios</h5>
-                        <span>Editar Usuario</span>
+                        <h5>Llamados</h5>
+                        <span>Editar Llamados {{$contract->id }}</span>
                     </div>
                 </div>
             </div>
@@ -20,12 +20,12 @@
                             <a href="{{ route('home') }}"><i class="feather icon-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('users.index') }}">Usuarios</a>
+                            <a href="{{ route('contracts.index') }}">Llamados</a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </div>      
     </div>
 
     <div class="pcoded-inner-content">
@@ -35,150 +35,109 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h5>Editar Usuario</h5>
-                                </div>
+                                {{-- <div class="card-header">
+                                    <h5>Editar Pedido</h5>
+                                </div> --}}
                                 <div class="card-block">
-                                    <form method="POST" action="{{ route('users.update', $user->id) }}">
+                                    <h6 class="text-center">Datos de cabecera para los formularios</h6>
+                                    <form class="row" method="POST" action="{{ route('contracts.update', $contract->id) }}">
                                         @csrf
                                         @method('PUT')
-                                        <div class="form-group row @error('name') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Nombre</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" class="form-control @error('name') form-control-danger @enderror">
-                                                @error('name')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
 
-                                        <div class="form-group row @error('lastname') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Apellido</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" id="lastname" name="lastname" value="{{ old('lastname', $user->lastname) }}" class="form-control @error('lastname') form-control-danger @enderror" value="{{ old('lastname', $user->lastname) }}">
-                                                @error('lastname')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row @error('document') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Cédula</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" id="document" name="document" value="{{ old('document', $user->document) }}" class="form-control @error('document') form-control-danger @enderror" value="{{ old('document', $user->document) }}">
-                                                @error('document')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row @error('email') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Email</label>
-                                            <div class="col-sm-10">
-                                                <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="form-control @error('email') form-control-danger @enderror" value="{{ old('email', $user->email) }}">
-                                                @error('email')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row @error('dependency') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Dependencia</label>
-                                            <div class="col-sm-10">
-                                                <select id="dependency" name="dependency" class="form-control">
-                                                    <option value="">--- Seleccionar Dependencia ---</option>
-                                                    @foreach ($dependencies as $dependency)
-                                                        <option value="{{ $dependency->id }}" @if ($dependency->id == old('dependency', $user->dependency_id)) selected @endif>{{ $dependency->description }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('dependency')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row @error('position') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Cargo</label>
-                                            <div class="col-sm-10">
-                                                <select id="position" name="position" class="form-control">
-                                                    <option value="">--- Seleccionar Cargo ---</option>
-                                                    @foreach ($positions as $position)
-                                                        <option value="{{ $position->id }}" @if ($position->id == old('position', $user->position_id)) selected @endif>{{ $position->description }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('position')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row @error('role') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Rol</label>
-                                            <div class="col-sm-10">
-                                                <select id="role" name="role" class="form-control">
-                                                    <option value="">--- Seleccionar Rol ---</option>
-                                                    @foreach ($roles as $role)
-                                                        <option value="{{ $role->id }}" @if ($role->id == old('role', $user->role_id)) selected @endif>{{ $role->description }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('role')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row @error('state') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Estado</label>
-                                            <div class="col-sm-10">
-                                                <select id="state" name="state" class="form-control">
-                                                       <option value="{{ ($user->state) }}"> </option>
-                                                        @foreach (array(1 => 'Activo', 2 => 'Inactivo') as $index => $value)
-                                                            <option value="{{ $index }}" @if ($index == old('state', $user->state)) selected @endif>{{ $value }}</option>
+                                        <div class="col-sm-12">
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
                                                         @endforeach
-                                                </select>
-                                                @error('state')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
+                                                    </ul>
+                                                </div>
+                                            @endif
                                         </div>
-
-                                        {{-- <div class="form-group row @error('role') has-danger @enderror">
-                                            <label class="col-sm-2 col-form-label">Rol</label>
-                                            <div class="col-sm-10">
-                                                <select id="role" name="role" class="form-control">
-                                                    <option value="">--- Seleccionar Rol ---</option>
-                                                    @foreach ($roles as $role)
-                                                        <option value="{{ $role->id }}" @if ($role->id == old('role', $user->role_id)) selected @endif>{{ $role->description }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('role')
-                                                    <div class="col-form-label">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div> --}}
-
-                                        {{-- <div class="col-sm-2">
-                                            <div class="form-group @error('plurianualidad') has-danger @enderror">
-                                                <label style="color:red;font-weight: bold" class="col-form-label">Plurianualidad <br><small>(plurianualidad)</small></label>
-                                                <select id="plurianualidad" name="plurianualidad" class="form-control">
-                                                @foreach (array(0 => 'NO', 1 => 'SI') as $index => $value)
-                                                    <option disabled="disabled" value="{{ $index }}" @if ($index == old('plurianualidad', $order->plurianualidad)) selected @endif>{{ $value }}</option>
+                                        
+                                        <div class="col-sm-4">
+                                            <div class="form-group @error('modality') has-danger @enderror">
+                                                <label class="col-form-label">Modalidad <br><small>(Modalidad del llamado)</small></label>
+                                                <select id="modality" name="modality" class="form-control"">
+                                                    <option value="">Seleccionar</option>
+                                                @foreach ($modalities as $modality)
+                                                    @if ($contract->modality->id == 28)
+                                                        <option value="{{ $modality->id }}" @if ($modality->id == old('modality', $contract->modality_id)) selected @endif>{{ $modality->description }}</option>
+                                                    @else
+                                                        <option value="{{ $modality->id }}" @if ($modality->id == old('modality', $contract->modality_id)) selected @endif>{{ $modality->description }}</option>
+                                                    @endif
                                                 @endforeach
                                                 </select>
-                                                @error('plurianualidad')
+                                                @error('modality')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div> --}}
+                                        </div>
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-2"></label>
-                                            <div class="col-sm-10">
-                                                <button type="submit" class="btn btn-warning m-b-0">Modificar</button>
+                                        <div class="col-sm-4">
+                                            <div class="form-group @error('dncp_pac_id') has-danger @enderror">
+                                                <label class="col-form-label">PAC ID <br><small>(ID del PAC)</small></label>
+                                                <input type="number" id="dncp_pac_id" name="dncp_pac_id" value="{{ old('dncp_pac_id', $contract->dncp_pac_id) }}" class="form-control">
+                                                @error('dncp_pac_id')
+                                                    <div class="col-form-label">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
 
+                                        <div class="col-sm-4">
+                                            <div class="form-group @error('year') has-danger @enderror">
+                                                <label class="col-form-label">AÑO <br><small>(AÑO)</small></label>
+                                                <input type="number" id="year" name="year" value="{{ old('year', $contract->year) }}" class="form-control">
+                                                @error('year')
+                                                    <div class="col-form-label">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>                                        
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group @error('financial_organism') has-danger @enderror">
+                                                <label class="col-form-label">O.F.  <br><small>(Organismo Financiador)</small></label>
+                                                <select id="financial_organism" name="financial_organism" class="form-control">
+                                                    <option value="">Seleccionar</option>
+                                                @foreach ($financial_organisms as $financial_organism)
+                                                    <option value="{{ $financial_organism->id }}" @if ($financial_organism->id == old('financial_organism', $contract->financial_organism_id)) selected @endif>{{ $financial_organism->code.' - '.$financial_organism->description }}</option>
+                                                @endforeach
+                                                </select>
+                                                @error('financial_organism')
+                                                    <div class="col-form-label">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>                                        
+
+                                        <div class="col-sm-2">
+                                            <div class="form-group @error('total_amount') has-danger @enderror">
+                                                <label class="col-form-label">Monto Total <br><small>(Monto total)</small></label>
+                                                <input type="text" id="total_amount" name="total_amount" value="{{ old('total_amount', $contract->total_amount) }}" class="form-control total_amount autonumber" data-a-sep="." data-a-dec="," readonly>
+                                                {{-- <input type="text  " id="total_amount" name="total_amount" value="{{ $contract->total_amount}}" class="form-control total_amount autonumber" data-a-sep="." data-a-dec="," readonly> --}}
+                                                @error('total_amount')
+                                                    <div class="col-form-label">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="form-group @error('description') has-danger @enderror">
+                                                <label class="col-form-label">Descripción <br><small>(Descripción del Pedido)</small></label>
+                                                <textarea rows="2" id="description" name="description" class="form-control">{{ old('description', $contract->description) }}</textarea>
+                                                @error('description')
+                                                    <div class="col-form-label">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>                                        
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group text-center">
+                                                <button type="submit" class="btn btn-warning m-b-0 f-12">Modificar</button>
+                                            </div>
+                                        </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -195,9 +154,53 @@
 $(document).ready(function(){
 
     $('#dependency').select2();
-    $('#position').select2();
-    $('#role').select2();
-    $('#state').select2();
+    $('#modality').select2();
+    $('#sub_program').select2();
+    $('#funding_source').select2();
+    $('#financial_organism').select2();
+    $('#expenditure_object_id').select2();
+    $('#expenditure_object2_id').select2();
+    $('#expenditure_object3_id').select2();
+    $('#expenditure_object4_id').select2();
+    $('#expenditure_object5_id').select2();
+    $('#expenditure_object6_id').select2();
+
+
+    $('#begin_date').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy'
+    });
+    $('#form4_date').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy'
+    });
+    $('#dncp_resolution_date').datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy'
+    });
+
+    show = function(id){
+        $('#'+id).datepicker('show');
+    }
+
+    $('#plurianualidad').change(function(){
+        if($('#plurianualidad').val() == 1){
+            $('#multi_years').removeClass('d-none');
+        }else{
+            $('#multi_years').addClass('d-none');
+        }
+    });
+
+    $('#addRow').click(function(){
+        new_row = $('#multi_year_template').clone();
+        new_row.removeClass('d-none');
+        new_row.find('#multi_year_year').attr('name', 'multi_year_year[]');
+        new_row.find('#multi_year_amount').attr('name', 'multi_year_amount[]');
+        $('#multi_years').append(new_row);
+    });
+    delRow = function(element){
+        element.closest('#multi_year_template').remove();
+    }
 
 });
 </script>
