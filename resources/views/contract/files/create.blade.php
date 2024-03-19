@@ -38,16 +38,16 @@
                                 <div class="card-header">
                                     <h5>Cargar Archivo</h5>
                                 </div>
-                                <div class="col-sm-8 text-left">                                    
-                                    <h5>{{ is_null($contract->number)? $contract->description : $contract->modality->description." N° ".$contract->number."-".$contract->description }}<label class="label label-info m-l-5">Prioridad {{ $contract->urgency_state }}</label></h5>
+                                <div class="col-sm-8 text-left">
+                                    <h5>{{ $contract->description." - ".$contract->modality->description." N° ".$contract->number_year." - ".$contract->provider->description }}
                                     {{-- <h5>SIMESE: {{ number_format($contract->simese->first()['simese'],'0', ',','.') }} </h5> --}}
-                                    <h5><a style="font-size: 17px; color:BLACK"> SIMESE: </a>{{ is_null($contract->simese->first()) ?' ' : number_format($contract->simese->first()['simese'],'0', ',','.')."/".$contract->simese->first()['year'] }}</h5>
+                                    {{-- <h5><a style="font-size: 17px; color:BLACK"> SIMESE: </a>{{ is_null($contract->simese->first()) ?' ' : number_format($contract->simese->first()['simese'],'0', ',','.')."/".$contract->simese->first()['year'] }}</h5> --}}
 
                                 </div>
                                 <div class="card-block">
                                     <form method="POST" action="{{ route('contracts.files.store', $contract->id) }}" enctype="multipart/form-data">
                                     @csrf
-                                        
+
                                         <div class="form-group @error('description') has-danger @enderror">
                                             <label class="col-form-label">Descripción</label>
                                             <input type="text" id="description" name="description" value="{{ old('description') }}" class="form-control">

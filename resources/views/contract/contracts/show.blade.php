@@ -70,7 +70,7 @@ p.centrado {
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-sm-10 text-left">
-                                            {{-- <h5>{{ is_null($contract->number)? $contract->description : $contract->modality->description." N° ".$contract->number."-".$contract->description }} --}}
+                                            <h5>{{ $contract->description." - ".$contract->modality->description." N° ".$contract->number_year." - ".$contract->provider->description }}
                                             {{-- @if ($contract->covid==0)
                                                 <h5>{{ is_null($contract->number)? $contract->description : $contract->modality->description." N° ".$contract->number."/".$contract->year."-".$contract->description }}
                                             @else
@@ -88,20 +88,20 @@ p.centrado {
                                                 <button class="btn btn-primary dropdown-toggle waves-effect" type="button" id="acciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Acciones</button>
                                             @endif
                                             <div class="dropdown-menu" aria-labelledby="acciones" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                                
+
                                                 {{-- Verificamos permisos de edición del usuario --}}
                                                 @if ((Auth::user()->hasPermission(['contracts.contracts.update']) && $contract->contract_state_id >= 1) || Auth::user()->hasPermission(['admin.contracts.update']))
-                                                <a style="font-size: 14px; font-weight: bold; color:blue;background-color:lightblue;" class="dropdown-item waves-effect f-w-600" href="{{ route('contracts.edit', $contract->id)}}">Editar Pedido</a>
+                                                    <a style="font-size: 14px; font-weight: bold; color:blue;background-color:lightblue;" class="dropdown-item waves-effect f-w-600" href="{{ route('contracts.edit', $contract->id)}}">Editar Pedido</a>
                                                 @endif
 
                                                 {{-- Verificamos permisos de eliminación del usuario --}}
                                                 {{-- @if ((Auth::user()->hasPermission(['contracts.contracts.delete']) && $contract->dependency_id == Auth::user()->dependency_id && $contract->contract_state_id >= 1) || Auth::user()->hasPermission(['admin.contracts.delete']))
-                                                <a style="font-size: 14px; font-weight: bold; color:white;background-color:red;" class="dropdown-item waves-effect f-w-600" href="javascript::void(0);" onclick="anuleOrder({{ $contract->id }})">Anular Pedido</a>                                                     
+                                                <a style="font-size: 14px; font-weight: bold; color:white;background-color:red;" class="dropdown-item waves-effect f-w-600" href="javascript::void(0);" onclick="anulecontract({{ $contract->id }})">Anular Pedido</a>
                                                 @endif --}}
 
                                                 {{-- Verificamos que el pedido tenga estado 1 y Verificamos que el pedido tenga ítems, y que tenga SIMESE--}}
                                                 {{-- @if (Auth::user()->hasPermission(['contracts.contracts.derive']) && $contract->contract_state_id == 1 && $contract->items->count() > 0 && count($related_simese_user) <> 0)
-                                                    <a style="font-size: 14px; font-weight: bold; color:blue;background-color:lightblue;" class="dropdown-item waves-effect f-w-600" href="javascript::void(0);" onclick="deriveOrder({{ $contract->id }});">Derivar Pedido a DGAF</a>                                                
+                                                    <a style="font-size: 14px; font-weight: bold; color:blue;background-color:lightblue;" class="dropdown-item waves-effect f-w-600" href="javascript::void(0);" onclick="derivecontract({{ $contract->id }});">Derivar Pedido a DGAF</a>
                                                 @endif --}}
 
                                                 {{-- Verificamos permisos de derivación del pedido y que el pedido tenga estado PROCESADO PEDIDO --}}
@@ -134,115 +134,104 @@ p.centrado {
                                         <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#tab6" role="tab"><i class="fa fa-file-archive-o"></i> Archivos (Anteced.)</a>
                                             <div class="slide"></div>
-                                        </li>                                        
+                                        </li>
                                     </ul>
 
                                     <div class="tab-content card-block">
                                         <div class="tab-pane active" id="tab1" role="tabpanel">
-                                            <h5 class="text-center">Datos Proyecto de PAC</h5>
-                                            <table class="table table-striped table-bordered">
+                                            <h5 class="text-center">Datos del LLAMADO</h5>
+                                            <table class="table table-striped table-bcontracted">
                                                 <tbody>
                                                     <tr>
-                                                        <td><label class="col-form-label f-w-600">Dependencia:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Responsable:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Modalidad:</label></td>
-                                                        <td><label class="col-form-label f-w-600">DNCP PAC:</label></td>
+                                                        <td><label class="col-form-label f-w-600" >Nombre del Llamado:</label></td>
+                                                        <td><label class="col-form-label f-w-600">IDDNCP:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Link DNCP:</label></td>
+                                                        <td><label class="col-form-label f-w-600">N° Contrato/Año:</label></td>
                                                         <td><label class="col-form-label f-w-600">AÑO:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Fecha de Inicio:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Fecha firma contrato:</label></td>
                                                     </tr>
                                                     <tr>
                                                         <td>{{ $contract->description }}</td>
                                                         <td>{{ $contract->modality->description }}</td>
                                                         <td>{{ $contract->iddncp }}</td>
-                                                        <td>{{ $contract->year }}</td>
-                                                        <td>{{ $contract->beginDateFormat() }}</td>
+                                                        <td>{{ $contract->number_year }}</td>
+                                                        <td>{{ $contract->year_adj }}</td>
+                                                        <td>{{ $contract->signDateFormat() }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><label class="col-form-label f-w-600">Línea Presupuestaria:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Fuente de Financiamiento:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Organismo Financiero:</label></td>
-                                                        {{-- <td colspan="2"><label class="col-form-label f-w-600">Monto total:</label></td> --}}
+                                                        <td><label class="col-form-label f-w-600">Contratista:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Estado:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Modalidad:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Organismo Finaciador:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Tipo de Contrato:</label></td>
+                                                        <td><label class="col-form-label f-w-600">Monto Total:</label></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ $contract->provider->description }}</td>
+                                                        <td>{{ $contract->contractState->description }}</td>
+                                                        <td>{{ $contract->modality->description }}</td>
+                                                        <td>{{ $contract->financialOrganism->description }}</td>
+                                                        <td>{{ $contract->contractType->description }}</td>
                                                         <td colspan="2" style="font-size: 16px;color:blue;font-weight: bold">{{ 'Gs. '.$contract-> totalAmountFormat() }}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>{{ $contract->financialOrganism->description }}</td>
-                                                        <td colspan="2">{{ 'Gs. '.$contract->totalAmountFormat() }}</td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
-
-                                            <h5 class="text-center">Requisitos de Solicitud de Adquisición de Bienes y Servicios</h5>
-                                            <table class="table table-striped table-bordered">
-                                                <tbody>
-                                                    <tr>
-                                                        <td><label class="col-form-label f-w-600">Ad Referendum:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Plurianualidad:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Sistema de Adjudicación por:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Sub Objeto de Gasto:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Fonacide:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Modalidad del Llamado:</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        {{-- <td>{{ $contract->ad_referendum ? "SÍ" : "NO" }}</td>
-                                                        <td>{{ $contract->plurianualidad ? "SÍ" : "NO" }}</td>
-                                                        <td>{{ $contract->system_awarded_by }}</td>
-                                                        <td>{{ $contract->expenditureObject->code }}</td>
-                                                        <td>{{ $contract->fonacide ? "SÍ" : "NO" }}</td>
-                                                        <td>{{ $contract->modality_description }}</td> --}}
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td><label class="col-form-label f-w-600">Administrador del Contrato:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Vigencia del Contrato:</label></td>
-                                                        <td colspan="2"><label class="col-form-label f-w-600">Documentos adicionales que deberá presentar el oferente que
-                                                            demuestran que los bienes ofertados cumplen con las especificaciones técnicas:</label></td>
-                                                        <td colspan="2"><label class="col-form-label f-w-600">Documentos adicionales que deberá presentar el oferente que demuestran
-                                                            que el oferente se halla calificado para ejecutar el contrato:</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        {{-- <td>{{ $contract->contract_administrator }}</td>
-                                                        <td>{{ $contract->contract_validity }}</td>
-                                                        <td colspan="2">{{ $contract->additional_technical_documents }}</td>
-                                                        <td colspan="2">{{ $contract->additional_qualified_documents }}</td> --}}
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2"><label class="col-form-label f-w-600">Planilla de Precios (Anexo 1):</label></td>
-                                                        <td colspan="2"><label class="col-form-label f-w-600">Título de propiedad, planos aprobados por la municipalidad, licencia ambiental:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Medio Magnético:</label></td>
-                                                        <td><label class="col-form-label f-w-600">Datos de la persona referente:</label></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2">{{ $contract->price_sheet }}</td>
-                                                        <td colspan="2">{{ $contract->property_title }}</td>
-                                                        <td>{{ $contract->magnetic_medium }}</td>
-                                                        <td>{{ $contract->referring_person_data }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>                                       
+                                        </div>
 
                                         <div class="tab-pane" id="tab6" role="tabpanel">
-                                            <label class="col-form-label f-w-600">Archivos cargados al llamado:</label>
-                                            <table class="table table-striped table-bordered">
+                                            <label class="col-form-label f-w-600">Archivos cargados al pedido:</label>
+                                            <table class="table table-striped table-bcontracted">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Descripción</th>
                                                         <th>Dependencia</th>
                                                         <th>Fecha/Hora</th>
+                                                        <th>Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
+                                                    @for ($i=0; $i < count($other_files); $i++)
+                                                    <tr>
+                                                        <td>{{ $i+1 }}</td>
+                                                        <td>{{ $other_files[$i]->description }}</td>
+                                                        <td>{{ $other_files[$i]->dependency->description }}</td>
+                                                        <td>{{ $other_files[$i]->updated_atDateFormat() }}</td>
+                                                        <td>
+                                                            <a href="{{ asset('storage/files/'.$other_files[$i]->file) }}" title="Ver Archivo" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                                            <a href="{{ route('contracts.files.download', $other_files[$i]->id) }}" title="Descargar Archivo" class="btn btn-info"><i class="fa fa-download"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @endfor
+                                                        @for ($i=0; $i < count($user_files); $i++)
+                                                        <tr>
+                                                            <td>{{ $i+1 }}</td>
+                                                            <td>{{ $user_files[$i]->description }}</td>
+                                                            <td>{{ $user_files[$i]->dependency->description }}</td>
+                                                            <td>{{ $user_files[$i]->updated_atDateFormat() }}</td>
+                                                            <td>
+                                                                <a href="{{ asset('storage/files/'.$user_files[$i]->file) }}" title="Ver Archivo" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                                                <a href="{{ route('contracts.files.download', $user_files[$i]->id) }}" title="Descargar Archivo" class="btn btn-info"><i class="fa fa-download"></i></a>
+                                                                <button title="Eliminar Archivo" onclick="deleteFile({{ $user_files[$i]->id }})" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        @endfor
                                                 </tbody>
                                             </table>
                                             <div class="text-right">
-                                                <a href="{{ route('contracts.files.create', $contract->id) }}" class="btn btn-primary">Cargar Archivos</a>                                                                                               
+                                                <a href="{{ route('contracts.files.create', $contract->id) }}" class="btn btn-primary">Cargar Archivos</a>
                                             </div>
-                                            <div class="col-sm-10 text-left">
-                                                {{-- <h6>Adjuntar: Resolución/Nota a DNCP/Acta de Apertura/Notificaciones a las empresas/Cargar items adjudicados con precio adjudicado.</h6>                                                                                                                                                     --}}
-                                            </div>
-                                        </div>                                        
+                                                {{-- Mostrar esto una vez que Adjudicaciones haya notificado al Oferente --}}
+                                                {{-- @if ($contract->actual_state == 65)
+                                                    <div class="col-sm-10 text-center">
+                                                        <h5><p style="font-size: 18px; font-weight: bold; color:#FF0000;background-color:yellow">Adjuntar: Nota de Adjudicación</p></h5>
+                                                    </div>
+                                                @endif --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -254,7 +243,7 @@ p.centrado {
                                 </div>
                                 <div class="card-block">
                                     <div class="latest-update-box">
-                                    @foreach ($contract->contractscontractstates()->orderBy('id', 'desc')->get() as $item)
+                                    @foreach ($contract->contractscontractstates()->contractBy('id', 'desc')->get() as $item)
                                         <div class="row p-t-20 p-b-30 borde-alternado">
                                             <div class="col-auto text-right update-meta p-r-0">
                                                 <i class="update-icon ring"></i>
@@ -294,9 +283,9 @@ $(document).ready(function(){
         //  /edit = public function edit(Request $request, $contract_id) de BudgetRequestProvidersController
     }
 
-    recibeOrder = function(order_id){
+    recibecontract = function(contract_id){
         $.ajax({
-            url : '/contracts/recibe_order/'+order_id,
+            url : '/contracts/recibe_contract/'+contract_id,
             method: 'POST',
             data: '_token='+'{{ csrf_token() }}',
             success: function(data){
@@ -326,9 +315,9 @@ $(document).ready(function(){
         });
     }
 
-    deriveOrder = function(order_id){
+    derivecontract = function(contract_id){
         $.ajax({
-            url : '/contracts/derive_order/'+order_id,
+            url : '/contracts/derive_contract/'+contract_id,
             method: 'POST',
             data: '_token='+'{{ csrf_token() }}',
             success: function(data){

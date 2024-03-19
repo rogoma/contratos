@@ -220,18 +220,19 @@ class ContractsFilesController extends Controller
         $file = new File;
         $file->description = $request->input('description');
         $file->file = $fileName;
+        $file->file_type = 3;//contratos
 
-        if ($request->user()->dependency->id <> 57){
-            $file->file_type = 0;
-        }
-        // *** Usuario Asesoría Jurídica  tipo 5 = dictamenes***
-        if ($request->user()->dependency->id == 57){
-            $file->file_type = 5;
-        }
-        // *** Usuario Contratos tipo 3 = contratos***
-        if ($request->user()->dependency->id == 60){
-            $file->file_type = 3;
-        }
+        // if ($request->user()->dependency->id <> 57){
+        //     $file->file_type = 0;
+        // }
+        // // *** Usuario Asesoría Jurídica  tipo 5 = dictamenes***
+        // if ($request->user()->dependency->id == 57){
+        //     $file->file_type = 5;
+        // }
+        // *** Usuario Contratos tipo 3 = contrataciones***
+        // if ($request->user()->dependency->id == 60){
+        //     $file->file_type = 3;
+        // }
 
         // *** Usuario Licitaciones, Compras Menores y Excepciones tipo 7 = Cuadros comparativos***
         // if (in_array($request->user()->dependency->id, [61,62,63])){
@@ -243,39 +244,41 @@ class ContractsFilesController extends Controller
 
 
         $file->contract_id = $contract_id;
-        $file->contract_state_id = $contract->actual_state;
+        $file->contract_state_id = $contract->contract_state_id;
         $file->creator_user_id = $request->user()->id;  // usuario logueado
         $file->dependency_id = $request->user()->dependency_id;  // dependencia del usuario
         $file->save();
 
+        return redirect()->route('contracts.show', $contract_id);
+
         // Dependiendo del modulo direccionamos a la vista del pedido
-        if($request->user()->hasPermission(['plannings.files.create'])){
-            return redirect()->route('plannings.show', $contract_id)->with('success', 'Archivo agregado correctamente');
-        }elseif($request->user()->hasPermission(['tenders.files.create'])){
-            return redirect()->route('tenders.show', $contract_id);
-        }elseif($request->user()->hasPermission(['minor_purchases.files.create'])){
-            return redirect()->route('minor_purchases.show', $contract_id);
-        }elseif($request->user()->hasPermission(['awards.files.create'])){
-            return redirect()->route('awards.show', $contract_id);
-        }elseif($request->user()->hasPermission(['exceptions.files.create'])){
-            return redirect()->route('exceptions.show', $contract_id);
-        }elseif($request->user()->hasPermission(['contracts.files.create'])){
-            return redirect()->route('contracts.show', $contract_id);
-        }elseif($request->user()->hasPermission(['utas.files.create'])){
-            return redirect()->route('utas.show', $contract_id);
-        }elseif($request->user()->hasPermission(['legal_advices.files.create'])){
-            return redirect()->route('legal_advices.show', $contract_id);
-        }elseif($request->user()->hasPermission(['comites.files.create'])){
-            return redirect()->route('comites.show', $contract_id);
-        }elseif($request->user()->hasPermission(['coordinations.files.create'])){
-            return redirect()->route('coordinations.show', $contract_id);
-        }elseif($request->user()->hasPermission(['dgafs.files.create'])){
-            return redirect()->route('dgafs.show', $contract_id);
-        }elseif($request->user()->hasPermission(['documentals.files.create'])){
-            return redirect()->route('documentals.show', $contract_id);
-        }else{
-            return redirect()->route('contracts.show', $contract_id)->with('success', 'Archivo agregado correctamente');
-        }
+        // if($request->user()->hasPermission(['plannings.files.create'])){
+        //     return redirect()->route('plannings.show', $contract_id)->with('success', 'Archivo agregado correctamente');
+        // }elseif($request->user()->hasPermission(['tenders.files.create'])){
+        //     return redirect()->route('tenders.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['minor_purchases.files.create'])){
+        //     return redirect()->route('minor_purchases.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['awards.files.create'])){
+        //     return redirect()->route('awards.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['exceptions.files.create'])){
+        //     return redirect()->route('exceptions.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['contracts.files.create'])){
+        //     return redirect()->route('contracts.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['utas.files.create'])){
+        //     return redirect()->route('utas.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['legal_advices.files.create'])){
+        //     return redirect()->route('legal_advices.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['comites.files.create'])){
+        //     return redirect()->route('comites.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['coordinations.files.create'])){
+        //     return redirect()->route('coordinations.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['dgafs.files.create'])){
+        //     return redirect()->route('dgafs.show', $contract_id);
+        // }elseif($request->user()->hasPermission(['documentals.files.create'])){
+        //     return redirect()->route('documentals.show', $contract_id);
+        // }else{
+        //     return redirect()->route('contracts.show', $contract_id)->with('success', 'Archivo agregado correctamente');
+        // }
     }
 
     /**

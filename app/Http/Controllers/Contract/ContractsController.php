@@ -222,6 +222,7 @@ class ContractsController extends Controller
         $contract->comments=$request->input('control_e');
         $contract->comments=$request->input('comments');
         $contract->creator_user_id = $request->user()->id;  // usuario logueado
+        $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario
 
 
         $contract->save();
@@ -865,27 +866,27 @@ class ContractsController extends Controller
         // $related_simese_user = $contract->simese()->where('dependency_id', $user_dependency)->get();
 
         // Obtenemos los archivos cargados por otras dependencias y que no sean de reparo
-        // $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
-        //                                     ->whereIn('file_type', [3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
-        //                                     ->orderBy('created_at','asc')
-        //                                     ->get();
-
+        $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
+        // ->whereIn('file_type', [0,3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
+        ->orderBy('created_at','asc')
+        ->get();
 
         // ROL ADMINSTRADOR Obtenemos los archivos cargados por otras dependencias
-        // if($role_user == 1){
-        //     $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
-        //     ->whereIn('file_type', [0,3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
-        //     ->orderBy('created_at','asc')
-        //     ->get();
-        // }
+        if($role_user == 1){
+            $other_files = $contract->files()->where('dependency_id', '!=', $user_dependency)
+            // ->whereIn('file_type', [0,3, 4, 5, 7])//0-antecedentes 3-contratos 4-addendas  5-dictamenes
+            ->orderBy('created_at','asc')
+            ->get();
+        }
 
         // Obtenemos los archivos cargados por usuario con tipo de archivos que no sean 1 (reparos dncp)z
         // $user_files = $contract->files()->where('dependency_id', $user_dependency)->where('file_type', '=', 0)->get();
+        $user_files = $contract->files()->where('dependency_id', $user_dependency)->get();
 
         // chequeamos que el usuario tenga permisos para visualizar el pedido
         if($request->user()->hasPermission(['admin.contracts.show', 'process_contracts.contracts.show',
         'contracts.contracts.index','derive_contracts.contracts.index']) || $contract->dependency_id == $request->user()->dependency_id){
-            return view('contract.contracts.show', compact('contract'));
+            return view('contract.contracts.show', compact('contract','other_files','user_files'));
         }else{
             return back()->with('error', 'No tiene los suficientes permisos para acceder a esta sección.');
         }

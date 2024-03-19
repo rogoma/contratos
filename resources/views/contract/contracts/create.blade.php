@@ -215,7 +215,7 @@
                                             </div>
                                         </div>
                                         {{-- #13 --}}
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-12">
                                             <div class="form-group @error('comments') has-danger @enderror">
                                                 <label class="col-form-label">Comentarios</label>
                                                 <input type="text" id="comments" name="comments" maxlength="300" value="{{ old('comments') }}" class="form-control">
@@ -231,6 +231,7 @@
                                         <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script> --}}
 
                                         <div class="container">
+                                            <br>
                                             <h3 style="text-align: center;">Opciones de Pólizas</h3>
 
                                             <div class="row">
@@ -469,8 +470,8 @@
                                             </div>
                                         </div>
                                         <br>
-
                                         <div class="col-sm-12">
+                                            <br>
                                             <div class="form-group text-center">
                                                 <button type="submit" class="btn btn-primary m-b-0 f-12">Guardar</button>
                                             </div>

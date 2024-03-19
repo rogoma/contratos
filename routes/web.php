@@ -32,12 +32,13 @@ use App\Http\Controllers\Admin\Level1CatalogCodeController;
 use App\Http\Controllers\Admin\Level5CatalogCodeController;
 
 use App\Http\Controllers\Order\OrdersController;
+use App\Http\Controllers\Order\OrdersFilesController;
 use App\Http\Controllers\Order\ItemsController;
 use App\Http\Controllers\Order\ItemsAdjudicaController;
 use App\Http\Controllers\Order\ItemAwardHistoriesController;
 use App\Http\Controllers\Order\BudgetRequestProvidersController;
-use App\Http\Controllers\DeriveOrder\DeriveOrdersController;
 use App\Http\Controllers\Order\SimeseOrdersController;
+use App\Http\Controllers\DeriveOrder\DeriveOrdersController;
 
 use App\Http\Controllers\Contract\ContractsController;
 use App\Http\Controllers\Contract\ContractsFilesController;
@@ -506,9 +507,10 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
     /********** MODULO CONTRACTS - CONTRATOS Y GARANTIAS **********/
     Route::post('contracts/create}', [ContractsController::class, 'calculo'])->name('contracts.calculo');
-    
-    Route::get('contracts/files/{contract_id}/create', [ContractsFilesController::class, 'create'])->name('contracts.files.create');
 
+    Route::get('contracts/files/{contract_id}/create', [ContractsFilesController::class, 'create'])->name('contracts.files.create');
+    Route::post('contracts/files/{contract_id}/store', [ContractsFilesController::class, 'store'])->name('contracts.files.store');
+    Route::get('contracts/files/{file_id}/download', [ContractsFilesController::class, 'download'])->name('contracts.files.download');
 
     Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
 
