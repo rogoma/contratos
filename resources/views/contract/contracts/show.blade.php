@@ -70,7 +70,7 @@ p.centrado {
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-sm-10 text-left">
-                                            <h5>{{ $contract->description." - ".$contract->modality->description." N° ".$contract->number_year." - ".$contract->provider->description }}
+                                            <h5>Llamado: {{ $contract->description." - ".$contract->modality->description." N° ".$contract->number_year." - ".$contract->provider->description }}
                                             {{-- @if ($contract->covid==0)
                                                 <h5>{{ is_null($contract->number)? $contract->description : $contract->modality->description." N° ".$contract->number."/".$contract->year."-".$contract->description }}
                                             @else
@@ -180,7 +180,7 @@ p.centrado {
                                         </div>
 
                                         <div class="tab-pane" id="tab6" role="tabpanel">
-                                            <label class="col-form-label f-w-600">Archivos cargados al pedido:</label>
+                                            <label class="col-form-label f-w-600">Archivos cargados al llamado:</label>
                                             <table class="table table-striped table-bcontracted">
                                                 <thead>
                                                     <tr>
@@ -355,6 +355,7 @@ $(document).ready(function(){
       swal({
             title: "Atención",
             text: "Está seguro que desea eliminar el registro?",
+            
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -381,7 +382,7 @@ $(document).ready(function(){
                 }
               },
               error: function(error){
-                swal("Error!", "Ocurrió un error intentado resolver la solicitud, por favor complete todos los campos o recargue de vuelta la pagina", "error");
+                swal("Error!", "Ocurrió 1 error intentado resolver la solicitud, por favor complete todos los campos o recargue de vuelta la pagina", "error");
                 console.log(error);
               }
             });
