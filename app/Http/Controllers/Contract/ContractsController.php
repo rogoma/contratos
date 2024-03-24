@@ -134,7 +134,7 @@ class ContractsController extends Controller
             'description' => 'string|required|max:200',
             'iddncp' => 'string|required|max:999999|min:7',
             'linkdncp' => 'string|required|max:300',
-            'number_year' => 'string|required|max:7',
+            'number_year' => 'string|required|max:9',
             'year_adj' => 'numeric|required|max:9999',
             'sign_date' => 'date_format:d/m/Y|required',
             'provider_id' => 'numeric|required|max:999999',
@@ -200,6 +200,12 @@ class ContractsController extends Controller
         $contract->contract_type_id=$request->input('contract_type_id');
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
         $contract->total_amount = $total_amount_fin;
+
+        //CONTROLAR QUE LAS FECHAS SI SON VACIAS NO GRABEN FECHAS ERRONEAS
+        // if (is_null($funding_source)) {
+        //     $validator->errors()->add('funding_source', 'No existe fuente financiera igual a la ingresada. Por favor ingrese una de las siguientes: 10,20,30.');
+        //     return back()->withErrors($validator)->withInput()->with('fila', $row);
+        // }
         $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
         $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));;
         $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
@@ -210,6 +216,7 @@ class ContractsController extends Controller
         $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
         $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
         $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
+        
         $contract->comments=$request->input('control_1');
         $contract->comments=$request->input('control_a');
         $contract->comments=$request->input('control_2');
@@ -909,8 +916,11 @@ class ContractsController extends Controller
             $funding_sources = FundingSource::all();
             $financial_organisms = FinancialOrganism::all();
             $expenditure_objects = ExpenditureObject::where('level', 3)->get();
-            return view('contract.contracts.update', compact('contract', 'dependencies','modalities', 'sub_programs', 'funding_sources',
-                'financial_organisms', 'expenditure_objects'));
+            $providers = Provider::all();//se podria filtrar por estado sólo activo
+            $contr_states = ContractState::all();
+            $contract_types = ContractType::all();
+            return view('contract.contracts.update', compact('contract','dependencies', 'modalities','sub_programs', 'funding_sources', 'financial_organisms',
+                'expenditure_objects', 'providers', 'contr_states','contract_types'));
         }else{
             return back()->with('error', 'No tiene los suficientes permisos para acceder a esta sección.');
         }

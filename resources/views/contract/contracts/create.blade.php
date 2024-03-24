@@ -48,7 +48,7 @@
                                 <div class="card-block">
                                     <div class="form-group">
 
-                                    <h3 class="text-center">Datos para cargar Llamados</h3>
+                                    <h3 class="text-center">Datos para cargar Llamado</h3>
                                     <form class="row" method="POST" action="{{ route('contracts.store') }}">
                                         @csrf
 
@@ -98,7 +98,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group @error('number_year') has-danger @enderror">
                                                 <label class="col-form-label">N° Contrato/Año</label>
-                                                <input type="text" id="number_year" name="number_year" maxlength="7" value= "{{ old('number_year') }}" class="form-control">
+                                                <input type="text" id="number_year" name="number_year" maxlength="9" value= "{{ old('number_year') }}" class="form-control">
                                                 @error('number_year')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
