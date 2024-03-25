@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             </div>
-        </div>      
+        </div>
     </div>
 
     <div class="pcoded-inner-content">
@@ -57,7 +57,7 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        
+
                                         <div class="col-sm-4">
                                             <div class="form-group @error('description') has-danger @enderror">
                                                 <label class="col-form-label">Descripción <br></label>
@@ -66,7 +66,7 @@
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div class="col-sm-2">
                                             <div class="form-group @error('iddncp') has-danger @enderror">
                                                 <label class="col-form-label">ID DNCP</label>
@@ -75,20 +75,20 @@
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div>        
+                                        </div>
                                         <div class="col-sm-6">
                                             <div class="form-group @error('linkdncp') has-danger @enderror">
                                                 <label class="col-form-label">Link DNCP</label>
-                                                <textarea rows="2" id="linkdncp" name="linkdncp" class="form-control">{{ old('linkdncp', $contract->linkdncp) }}</textarea>                                                
+                                                <textarea rows="2" id="linkdncp" name="linkdncp" class="form-control">{{ old('linkdncp', $contract->linkdncp) }}</textarea>
                                                 @error('linkdncp')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div>  
+                                        </div>
                                         <div class="col-sm-2">
                                             <div class="form-group @error('number_year') has-danger @enderror">
                                                 <label class="col-form-label">N° Contrato/Año</label>
-                                                <input type="text" id="number_year" name="number_year" maxlength="9" value= "{{ old('number_year', $contract->number_year) }}" class="form-control">                                                
+                                                <input type="text" id="number_year" name="number_year" maxlength="9" value= "{{ old('number_year', $contract->number_year) }}" class="form-control">
                                                 @error('number_year')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
@@ -148,7 +148,7 @@
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div>   
+                                        </div>
 
                                         <div class="col-sm-3">
                                             <div class="form-group @error('modality_id') has-danger @enderror">
@@ -177,7 +177,7 @@
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div class="col-sm-3">
                                             <div class="form-group @error('contract_type_id') has-danger @enderror">
                                                 <label class="col-form-label">Tipo de Contrato</label>
@@ -219,7 +219,12 @@
                                                 <div class="col-md-3">
                                                         <label class="col-form-label @error('advance_validity_from') has-danger @enderror">Anticipo-Vigencia Desde</label>
                                                         <div class="input-group @error('advance_validity_from') has-danger @enderror">
-                                                            <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from', date('d/m/Y', strtotime($contract->advance_validity_from))) }}" class="form-control text-align: left" autocomplete="off">
+                                                            {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                            @if (is_null($contract->advance_validity_from))
+                                                                <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from', strtotime($contract->advance_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
+                                                            @else
+                                                                <input type="text" id="advance_validity_from" name="advance_validity_from" value="{{ old('advance_validity_from', date('d/m/Y', strtotime($contract->advance_validity_from))) }}" class="form-control text-align: left" autocomplete="off">
+                                                            @endif
                                                             <span class="input-group-append" id="basic-addon">
                                                                 <label class="input-group-text" onclick="show('advance_validity_from');"><i class="fa fa-calendar"></i></label>
                                                             </span>
@@ -234,7 +239,12 @@
                                                 <div class="col-md-3">
                                                         <label class="col-form-label @error('advance_validity_to') has-danger @enderror">Anticipo-Vigencia Hasta</label>
                                                         <div class="input-group @error('advance_validity_to') has-danger @enderror">
-                                                            <input type="text" id="advance_validity_to" name="advance_validity_to" value="{{ old('advance_validity_to', date('d/m/Y', strtotime($contract->advance_validity_to))) }}" class="form-control" autocomplete="off">
+                                                            {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                            @if (is_null($contract->advance_validity_to))
+                                                                <input type="text" id="advance_validity_to" name="advance_validity_to" value="{{ old('advance_validity_to', strtotime($contract->advance_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                            @else
+                                                                <input type="text" id="advance_validity_to" name="advance_validity_to" value="{{ old('advance_validity_to', date('d/m/Y', strtotime($contract->advance_validity_to))) }}" class="form-control text-align: left" autocomplete="off">
+                                                            @endif
                                                             <span class="input-group-append" id="basic-addon">
                                                                 <label class="input-group-text" onclick="show('advance_validity_to');"><i class="fa fa-calendar"></i></label>
                                                             </span>
@@ -249,7 +259,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_1') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" value="{{ old('control_1',$contract->control_1) }}" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -268,7 +278,16 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('fidelity_validity_from') has-danger @enderror">Fiel Cumplimiento-Vigencia Desde</label>
                                                     <div class="input-group @error('fidelity_validity_from') has-danger @enderror">
-                                                        <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', date('d/m/Y', strtotime($contract->fidelity_validity_from))) }}" class="form-control" autocomplete="off">
+                                                            {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                            @if (is_null($contract->fidelity_validity_from))
+                                                                <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', strtotime($contract->fidelity_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
+                                                            @else
+                                                                <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', date('d/m/Y', strtotime($contract->fidelity_validity_from))) }}" class="form-control text-align: left" autocomplete="off">
+                                                            @endif
+                                                            <span class="input-group-append" id="basic-addon">
+                                                                <label class="input-group-text" onclick="show('fidelity_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                            </span>
+                                                        {{-- <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', date('d/m/Y', strtotime($contract->fidelity_validity_from))) }}" class="form-control" autocomplete="off"> --}}
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('fidelity_validity_from');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -283,7 +302,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('fidelity_validity_to') has-danger @enderror">Fiel Cumplimiento -Vigencia Hasta</label>
                                                     <div class="input-group @error('fidelity_validity_to') has-danger @enderror">
-                                                        <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', date('d/m/Y', strtotime($contract->fidelity_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->fidelity_validity_to))
+                                                            <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', strtotime($contract->fidelity_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', date('d/m/Y', strtotime($contract->fidelity_validity_to))) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('fidelity_validity_to');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -315,7 +339,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('accidents_validity_from') has-danger @enderror">Accid.Personales-Vigencia Desde</label>
                                                     <div class="input-group @error('accidents_validity_from') has-danger @enderror">
-                                                        <input type="text" id="accidents_validity_from" name="accidents_validity_from" value="{{ old('accidents_validity_from', date('d/m/Y', strtotime($contract->accidents_validity_from))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->accidents_validity_from))
+                                                            <input type="text" id="accidents_validity_from" name="accidents_validity_from" value="{{ old('accidents_validity_from', strtotime($contract->accidents_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="accidents_validity_from" name="accidents_validity_from" value="{{ old('accidents_validity_from', date('d/m/Y', strtotime($contract->accidents_validity_from))) }}" class="form-control" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('accidents_validity_from');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -330,7 +359,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('accidents_validity_to') has-danger @enderror">Accid.Personales-Vigencia Hasta</label>
                                                     <div class="input-group @error('accidents_validity_to') has-danger @enderror">
-                                                        <input type="text" id="accidents_validity_to" name="accidents_validity_to" value="{{ old('accidents_validity_to', date('d/m/Y', strtotime($contract->accidents_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->accidents_validity_to))
+                                                            <input type="text" id="accidents_validity_to" name="accidents_validity_to" value="{{ old('accidents_validity_to', strtotime($contract->accidents_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="accidents_validity_to" name="accidents_validity_to" value="{{ old('accidents_validity_to', date('d/m/Y', strtotime($contract->accidents_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('accidents_validity_to');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -362,7 +396,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('risks_validity_from') has-danger @enderror">Todo Riesgo-Vigencia Desde</label>
                                                     <div class="input-group @error('risks_validity_from') has-danger @enderror">
-                                                        <input type="text" id="risks_validity_from" name="risks_validity_from" value="{{ old('risks_validity_from', date('d/m/Y', strtotime($contract->risks_validity_from))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->risks_validity_from))
+                                                            <input type="text" id="risks_validity_from" name="risks_validity_from" value="{{ old('risks_validity_from', strtotime($contract->risks_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="risks_validity_from" name="risks_validity_from" value="{{ old('risks_validity_from', date('d/m/Y', strtotime($contract->risks_validity_from))) }}" class="form-control" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('risks_validity_from');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -377,7 +416,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('risks_validity_to') has-danger @enderror">Todo Riesgo-Vigencia Hasta</label>
                                                     <div class="input-group @error('risks_validity_to') has-danger @enderror">
-                                                        <input type="text" id="risks_validity_to" name="risks_validity_to" value="{{ old('risks_validity_to', date('d/m/Y', strtotime($contract->risks_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->risks_validity_to))
+                                                            <input type="text" id="risks_validity_to" name="risks_validity_to" value="{{ old('risks_validity_to', strtotime($contract->risks_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="risks_validity_to" name="risks_validity_to" value="{{ old('risks_validity_to', date('d/m/Y', strtotime($contract->risks_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('risks_validity_to');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -409,7 +453,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('civil_resp_validity_from') has-danger @enderror">Resp. Civil-Vigencia Desde</label>
                                                     <div class="input-group @error('civil_resp_validity_from') has-danger @enderror">
-                                                        <input type="text" id="civil_resp_validity_from" name="civil_resp_validity_from" value="{{ old('civil_resp_validity_from', date('d/m/Y', strtotime($contract->civil_resp_validity_from))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->civil_resp_validity_from))
+                                                            <input type="text" id="civil_resp_validity_from" name="civil_resp_validity_from" value="{{ old('civil_resp_validity_from', strtotime($contract->civil_resp_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="civil_resp_validity_from" name="civil_resp_validity_from" value="{{ old('civil_resp_validity_from', date('d/m/Y', strtotime($contract->civil_resp_validity_from))) }}" class="form-control" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('civil_resp_validity_from');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -424,7 +473,12 @@
                                                 <div class="col-md-3">
                                                     <label class="col-form-label @error('civil_resp_validity_to') has-danger @enderror">Resp. Civil -Vigencia Hasta</label>
                                                     <div class="input-group @error('civil_resp_validity_to') has-danger @enderror">
-                                                        <input type="text" id="civil_resp_validity_to" name="civil_resp_validity_to" value="{{ old('civil_resp_validity_to', date('d/m/Y', strtotime($contract->civil_resp_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->civil_resp_validity_to))
+                                                            <input type="text" id="civil_resp_validity_to" name="civil_resp_validity_to" value="{{ old('civil_resp_validity_to', strtotime($contract->civil_resp_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="civil_resp_validity_to" name="civil_resp_validity_to" value="{{ old('civil_resp_validity_to', date('d/m/Y', strtotime($contract->civil_resp_validity_to))) }}" class="form-control" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
                                                             <label class="input-group-text" onclick="show('civil_resp_validity_to');"><i class="fa fa-calendar"></i></label>
                                                         </span>
@@ -449,8 +503,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <br>                                                                              
-
+                                        <br>
                                         <div class="col-sm-12">
                                             <div class="form-group text-center">
                                                 <button type="submit" class="btn btn-warning m-b-0 f-12">Modificar</button>

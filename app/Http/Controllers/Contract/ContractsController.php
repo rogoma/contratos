@@ -189,9 +189,10 @@ class ContractsController extends Controller
 
         $contract->linkdncp=$request->input('linkdncp');
         $contract->number_year=$request->input('number_year');
-        // $contract->year_adj=$request->input('year_adj ' );
+
         $year_adj_fin = str_replace('.', '',($request->input('year_adj')));
         $contract->year_adj = $year_adj_fin;
+
         $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
         $contract->provider_id=$request->input('provider_id');
         $contract->contract_state_id=$request->input('contract_state_id');
@@ -202,12 +203,20 @@ class ContractsController extends Controller
         $contract->total_amount = $total_amount_fin;
 
         //CONTROLAR QUE LAS FECHAS SI SON VACIAS NO GRABEN FECHAS ERRONEAS
-        // if (is_null($funding_source)) {
-        //     $validator->errors()->add('funding_source', 'No existe fuente financiera igual a la ingresada. Por favor ingrese una de las siguientes: 10,20,30.');
-        //     return back()->withErrors($validator)->withInput()->with('fila', $row);
-        // }
-        $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
-        $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));;
+        if (is_null($request->input('advance_validity_from'))) {
+            $contract->advance_validity_from=null;
+        }else{
+            $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
+        }
+
+        if (is_null($request->input('advance_validity_to'))) {
+            $contract->advance_validity_to=null;
+        }else{
+            $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));
+        }
+
+        // $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
+        // $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));;
         $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
         $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
         $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
@@ -216,7 +225,7 @@ class ContractsController extends Controller
         $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
         $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
         $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
-        
+
         $contract->comments=$request->input('control_1');
         $contract->comments=$request->input('control_a');
         $contract->comments=$request->input('control_2');
