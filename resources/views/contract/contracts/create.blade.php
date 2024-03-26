@@ -269,14 +269,14 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_1') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" class="form-control">
+                                                        <input type="text" id="control_1" readonly name="control_1" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_a') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_a" disabled="disabled" name="control_a" class="form-control">
+                                                        <input type="text" id="control_a" readonly name="control_a" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,13 +317,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_2') has-danger @enderror">
                                                         <label class="col-form-label">Dias Vigencia</label>
-                                                        <input type="text" id="control_2" disabled="disabled" name="control_2" class="form-control">
+                                                        <input type="text" id="control_2" readonly name="control_2" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_b') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_b" disabled="disabled" name="control_b" class="form-control">
+                                                        <input type="text" id="control_b" readonly name="control_b" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -364,13 +364,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_3') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_3" disabled="disabled" name="control_3" class="form-control">
+                                                        <input type="text" id="control_3" readonly name="control_3" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_c') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_c" disabled="disabled" name="control_c" class="form-control">
+                                                        <input type="text" id="control_c" readonly name="control_c" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -411,13 +411,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_4') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_4" disabled="disabled" name="control_4" class="form-control">
+                                                        <input type="text" id="control_4" readonly name="control_4" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_d') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_d" disabled="disabled" name="control_d" class="form-control">
+                                                        <input type="text" id="control_d" readonly name="control_d" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -458,13 +458,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_5') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_5" disabled="disabled" name="control_5" class="form-control">
+                                                        <input type="text" id="control_5" readonly name="control_5" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_e') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_e" disabled="disabled" name="control_e" class="form-control">
+                                                        <input type="text" id="control_e" readonly name="control_e" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>

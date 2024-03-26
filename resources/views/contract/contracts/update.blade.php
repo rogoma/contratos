@@ -259,14 +259,15 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_1') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_1" disabled="disabled" name="control_1" value="{{ old('control_1',$contract->control_1) }}" class="form-control">
+                                                        <input type="text" id="control_1" readonly name="control_1" value="{{ old('control_1',$contract->control_1) }}" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_a') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_a" disabled="disabled" name="control_a" class="form-control">
+                                                        <input type="text" id="control_a" readonly name="control_a" value="{{ old('control_a',$contract->control_a) }}" class="form-control">
+                                                        {{-- <input type="text" id="control_a" readonly name="control_a" value="{{ old('control_a',$contract->control_a) }}" class="form-control"> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,23 +277,19 @@
                                             <div class="row">
                                                 {{-- #15 FIEL CUMPL.--}}
                                                 <div class="col-md-3">
-                                                    <label class="col-form-label @error('fidelity_validity_from') has-danger @enderror">Fiel Cumplimiento-Vigencia Desde</label>
-                                                    <div class="input-group @error('fidelity_validity_from') has-danger @enderror">
-                                                            {{-- PREGUNTAMOS SI FECHA ES NULL --}}
-                                                            @if (is_null($contract->fidelity_validity_from))
-                                                                <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', strtotime($contract->fidelity_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
-                                                            @else
-                                                                <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', date('d/m/Y', strtotime($contract->fidelity_validity_from))) }}" class="form-control text-align: left" autocomplete="off">
-                                                            @endif
-                                                            <span class="input-group-append" id="basic-addon">
-                                                                <label class="input-group-text" onclick="show('fidelity_validity_from');"><i class="fa fa-calendar"></i></label>
-                                                            </span>
-                                                        {{-- <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', date('d/m/Y', strtotime($contract->fidelity_validity_from))) }}" class="form-control" autocomplete="off"> --}}
+                                                    <label class="col-form-label @error('fidelity_validity_to') has-danger @enderror">Fiel Cumplimiento -Vigencia Hasta</label>
+                                                    <div class="input-group @error('fidelity_validity_to') has-danger @enderror">
+                                                        {{-- PREGUNTAMOS SI FECHA ES NULL --}}
+                                                        @if (is_null($contract->fidelity_validity_to))
+                                                            <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', strtotime($contract->fidelity_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @else
+                                                            <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', date('d/m/Y', strtotime($contract->fidelity_validity_to))) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @endif
                                                         <span class="input-group-append" id="basic-addon">
-                                                            <label class="input-group-text" onclick="show('fidelity_validity_from');"><i class="fa fa-calendar"></i></label>
+                                                            <label class="input-group-text" onclick="show('fidelity_validity_to');"><i class="fa fa-calendar"></i></label>
                                                         </span>
                                                     </div>
-                                                    @error('fidelity_validity_from')
+                                                    @error('fidelity_validity_to')
                                                     <div class="has-danger">
                                                         <div class="col-form-label">{{ $message }}</div>
                                                     </div>
@@ -321,13 +318,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_2') has-danger @enderror">
                                                         <label class="col-form-label">Dias Vigencia</label>
-                                                        <input type="text" id="control_2" disabled="disabled" name="control_2" class="form-control">
+                                                        <input type="text" id="control_2" readonly name="control_2" value="{{ old('control_2',$contract->control_2) }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_b') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_b" disabled="disabled" name="control_b" class="form-control">
+                                                        <input type="text" id="control_b" readonly name="control_b" value="{{ old('control_b',$contract->control_b) }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -378,13 +375,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_3') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_3" disabled="disabled" name="control_3" class="form-control">
+                                                        <input type="text" id="control_3" readonly name="control_3" value="{{ old('control_3',$contract->control_3) }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_c') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_c" disabled="disabled" name="control_c" class="form-control">
+                                                        <input type="text" id="control_c" readonly name="control_c" value="{{ old('control_c',$contract->control_c) }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -435,13 +432,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_4') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_4" disabled="disabled" name="control_4" class="form-control">
+                                                        <input type="text" id="control_4" readonly name="control_4" value="{{ old('control_4',$contract->control_4) }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_d') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_d" disabled="disabled" name="control_d" class="form-control">
+                                                        <input type="text" id="control_d" readonly name="control_d" value="{{ old('control_d',$contract->control_d) }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -492,13 +489,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_5') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_5" disabled="disabled" name="control_5" class="form-control">
+                                                        <input type="text" id="control_5" readonly name="control_5" value="{{ old('control_5',$contract->control_5) }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_e') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_e" disabled="disabled" name="control_e" class="form-control">
+                                                        <input type="text" id="control_e" readonly name="control_e" value="{{ old('control_e',$contract->control_e) }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>

@@ -202,7 +202,7 @@ class ContractsController extends Controller
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
         $contract->total_amount = $total_amount_fin;
 
-        //CONTROLAR QUE LAS FECHAS SI SON VACIAS NO GRABEN FECHAS ERRONEAS
+        //CONTROLAR QUE LAS FECHAS SI SON VACIAS GRABEN NULL
         if (is_null($request->input('advance_validity_from'))) {
             $contract->advance_validity_from=null;
         }else{
@@ -215,81 +215,69 @@ class ContractsController extends Controller
             $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));
         }
 
-        // $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
-        // $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));;
-        $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
-        $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
-        $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
-        $contract->accidents_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_to'))));
-        $contract->risks_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_from'))));
-        $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
-        $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
-        $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
+        if (is_null($request->input('fidelity_validity_from'))) {
+            $contract->fidelity_validity_from=null;
+        }else{
+            $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
+        }
 
-        $contract->comments=$request->input('control_1');
-        $contract->comments=$request->input('control_a');
-        $contract->comments=$request->input('control_2');
-        $contract->comments=$request->input('control_b');
-        $contract->comments=$request->input('control_3');
-        $contract->comments=$request->input('control_c');
-        $contract->comments=$request->input('control_4');
-        $contract->comments=$request->input('control_d');
-        $contract->comments=$request->input('control_5');
-        $contract->comments=$request->input('control_e');
+        if (is_null($request->input('fidelity_validity_to'))) {
+            $contract->fidelity_validity_to=null;
+        }else{
+            $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
+        }
+
+        if (is_null($request->input('accidents_validity_from'))) {
+            $contract->accidents_validity_from=null;
+        }else{
+            $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
+        }
+
+        if (is_null($request->input('accidents_validity_to'))) {
+            $contract->accidents_validity_to=null;
+        }else{
+            $contract->accidents_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_to'))));
+        }
+
+        if (is_null($request->input('risks_validity_from'))) {
+            $contract->risks_validity_from=null;
+        }else{
+            $contract->risks_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_from'))));
+        }
+
+        if (is_null($request->input('risks_validity_to'))) {
+            $contract->risks_validity_to=null;
+        }else{
+            $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
+        }
+
+        if (is_null($request->input('civil_resp_validity_from'))) {
+            $contract->civil_resp_validity_from=null;
+        }else{
+            $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
+        }
+
+        if (is_null($request->input('civil_resp_validity_to'))) {
+            $contract->civil_resp_validity_to=null;
+        }else{
+            $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
+        }
+
+        $contract->control_1=$request->input('control_1');
+        $contract->control_a=$request->input('control_a');
+        $contract->control_2=$request->input('control_2');
+        $contract->control_b=$request->input('control_b');
+        $contract->control_3=$request->input('control_3');
+        $contract->control_c=$request->input('control_c');
+        $contract->control_4=$request->input('control_4');
+        $contract->control_d=$request->input('control_d');
+        $contract->control_5=$request->input('control_5');
+        $contract->control_e=$request->input('control_e');
         $contract->comments=$request->input('comments');
         $contract->creator_user_id = $request->user()->id;  // usuario logueado
         $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario
-
-
         $contract->save();
         return redirect()->route('contracts.index')->with('success', 'Llamado agregado correctamente');
-
-         // Si plurianualidad es 1 chequeamos que la suma no sobrepase el monto total
-        // if($request->input('plurianualidad') == 1){
-        //     $years = $request->input('multi_year_year');
-        //     $amounts = $request->input('multi_year_amount');
-        //     $total_amount = 0;
-        //     for ($i=0; $i < count($years); $i++) {
-        //         if(is_numeric($amounts[$i])){
-        //             $total_amount += $amounts[$i];
-        //         }
-        //     }
-        //     if($total_amount != $request->input('total_amount')){
-        //         $validator->errors()->add('multi_year', 'La suma de los montos plurianuales no coincide con el monto total.');
-        //         return back()->withErrors($validator)->withInput();
-        //     }
-        // }
-
-        // Si OG1 = 0 emite alerta
-        // if($request->input('expenditure_object_id') == 0){
-        //     $validator->errors()->add('expenditure_object_id', 'El OG no puede ser 0');
-        //     return back()->withErrors($validator)->withInput();
-        // }
-
-        // Si monto OG1 = 0 emite alerta
-        // if($request->input('amount1') == 0){
-        //     $validator->errors()->add('amount1', 'El monto de OG1 no puede ser 0');
-        //     return back()->withErrors($validator)->withInput();
-        // }
-
-
-        //creamos variables de montos de OG y sumamos para ver el total de la sumatoria
-        // $tot_am_exp1 = str_replace('.', '',($request->input('amount1')));
-        // $tot_am_exp2 = str_replace('.', '',($request->input('amount2')));
-        // $tot_am_exp3 = str_replace('.', '',($request->input('amount3')));
-        // $tot_am_exp4 = str_replace('.', '',($request->input('amount4')));
-        // $tot_am_exp5 = str_replace('.', '',($request->input('amount5')));
-        // $tot_am_exp6 = str_replace('.', '',($request->input('amount6')));
-        // $totales_am_exp = ($tot_am_exp1 + $tot_am_exp2 + $tot_am_exp3 + $tot_am_exp4 + $tot_am_exp5 + $tot_am_exp6);
-
-        // // // //creamos variable para capturar el monto total del pedio sacandole el separador de miles
-        // $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
-
-        // // // //validamos si el monto total de los OG no supera el monto total del pedido
-        // if($totales_am_exp <> $total_amount_fin){
-        //     $validator->errors()->add('total_amount', 'El monto TOTAL de los OG NO COINCIDE con el TOTAL del PEDIDO, verifique los montos de los OG');
-        //     return back()->withErrors($validator)->withInput();
-        // }
     }
 
     /**
@@ -943,77 +931,42 @@ class ContractsController extends Controller
      */
     public function update(Request $request, $contract_id)
     {
-        $contract = Order::findOrFail($contract_id);
+        $contract = Contract::findOrFail($contract_id);
 
         $rules = array(
-            'responsible' => 'string|required|max:100',
-            'year' => 'numeric|required|max:9999',
-            'modality' => 'numeric|required|max:32767',
-            // 'dncp_pac_id' => 'numeric|max:2147483647',
-            'begin_date' => 'date_format:d/m/Y|nullable',
-            'sub_program' => 'numeric|required|max:32767',
-            'funding_source' => 'numeric|required|max:32767',
-            'financial_organism' => 'numeric|required|max:32767',
-
-            // 'total_amount' => 'numeric|required|max:9223372036854775807',
-
             'description' => 'string|required|max:200',
-            'ad_referendum' => 'boolean|required',
-            'plurianualidad' => 'boolean|required',
-            'multi_year_year' => 'array|nullable',
-            'multi_year_amount' => 'array|nullable',
-            'system_awarded_by' => 'string|required|max:25',
-            'fonacide' => 'boolean|required',
-            'catalogs_technical_annexes' => 'boolean|required',
-            'alternative_offers' => 'boolean|required',
-            'open_contract' => 'numeric|required',
-            'period_time' => 'string|required|max:50',
-            'manufacturer_authorization' => 'boolean|required',
-            'financial_advance_percentage_amount' => 'boolean|required',
-            'technical_specifications' => 'string|required|max:100',
-            'samples' => 'boolean|required',
-            'delivery_plan' => 'string|nullable|max:150',
-            'evaluation_committee_proposal' => 'string|nullable|max:200',
-            'payment_conditions' => 'string|nullable',
-            'contract_guarantee' => 'string|nullable',
-            'product_guarantee' => 'string|nullable|max:200',
-            'contract_administrator' => 'string|required|max:150',
-            'contract_validity' => 'string|required|max:200',
-            'additional_technical_documents' => 'string|nullable|max:200',
-            'additional_qualified_documents' => 'string|nullable|max:200',
-            'price_sheet' => 'string|nullable|max:150',
-            'property_title' => 'string|nullable|max:200',
-            'magnetic_medium' => 'string|nullable|max:50',
-            'referring_person_data' => 'string|nullable|max:100',
-
-            'form4_city' => 'string|max:100|nullable',
-            'form4_date' => 'date_format:d/m/Y|nullable',
-            'dncp_resolution_number' => 'string|max:8|nullable',
-            'dncp_resolution_date' => 'date_format:d/m/Y|nullable',
-
+            'iddncp' => 'string|required|max:999999|min:7',
+            'linkdncp' => 'string|required|max:300',
+            'number_year' => 'string|required|max:9',
+            'year_adj' => 'numeric|required|max:9999',
+            'sign_date' => 'date_format:d/m/Y|required',
+            'provider_id' => 'numeric|required|max:999999',
+            'contract_state_id' => 'numeric|required|max:999999',
+            'modality_id' => 'numeric|required|max:999999',
+            'financial_organism_id' => 'numeric|required|max:999999',
+            'contract_type_id' => 'numeric|required|max:999999',
             'total_amount' => 'string|required|max:9223372036854775807',
-
-            'expenditure_object_id' => 'numeric|required|max:32767',
-            'amount1' => 'string|required|max:9223372036854775807',
-
-            'expenditure_object2_id' => 'numeric|nullable|max:32767',
-            'amount2' => 'string|nullable|max:9223372036854775807',
-
-            'expenditure_object3' => 'numeric|nullable|max:32767',
-            'amount3' => 'string|nullable|max:9223372036854775807',
-
-            'expenditure_object4' => 'numeric|nullable|max:32767',
-            'amount4' => 'string|nullable|max:9223372036854775807',
-
-            'expenditure_object5' => 'numeric|nullable|max:32767',
-            'amount5' => 'string|nullable|max:9223372036854775807',
-
-            'expenditure_object6' => 'numeric|nullable|max:32767',
-            'amount6' => 'string|nullable|max:9223372036854775807',
-
-            'total_amount' => 'string|required|max:9223372036854775807',
-
-            'covid' => 'boolean|required',
+            'advance_validity_from' => 'nullable|date_format:d/m/Y',
+            'advance_validity_to' => 'nullable|date_format:d/m/Y',
+            'fidelity_validity_from' => 'nullable|date_format:d/m/Y',
+            'fidelity_validity_to' => 'nullable|date_format:d/m/Y',
+            'accidents_validity_from' => 'nullable|date_format:d/m/Y',
+            'accidents_validity_to' => 'nullable|date_format:d/m/Y',
+            'risks_validity_from' => 'nullable|date_format:d/m/Y',
+            'risks_validity_to' => 'nullable|date_format:d/m/Y',
+            'civil_resp_validity_from' => 'nullable|date_format:d/m/Y',
+            'civil_resp_validity_to' => 'nullable|date_format:d/m/Y',
+            'comments' => 'nullable|max:300',
+            'control_1' => 'nullable|numeric',
+            'control_a' => 'nullable|numeric',
+            'control_2' => 'nullable|numeric',
+            'control_b' => 'nullable|numeric',
+            'control_3' => 'nullable|numeric',
+            'control_c' => 'nullable|numeric',
+            'control_4' => 'nullable|numeric',
+            'control_d' => 'nullable|numeric',
+            'control_5' => 'nullable|numeric',
+            'control_e' => 'nullable|numeric'
         );
 
         $validator =  Validator::make($request->input(), $rules);
@@ -1021,381 +974,114 @@ class ContractsController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // Si plurianualidad es 1 chequeamos que la suma no sobrepase el monto total
-        if($request->input('plurianualidad') == 1){
-            $years = $request->input('multi_year_year');
-            $amounts = $request->input('multi_year_amount');
-            $total_amount_pluri = 0;
-            for ($i=0; $i < count($years); $i++) {
-                if(is_numeric($amounts[$i])){
-                    $total_amount_pluri += $amounts[$i];
-                }
-            }
+        $contract->description=$request->input('description');
+        // $contract->iddncp=$request->input('iddncp');
 
-        //creamos variable para capturar el monto total del pedido sacandole el separador de miles
-        $total_amount = str_replace('.', '',($request->input('total_amount')));
 
-            if($total_amount_pluri != $total_amount){
-                $validator->errors()->add('multi_year', 'La suma de los montos plurianuales no coincide con el monto total.');
-                return back()->withErrors($validator)->withInput();
-            }
+        $iddncp_fin = str_replace('.', '',($request->input('iddncp')));
+
+        if ($iddncp_fin > 999999) {
+            $validator->errors()->add('iddncp', 'Número no debe sobrepasar 999.999');
+            return back()->withErrors($validator)->withInput()->with('fila');
+        }else{
+            $contract->iddncp = $iddncp_fin;
         }
+        // $contract->iddncp = $request->input('iddncp');
 
-        // Si OG1 = 0 emite alerta
-        if($request->input('expenditure_object_id') == 0){
-            $validator->errors()->add('expenditure_object_id', 'El OG no puede ser 0');
-            return back()->withErrors($validator)->withInput();
-        }
+        $contract->linkdncp=$request->input('linkdncp');
+        $contract->number_year=$request->input('number_year');
 
-        // Si monto OG1 = 0 emite alerta
-        if($request->input('amount1') == 0){
-            $validator->errors()->add('amount1', 'El monto de OG1 no puede ser 0');
-            return back()->withErrors($validator)->withInput();
-        }
+        $year_adj_fin = str_replace('.', '',($request->input('year_adj')));
+        $contract->year_adj = $year_adj_fin;
 
-
-        // Controlamos OG2 y montos de OG2
-        if($request->input('expenditure_object2_id') >0 ){
-            if($request->input('amount2') == ""){
-                $validator->errors()->add('amount2', 'El monto de OG2 no puede ser vacio');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount2') == 0){
-                $validator->errors()->add('amount2', 'El monto de OG2 no puede ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-            $contract->amount2 = str_replace('.', '',($request->input('amount2')));
-
-        }
-
-        if($request->input('expenditure_object2_id') == 0 ){
-            if($request->input('amount2') == ""){
-                $validator->errors()->add('amount2', 'El monto de OG2 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount2') > 0){
-                $validator->errors()->add('amount2', 'El monto de OG2 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-            $contract->amount2 = str_replace('.', '',($request->input('amount2')));
-        }
-
-        // Controlamos OG3 y montos de OG3
-        if($request->input('expenditure_object3_id') >0 ){
-
-            if($request->input('amount3') == ""){
-                $validator->errors()->add('amount3', 'El monto de OG3 no puede ser vacio');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount3') == 0){
-                $validator->errors()->add('amount3', 'El monto de OG3 no puede ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            $contract->amount3 = str_replace('.', '',($request->input('amount3')));
-        }
-
-        if($request->input('expenditure_object3_id') == 0 ){
-            if($request->input('amount3') == ""){
-                $validator->errors()->add('amount3', 'El monto de OG3 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount3') > 0){
-                $validator->errors()->add('amount3', 'El monto de OG3 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-            $contract->amount3 = str_replace('.', '',($request->input('amount3')));
-        }
-
-        // if(empty($request->input('monto_adjudica'))){
-        //     $budget->monto_adjudica = 0;
-        // }else{
-        //     $monto_adjudica = $request->input('monto_adjudica');
-        //     $budget->monto_adjudica = str_replace('.', '',$monto_adjudica);
-        // }
-
-        // Controlamos OG4 y montos de OG4
-        if($request->input('expenditure_object4_id') >0 ){
-            if($request->input('amount4') == ""){
-                $validator->errors()->add('amount4', 'El monto de OG4 no puede ser vacio');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount4') == 0){
-                $validator->errors()->add('amount4', 'El monto de OG4 no puede ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-            $contract->amount4 = str_replace('.', '',($request->input('amount4')));
-        }
-
-        if($request->input('expenditure_object4_id') == 0 ){
-            if($request->input('amount4') == ""){
-                $validator->errors()->add('amount4', 'El monto de OG4 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount4') > 0){
-                $validator->errors()->add('amount4', 'El monto de OG4 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-
-            }
-            $contract->amount4 = str_replace('.', '',($request->input('amount4')));
-        }
-
-        // Controlamos OG5 y montos de OG5
-        if($request->input('expenditure_object5_id') >0 ){
-            if($request->input('amount5') == ""){
-                $validator->errors()->add('amount5', 'El monto de OG5 no puede ser vacio');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount5') == 0){
-                $validator->errors()->add('amount5', 'El monto de OG5 no puede ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-            $contract->amount5 = str_replace('.', '',($request->input('amount5')));
-        }
-
-        if($request->input('expenditure_object5_id') == 0 ){
-            if($request->input('amount5') == ""){
-                $validator->errors()->add('amount5', 'El monto de OG5 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount5') > 0){
-                $validator->errors()->add('amount5', 'El monto de OG5 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-
-            }
-            $contract->amount5 = str_replace('.', '',($request->input('amount5')));
-        }
-
-        // Controlamos OG6 y montos de OG6
-        if($request->input('expenditure_object6_id') >0 ){
-            if($request->input('amount6') == ""){
-                $validator->errors()->add('amount6', 'El monto de OG6 no puede ser vacio');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount6') == 0){
-                $validator->errors()->add('amount6', 'El monto de OG6 no puede ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-            $contract->amount6 = str_replace('.', '',($request->input('amount6')));
-        }
-
-        if($request->input('expenditure_object6_id') == 0 ){
-            if($request->input('amount6') == ""){
-                $validator->errors()->add('amount6', 'El monto de OG6 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-            }
-
-            if($request->input('amount6') > 0){
-                $validator->errors()->add('amount6', 'El monto de OG6 debe ser 0');
-                return back()->withErrors($validator)->withInput();
-
-            }
-            $contract->amount6 = str_replace('.', '',($request->input('amount6')));
-        }
-
-        //creamos variables de montos de OG y sumamos para ver el total de la sumatoria
-        $tot_am_exp1 = str_replace('.', '',($request->input('amount1')));
-        $tot_am_exp2 = str_replace('.', '',($request->input('amount2')));
-        $tot_am_exp3 = str_replace('.', '',($request->input('amount3')));
-        $tot_am_exp4 = str_replace('.', '',($request->input('amount4')));
-        $tot_am_exp5 = str_replace('.', '',($request->input('amount5')));
-        $tot_am_exp6 = str_replace('.', '',($request->input('amount6')));
-        $totales_am_exp = ($tot_am_exp1 + $tot_am_exp2 + $tot_am_exp3 + $tot_am_exp4 + $tot_am_exp5 + $tot_am_exp6);
-
-        // // //creamos variable para capturar el monto total del pedio sacandole el separador de miles
+        $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
+        $contract->provider_id=$request->input('provider_id');
+        $contract->contract_state_id=$request->input('contract_state_id');
+        $contract->modality_id=$request->input('modality_id');
+        $contract->financial_organism_id=$request->input('financial_organism_id');
+        $contract->contract_type_id=$request->input('contract_type_id');
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
+        $contract->total_amount = $total_amount_fin;
 
-        // // //validamos si el monto total de los OG no supera el monto total del pedido
-        if($totales_am_exp <> $total_amount_fin){
-            $validator->errors()->add('total_amount', 'El monto TOTAL de los OG NO COINCIDE con el TOTAL del PEDIDO, verifique los montos de los OG');
-            return back()->withErrors($validator)->withInput();
-        }
-
-
-        //CAPTURAMOS LA DEPENDENCIA DEL REQUIRENTE SI ES DE PAC NO SE CAPTURA
-        if($request->user()->hasPermission(['admin.orders.update']) && $request->user()->dependency_id == 59){
-
+        //CONTROLAR QUE LAS FECHAS SI SON VACIAS GRABEN NULL
+        if (is_null($request->input('advance_validity_from'))) {
+            $contract->advance_validity_from=null;
         }else{
-            $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario
+            $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
         }
 
-        $contract->responsible = $request->input('responsible');
-        $contract->year = $request->input('year');
-        $contract->modality_id = $request->input('modality');
-        $contract->dncp_pac_id = $request->input('dncp_pac_id');
-        // $contract->begin_date = $request->input('begin_date');
-        $contract->begin_date = empty($request->input('begin_date')) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $request->input('begin_date'))));
-        $contract->sub_program_id = $request->input('sub_program');
-        $contract->funding_source_id = $request->input('funding_source');
-        $contract->financial_organism_id = $request->input('financial_organism');
-
-        // $item->total_amount = str_replace('.', '',$total_amount);
-        $contract->total_amount = str_replace('.', '',($request->input('total_amount')));
-
-        $contract->description = $request->input('description');
-        $contract->ad_referendum = $request->input('ad_referendum');
-        $contract->plurianualidad = $request->input('plurianualidad');
-        $contract->system_awarded_by = $request->input('system_awarded_by');
-        $contract->fonacide = $request->input('fonacide');
-        $contract->catalogs_technical_annexes = $request->input('catalogs_technical_annexes');
-        $contract->alternative_offers = $request->input('alternative_offers');
-        $contract->open_contract = $request->input('open_contract');
-        $contract->period_time = $request->input('period_time');
-        $contract->manufacturer_authorization = $request->input('manufacturer_authorization');
-        $contract->financial_advance_percentage_amount = $request->input('financial_advance_percentage_amount');
-        $contract->technical_specifications = $request->input('technical_specifications');
-        $contract->samples = $request->input('samples');
-        $contract->delivery_plan = $request->input('delivery_plan');
-        $contract->evaluation_committee_proposal = $request->input('evaluation_committee_proposal');
-        $contract->payment_conditions = $request->input('payment_conditions');
-        $contract->contract_guarantee = $request->input('contract_guarantee');
-        $contract->product_guarantee = $request->input('product_guarantee');
-        $contract->contract_administrator = $request->input('contract_administrator');
-        $contract->contract_validity = $request->input('contract_validity');
-        $contract->additional_technical_documents = $request->input('additional_technical_documents');
-        $contract->additional_qualified_documents = $request->input('additional_qualified_documents');
-        $contract->price_sheet = $request->input('price_sheet');
-        $contract->property_title = $request->input('property_title');
-        $contract->magnetic_medium = $request->input('magnetic_medium');
-        $contract->referring_person_data = $request->input('referring_person_data');
-        $contract->form4_city = $request->input('form4_city');
-        // $contract->form4_date = $request->input('form4_date');
-        //$contract->form4_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('form4_date'))));
-        $contract->form4_date = empty($request->input('form4_date')) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $request->input('form4_date'))));
-        $contract->dncp_resolution_number = $request->input('dncp_resolution_number');
-        // $contract->dncp_resolution_date = $request->input('dncp_resolution_date');
-        //$contract->dncp_resolution_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('dncp_resolution_date'))));
-        $contract->dncp_resolution_date = empty($request->input('dncp_resolution_date')) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $request->input('dncp_resolution_date'))));
-
-        $contract->expenditure_object_id = $request->input('expenditure_object_id');
-        $contract->expenditure_object2_id = $request->input('expenditure_object2_id');
-        $contract->expenditure_object3_id = $request->input('expenditure_object3_id');
-        $contract->expenditure_object4_id = $request->input('expenditure_object4_id');
-        $contract->expenditure_object5_id = $request->input('expenditure_object5_id');
-        $contract->expenditure_object6_id = $request->input('expenditure_object6_id');
-
-        //SE CAPTURA EL MONTO DEL OG1 EL RESTO SE CAPTURA EN LAS VALIDACIONES DE ARRIBA
-        $contract->amount1 = str_replace('.', '',($request->input('amount1')));
-
-        $contract->covid = $request->input('covid');
-
-        $new_order = new Order;
-        $new_order->dependency_id = $request->user()->dependency_id;
-        $new_order->responsible = $contract['responsible'];
-        $new_order->year = $contract['year'];
-        $new_order->modality_id = $contract['modality_id'];
-        $new_order->dncp_pac_id = $contract['dncp_pac_id'];
-        $new_order->begin_date = empty($contract['begin_date']) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $contract['begin_date'])));
-        $new_order->sub_program_id = $contract['sub_program_id'];
-        $new_order->funding_source_id = $contract['funding_source_id'];
-        $new_order->financial_organism_id = $contract['financial_organism_id'];
-        $new_order->total_amount = $contract['total_amount'];
-
-        $new_order->expenditure_object_id = $contract['expenditure_object'];
-        $new_order->amount1 = $contract['amount1'];
-        $new_order->expenditure_object2_id = $contract['expenditure_object2_id'];
-        $new_order->amount2 = $contract['amount2'];
-        $new_order->expenditure_object3_id = $contract['expenditure_object3_id'];
-        $new_order->amount3 = $contract['amount3'];
-        $new_order->expenditure_object4_id = $contract['expenditure_object4_id'];
-        $new_order->amount4 = $contract['amount4'];
-        $new_order->expenditure_object5_id = $contract['expenditure_object5_id'];
-        $new_order->amount5 = $contract['amount5'];
-        $new_order->expenditure_object6_id = $contract['expenditure_object6_id'];
-        $new_order->amount6 = $contract['amount6'];
-
-        $new_order->description = $contract['description'];
-        $new_order->ad_referendum = $contract['ad_referendum'];
-        $new_order->plurianualidad = $contract['plurianualidad'];
-        $new_order->system_awarded_by = $contract['system_awarded_by'];
-        // $new_order->expenditure_object_id = $contract['expenditure_object_id'];
-        $new_order->fonacide = $contract['fonacide'];
-        $new_order->catalogs_technical_annexes = $contract['catalogs_technical_annexes'];
-        $new_order->alternative_offers = $contract['alternative_offers'];
-        $new_order->open_contract = $contract['open_contract'];
-        $new_order->period_time = $contract['period_time'];
-        $new_order->manufacturer_authorization = $contract['manufacturer_authorization'];
-        $new_order->financial_advance_percentage_amount = $contract['financial_advance_percentage_amount'];
-        $new_order->technical_specifications = $contract['technical_specifications'];
-        $new_order->samples = $contract['samples'];
-        $new_order->delivery_plan = $contract['delivery_plan'];
-        $new_order->evaluation_committee_proposal = $contract['evaluation_committee_proposal'];
-        $new_order->payment_conditions = $contract['payment_conditions'];
-        $new_order->contract_guarantee = $contract['contract_guarantee'];
-        $new_order->product_guarantee = $contract['product_guarantee'];
-        $new_order->contract_administrator = $contract['contract_administrator'];
-        $new_order->contract_validity = $contract['contract_validity'];
-        $new_order->additional_technical_documents = $contract['additional_technical_documents'];
-        $new_order->additional_qualified_documents = $contract['additional_qualified_documents'];
-        $new_order->price_sheet = $contract['price_sheet'];
-        $new_order->property_title = $contract['property_title'];
-        $new_order->magnetic_medium = $contract['magnetic_medium'];
-        $new_order->referring_person_data = $contract['referring_person_data'];
-        $new_order->form4_city = $contract['form4_city'];
-        //ESTABA COMENTADO
-        $new_order->form4_date = date('Y-m-d', strtotime(str_replace("/", "-", $contract['form4_date'])));
-
-        $new_order->dncp_resolution_number = $contract['dncp_resolution_number'];
-        //ESTABA COMENTADO
-        $new_order->dncp_resolution_date = date('Y-m-d', strtotime(str_replace("/", "-", $contract['dncp_resolution_date'])));
-
-        $new_order->covid = $contract['covid'];
-
-
-
-        // Si es usuario de Planificación (59) no actualiza dependencia
-        if($request->user()->hasPermission(['admin.orders.update']) && $request->user()->dependency_id == 59){
-            $contract->modifier_user_id = $request->user()->id;  // usuario logueado
+        if (is_null($request->input('advance_validity_to'))) {
+            $contract->advance_validity_to=null;
         }else{
-            $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario
-            $contract->modifier_user_id = $request->user()->id;  // usuario logueado
+            $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));
         }
-        // $contract->modifier_user_id = $request->user()->id;  // usuario logueado
 
+        if (is_null($request->input('fidelity_validity_from'))) {
+            $contract->fidelity_validity_from=null;
+        }else{
+            $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
+        }
+
+        if (is_null($request->input('fidelity_validity_to'))) {
+            $contract->fidelity_validity_to=null;
+        }else{
+            $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
+        }
+
+        if (is_null($request->input('accidents_validity_from'))) {
+            $contract->accidents_validity_from=null;
+        }else{
+            $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
+        }
+
+        if (is_null($request->input('accidents_validity_to'))) {
+            $contract->accidents_validity_to=null;
+        }else{
+            $contract->accidents_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_to'))));
+        }
+
+        if (is_null($request->input('risks_validity_from'))) {
+            $contract->risks_validity_from=null;
+        }else{
+            $contract->risks_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_from'))));
+        }
+
+        if (is_null($request->input('risks_validity_to'))) {
+            $contract->risks_validity_to=null;
+        }else{
+            $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
+        }
+
+        if (is_null($request->input('civil_resp_validity_from'))) {
+            $contract->civil_resp_validity_from=null;
+        }else{
+            $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
+        }
+
+        if (is_null($request->input('civil_resp_validity_to'))) {
+            $contract->civil_resp_validity_to=null;
+        }else{
+            $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
+        }
+
+        $contract->control_1=$request->input('control_1');
+        $contract->control_a=$request->input('control_a');
+        $contract->control_2=$request->input('control_2');
+        $contract->control_b=$request->input('control_b');
+        $contract->control_3=$request->input('control_3');
+        $contract->control_c=$request->input('control_c');
+        $contract->control_4=$request->input('control_4');
+        $contract->control_d=$request->input('control_d');
+        $contract->control_5=$request->input('control_5');
+        $contract->control_e=$request->input('control_e');
+        $contract->comments=$request->input('comments');
+        $contract->creator_user_id = $request->user()->id;  // usuario logueado
+        $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario
         $contract->save();
+        return redirect()->route('contracts.show', $contract->id)->with('success', 'Pedido modificado correctamente');
 
-
-        // Borramos los registros de plurianualidad anteriores
-        foreach($contract->orderMultiYears as $multi_year){
-            $multi_year->delete();
-        }
-
-        // Agregamos nuevos registros de plurianualidad en caso de haber pasado en el formulario
-        if($request->input('plurianualidad') == 1){
-            $years = $request->input('multi_year_year');
-            $amounts = $request->input('multi_year_amount');
-            for ($i=0; $i < count($years); $i++) {
-                if(is_numeric($amounts[$i])){
-                    $contract_multi_year = new OrderMultiYear;
-                    $contract_multi_year->order_id = $contract->id;
-                    $contract_multi_year->year = $years[$i];
-                    $contract_multi_year->amount = $amounts[$i];
-                    $contract_multi_year->creator_user_id = $request->user()->id;  // usuario logueado
-                    $contract_multi_year->save();
-                }
-            }
-        }
-        // Original
-        // return redirect()->route('orders.index')->with('success', 'Pedido modificado correctamente');
-
-        // Cuando es derivado desde Planificación, y desea modificar el Pedido
-        if($request->user()->hasPermission(['admin.orders.update']) || $request->user()->dependency_id == 59){
-            return redirect()->route('plannings.orders.update', $contract->id)->with('success', 'Pedido modificado por PAC');
-            // Auth::user()->dependency->description
-        }else{
-            // return redirect()->route('plannings.orders.update', $contract->id)->with('success', 'Pedido modificado por PAC');
-            return redirect()->route('orders.show', $contract->id)->with('success', 'Pedido modificado correctamente');
-        }
     }
+
 
     public function excel(){
         $spreadsheet = new Spreadsheet();
