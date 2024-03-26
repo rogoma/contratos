@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Contract;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +25,8 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\OrdersExport;
 use App\Exports\OrdersExport2;
 use App\Exports\OrdersExport3;
+
+use App\Rules\ValidarCalendarios;
 
 use Maatwebsite\Excel\Facades\Excel;
 // use Illuminate\Support\Carbon;
@@ -166,6 +167,11 @@ class ContractsController extends Controller
             'control_e' => 'nullable|numeric'
         );
 
+        // $request->validate([
+        //     'advance_validity_from' => [new ValidarCalendarios],
+        //     'advance_validity_to' => [new ValidarCalendarios],
+        // ]);
+
         $validator =  Validator::make($request->input(), $rules);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -174,8 +180,6 @@ class ContractsController extends Controller
         $contract = new Contract;
 
         $contract->description=$request->input('description');
-        // $contract->iddncp=$request->input('iddncp');
-
 
         $iddncp_fin = str_replace('.', '',($request->input('iddncp')));
 
@@ -185,14 +189,12 @@ class ContractsController extends Controller
         }else{
             $contract->iddncp = $iddncp_fin;
         }
-        // $contract->iddncp = $request->input('iddncp');
 
         $contract->linkdncp=$request->input('linkdncp');
         $contract->number_year=$request->input('number_year');
 
         $year_adj_fin = str_replace('.', '',($request->input('year_adj')));
         $contract->year_adj = $year_adj_fin;
-
         $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
         $contract->provider_id=$request->input('provider_id');
         $contract->contract_state_id=$request->input('contract_state_id');
@@ -262,6 +264,13 @@ class ContractsController extends Controller
         }else{
             $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
         }
+
+        //CONTROLAR QUE SI EL CALENDAR DE UNA POLIZA TIENE DATOS EL OTRO TAMBIEN TENGA
+        // if (is_null($request->input('advance_validity_from'))) {
+        //     $contract->advance_validity_from=null;
+        // }else{
+        //     $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
+        // }
 
         $contract->control_1=$request->input('control_1');
         $contract->control_a=$request->input('control_a');
