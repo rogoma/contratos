@@ -34,8 +34,7 @@ p.centrado {
                 <div class="page-header-title">
                     <i class="fa fa-list bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Llamados - Listado de Llamados de Licitaciones</h5>
-                        {{-- <span>Listado de Llamados de Licitaciones</span> --}}
+                        <h5>Llamados - Listado de Llamados de Licitaciones</h5>                        
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         <br>
                             <a href="pdf/panel_contracts" class="btn btn-outline-primary" target="_blank"> TOTAL LLAMADOS</a>
@@ -83,21 +82,13 @@ p.centrado {
                                         <table id="contracts" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    {{-- <th>Modalidad</th> --}}
+                                                    <th>#</th>                                                   
                                                     <th>Llamado</th>
                                                     <th>IDDNCP</th>
                                                     <th>Link DNCP</th>
-{{--
-                                                    <th>Contr./Año</th>
-                                                    <th>Año Adjudicación</th>
-                                                    <th>Fecha firma</th>                                  --}}
-
                                                     <th>Monto total LLAMADO</th>
                                                     <th>Contratista</th>
                                                     <th>Modalidad</th>
-                                                    {{-- <th>Org. Financ.</th> --}}
-
                                                     <th>Estado</th>
                                                     <th>Tipo Contrato</th>
                                                     <th>Acciones</th>
@@ -109,17 +100,10 @@ p.centrado {
                                                     <td>{{ ($i+1) }}</td>
                                                     <td class="columna2">{{ $contracts[$i]->description }}</td>
                                                     <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>
-                                                    <td style="color:#ff0000">{{ $contracts[$i]->linkdncp }}</td>
-                                                    {{-- <td>{{ $contracts[$i]->number_year }}</td>
-                                                    <td>{{ $contracts[$i]->year_adj }}</td>
-                                                    <td>{{ $contracts[$i]->signDateFormat() }}</td> --}}
+                                                    <td style="color:#ff0000">{{ $contracts[$i]->linkdncp }}</td>                                                    
                                                     <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
                                                     <td>{{ $contracts[$i]->provider->ruc }}-{{ $contracts[$i]->provider->description }}</td>
-                                                    <td>{{ $contracts[$i]->modality->code }}-{{ $contracts[$i]->modality->description }}</td>
-                                                    {{-- <td>{{ $contracts[$i]->financialOrganism->description}}</td> --}}
-
-                                                    {{-- <td class="columna10">{{ $contracts[$i]->contractState->description }}</td> --}}
-
+                                                    <td>{{ $contracts[$i]->modality->code }}-{{ $contracts[$i]->modality->description }}</td>                                                    
                                                     @if ($contracts[$i]->contractState->id >1)
                                                         <td style="color:#ff0000">{{ $contracts[$i]->contractState->description }}</td>
                                                     @else

@@ -277,16 +277,16 @@
                                             <div class="row">
                                                 {{-- #15 FIEL CUMPL.--}}
                                                 <div class="col-md-3">
-                                                    <label class="col-form-label @error('fidelity_validity_to') has-danger @enderror">Fiel Cumplimiento -Vigencia Hasta</label>
-                                                    <div class="input-group @error('fidelity_validity_to') has-danger @enderror">
+                                                    <label class="col-form-label @error('fidelity_validity_from') has-danger @enderror">Fiel Cumplimiento -Vigencia Hasta</label>
+                                                    <div class="input-group @error('fidelity_validity_from') has-danger @enderror">
                                                         {{-- PREGUNTAMOS SI FECHA ES NULL --}}
-                                                        @if (is_null($contract->fidelity_validity_to))
-                                                            <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', strtotime($contract->fidelity_validity_to)) }}" class="form-control text-align: left" autocomplete="off">
+                                                        @if (is_null($contract->fidelity_validity_from))
+                                                            <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', strtotime($contract->fidelity_validity_from)) }}" class="form-control text-align: left" autocomplete="off">
                                                         @else
-                                                            <input type="text" id="fidelity_validity_to" name="fidelity_validity_to" value="{{ old('fidelity_validity_to', date('d/m/Y', strtotime($contract->fidelity_validity_to))) }}" class="form-control text-align: left" autocomplete="off">
+                                                            <input type="text" id="fidelity_validity_from" name="fidelity_validity_from" value="{{ old('fidelity_validity_from', date('d/m/Y', strtotime($contract->fidelity_validity_from))) }}" class="form-control text-align: left" autocomplete="off">
                                                         @endif
                                                         <span class="input-group-append" id="basic-addon">
-                                                            <label class="input-group-text" onclick="show('fidelity_validity_to');"><i class="fa fa-calendar"></i></label>
+                                                            <label class="input-group-text" onclick="show('fidelity_validity_from');"><i class="fa fa-calendar"></i></label>
                                                         </span>
                                                     </div>
                                                     @error('fidelity_validity_to')
