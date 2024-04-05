@@ -598,18 +598,6 @@ $(document).ready(function(){
         var fechaInicio = $(this).datepicker('getDate');
         var fechaFin = $('#advance_validity_to').datepicker('getDate');
 
-        //CARGA DE DATOS PARA PODER ACELERAR CARGA
-        // $('#advance_validity_to').val('23/03/2024');
-        // $('#fidelity_validity_from').val('23/03/2024');
-        // $('#fidelity_validity_to').val('23/03/2024');
-        // $('#accidents_validity_from').val('23/03/2024');
-        // $('#accidents_validity_to').val('23/03/2024');
-        // $('#risks_validity_from').val('23/03/2024');
-        // $('#risks_validity_to').val('23/03/2024');
-        // $('#civil_resp_validity_from').val('23/03/2024');
-        // $('#civil_resp_validity_to').val('23/03/2024');
-
-
         if (fechaFin == null){
 
         }else{
@@ -620,7 +608,6 @@ $(document).ready(function(){
                 $('#control_1').val('');
                 $('#control_a').val('');
             }else{
-
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
                 {
@@ -634,7 +621,6 @@ $(document).ready(function(){
                 }
 
                 $('#control_1').val(restaFechas(f1,f2));
-
             }
         }
     });
