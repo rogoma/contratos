@@ -595,8 +595,17 @@ $(document).ready(function(){
 
     //VALIDACIÓN DE FECHAS DE ANTICIPOS
     $('#advance_validity_from').on('changeDate', function() {
-        var fechaInicio = $(this).datepicker('getDate');
-        var fechaFin = $('#advance_validity_to').datepicker('getDate');
+        var fechaInicio = $(this).datepicker('getDate').getTime();
+        var fechaFin = $('#advance_validity_to').datepicker('getDate').getTime();
+
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#advance_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#advance_validity_to').val('');
+            $('#control_1').val('');
+            $('#control_a').val('');
+            return;
+        }
 
         if (fechaFin == null){
 
@@ -608,6 +617,11 @@ $(document).ready(function(){
                 $('#control_1').val('');
                 $('#control_a').val('');
             }else{
+                $('#advance_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#advance_validity_to').val('');
+                $('#control_1').val('');
+                $('#control_a').val('');
+
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
                 {
@@ -626,8 +640,17 @@ $(document).ready(function(){
     });
 
     $('#advance_validity_to').on('changeDate', function() {
-        var fechaInicio = $('#advance_validity_from').datepicker('getDate');
-        var fechaFin = $(this).datepicker('getDate');
+        var fechaInicio = $('#advance_validity_from').datepicker('getDate').getTime();
+        var fechaFin = $(this).datepicker('getDate').getTime();
+
+        if (fechaInicio === fechaFin) {
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#advance_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#advance_validity_to').val('');
+            $('#control_1').val('');
+            $('#control_a').val('');
+            return;
+        }
 
         if (fechaInicio > fechaFin) {
             alert('La fecha de inicio no puede ser mayor a la fecha final.');
@@ -636,7 +659,6 @@ $(document).ready(function(){
             $('#control_1').val('');
             $('#control_a').val('');
         }else{
-
             ///calcula dias de vigencia
             restaFechas = function(f1,f2)
             {
@@ -671,9 +693,17 @@ $(document).ready(function(){
 
     //VALIDACIÓN DE FECHAS DE FIEL CUMPLIMIENTO
     $('#fidelity_validity_from').on('changeDate', function() {
-        var fechaInicio = $(this).datepicker('getDate');
-        var fechaFin = $('#fidelity_validity_to').datepicker('getDate');
+        var fechaInicio = $(this).datepicker('getDate').getTime();
+        var fechaFin = $('#fidelity_validity_to').datepicker('getDate').getTime();
 
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#fidelity_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#fidelity_validity_to').val('');
+            $('#control_2').val('');
+            $('#control_b').val('');
+            return;
+        }
 
         if (fechaFin == null){
 
@@ -685,6 +715,10 @@ $(document).ready(function(){
                 $('#control_2').val('');
                 $('#control_b').val('');
             }else{
+                $('#fidelity_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#fidelity_validity_to').val('');
+                $('#control_2').val('');
+                $('#control_b').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
@@ -705,8 +739,17 @@ $(document).ready(function(){
     });
 
     $('#fidelity_validity_to').on('changeDate', function() {
-        var fechaInicio = $('#fidelity_validity_from').datepicker('getDate');
-        var fechaFin = $(this).datepicker('getDate');
+        var fechaInicio = $('#fidelity_validity_from').datepicker('getDate').getTime();
+        var fechaFin = $(this).datepicker('getDate').getTime();
+
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#fidelity_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#fidelity_validity_to').val('');
+            $('#control_2').val('');
+            $('#control_b').val('');
+            return;
+        }
 
         if (fechaInicio > fechaFin) {
             alert('La fecha de inicio no puede ser mayor a la fecha final.');
@@ -715,7 +758,6 @@ $(document).ready(function(){
             $('#control_2').val('');
             $('#control_b').val('');
         }else{
-
             ///calcula dias de vigencia
             restaFechas = function(f1,f2)
             {
@@ -750,9 +792,17 @@ $(document).ready(function(){
 
     //VALIDACIÓN DE FECHAS DE ACCIDENTES PERSONALES
     $('#accidents_validity_from').on('changeDate', function() {
-        var fechaInicio = $(this).datepicker('getDate');
-        var fechaFin = $('#accidents_validity_to').datepicker('getDate');
+        var fechaInicio = $(this).datepicker('getDate').getTime();
+        var fechaFin = $('#accidents_validity_to').datepicker('getDate').getTime();
 
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#accidents_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#accidents_validity_to').val('');
+            $('#control_3').val('');
+            $('#control_c').val('');
+            return;
+        }
 
         if (fechaFin == null){
 
@@ -764,6 +814,10 @@ $(document).ready(function(){
                 $('#control_3').val('');
                 $('#control_c').val('');
             }else{
+                $('#accidents_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#accidents_validity_to').val('');
+                $('#control_3').val('');
+                $('#control_c').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
@@ -784,8 +838,17 @@ $(document).ready(function(){
     });
 
     $('#accidents_validity_to').on('changeDate', function() {
-        var fechaInicio = $('#accidents_validity_from').datepicker('getDate');
-        var fechaFin = $(this).datepicker('getDate');
+        var fechaInicio = $('#accidents_validity_from').datepicker('getDate').getTime();
+        var fechaFin = $(this).datepicker('getDate').getTime();
+
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#accidents_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#accidents_validity_to').val('');
+            $('#control_3').val('');
+            $('#control_c').val('');
+            return;
+        }
 
         if (fechaInicio > fechaFin) {
             alert('La fecha de inicio no puede ser mayor a la fecha final.');
@@ -829,9 +892,17 @@ $(document).ready(function(){
 
     //VALIDACIÓN DE FECHAS DE TODO RIESGO
     $('#risks_validity_from').on('changeDate', function() {
-        var fechaInicio = $(this).datepicker('getDate');
-        var fechaFin = $('#risks_validity_to').datepicker('getDate');
+        var fechaInicio = $(this).datepicker('getDate').getTime();
+        var fechaFin = $('#risks_validity_to').datepicker('getDate').getTime();
 
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#risks_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#risks_validity_to').val('');
+            $('#control_4').val('');
+            $('#control_d').val('');
+            return;
+        }
 
         if (fechaFin == null){
 
@@ -843,6 +914,10 @@ $(document).ready(function(){
                 $('#control_4').val('');
                 $('#control_d').val('');
             }else{
+                $('#risks_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#risks_validity_to').val('');
+                $('#control_4').val('');
+                $('#control_d').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
@@ -863,8 +938,17 @@ $(document).ready(function(){
     });
 
     $('#risks_validity_to').on('changeDate', function() {
-        var fechaInicio = $('#risks_validity_from').datepicker('getDate');
-        var fechaFin = $(this).datepicker('getDate');
+        var fechaInicio = $('#risks_validity_from').datepicker('getDate').getTime();
+        var fechaFin = $(this).datepicker('getDate').getTime();
+
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#risks_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#risks_validity_to').val('');
+            $('#control_4').val('');
+            $('#control_d').val('');
+            return;
+        }
 
         if (fechaInicio > fechaFin) {
             alert('La fecha de inicio no puede ser mayor a la fecha final.');
@@ -908,9 +992,17 @@ $(document).ready(function(){
 
     //VALIDACIÓN DE FECHAS DE RESPONSABILIDAD CIVIL
     $('#civil_resp_validity_from').on('changeDate', function() {
-        var fechaInicio = $(this).datepicker('getDate');
-        var fechaFin = $('#civil_resp_validity_to').datepicker('getDate');
+        var fechaInicio = $(this).datepicker('getDate').getTime();
+        var fechaFin = $('#civil_resp_validity_to').datepicker('getDate').getTime();
 
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#civil_resp_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#civil_resp_validity_to').val('');
+            $('#control_5').val('');
+            $('#control_e').val('');
+            return;
+        }
 
         if (fechaFin == null){
 
@@ -922,6 +1014,10 @@ $(document).ready(function(){
                 $('#control_5').val('');
                 $('#control_e').val('');
             }else{
+                $('#civil_resp_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#civil_resp_validity_to').val('');
+                $('#control_5').val('');
+                $('#control_e').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
@@ -942,8 +1038,17 @@ $(document).ready(function(){
     });
 
     $('#civil_resp_validity_to').on('changeDate', function() {
-        var fechaInicio = $('#civil_resp_validity_from').datepicker('getDate');
-        var fechaFin = $(this).datepicker('getDate');
+        var fechaInicio = $('#civil_resp_validity_from').datepicker('getDate').getTime();
+        var fechaFin = $(this).datepicker('getDate').getTime();
+
+        if (fechaInicio === fechaFin){
+            alert('La fecha final debe ser mayor a fecha de inicio');
+            $('#civil_resp_validity_to').datepicker('date', null); // Limpiar el datapicker
+            $('#civil_resp_validity_to').val('');
+            $('#control_5').val('');
+            $('#control_e').val('');
+            return;
+        }
 
         if (fechaInicio > fechaFin) {
             alert('La fecha de inicio no puede ser mayor a la fecha final.');
@@ -984,8 +1089,6 @@ $(document).ready(function(){
             $('#control_e').val(restaFechas2(f2,f3));//resultado fecha días para vencer
         }
     });
-
-
 });
 </script>
 @endpush

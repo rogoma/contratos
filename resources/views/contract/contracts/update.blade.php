@@ -662,6 +662,10 @@ $(document).ready(function(){
                 $('#control_1').val('');
                 $('#control_a').val('');
             }else{
+                $('#advance_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#advance_validity_to').val('');
+                $('#control_1').val('');
+                $('#control_a').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
@@ -742,6 +746,10 @@ $(document).ready(function(){
                 $('#control_b').val('');
             }else{
 
+                $('#fidelity_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#fidelity_validity_to').val('');
+                $('#control_2').val('');
+                $('#control_b').val('');
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
                 {
@@ -820,7 +828,10 @@ $(document).ready(function(){
                 $('#control_3').val('');
                 $('#control_c').val('');
             }else{
-
+                $('#accidents_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#accidents_validity_to').val('');
+                $('#control_3').val('');
+                $('#control_c').val('');
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
                 {
@@ -899,6 +910,10 @@ $(document).ready(function(){
                 $('#control_4').val('');
                 $('#control_d').val('');
             }else{
+                $('#risks_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#risks_validity_to').val('');
+                $('#control_4').val('');
+                $('#control_d').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)
@@ -978,6 +993,10 @@ $(document).ready(function(){
                 $('#control_5').val('');
                 $('#control_e').val('');
             }else{
+                $('#civil_resp_validity_to').datepicker('date', null); // Limpiar el datapicker
+                $('#civil_resp_validity_to').val('');
+                $('#control_5').val('');
+                $('#control_e').val('');
 
                 //controla días para vigencia
                 restaFechas = function(f1,f2)

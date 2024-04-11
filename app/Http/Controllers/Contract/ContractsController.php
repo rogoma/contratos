@@ -144,16 +144,22 @@ class ContractsController extends Controller
             'financial_organism_id' => 'numeric|required|max:999999',
             'contract_type_id' => 'numeric|required|max:999999',
             'total_amount' => 'string|required|max:9223372036854775807',
+
             'advance_validity_from' => 'nullable|date_format:d/m/Y',
-            'advance_validity_to' => 'nullable|date_format:d/m/Y',
-            'fidelity_validity_from' => 'nullable|date_format:d/m/Y',
-            'fidelity_validity_to' => 'nullable|date_format:d/m/Y',
-            'accidents_validity_from' => 'nullable|date_format:d/m/Y',
-            'accidents_validity_to' => 'nullable|date_format:d/m/Y',
-            'risks_validity_from' => 'nullable|date_format:d/m/Y',
-            'risks_validity_to' => 'nullable|date_format:d/m/Y',
-            'civil_resp_validity_from' => 'nullable|date_format:d/m/Y',
-            'civil_resp_validity_to' => 'nullable|date_format:d/m/Y',
+            'advance_validity_to' => 'date_format:d/m/Y|after:advance_validity_from|nullable',
+
+            // 'fidelity_validity_from' => 'nullable|date_format:d/m/Y',
+            // 'fidelity_validity_to' => 'date_format:d/m/Y|after:fidelity_validity_from',
+
+            // 'accidents_validity_from' => 'nullable|date_format:d/m/Y',
+            // 'accidents_validity_to' => 'date_format:d/m/Y|after:accidents_validity_from',
+
+            // 'risks_validity_from' => 'nullable|date_format:d/m/Y',
+            // 'risks_validity_to' => 'date_format:d/m/Y|after:risks_validity_from',
+
+            // 'civil_resp_validity_from' => 'nullable|date_format:d/m/Y',
+            // 'civil_resp_validity_to' => 'date_format:d/m/Y|after:civil_resp_validity_from',
+
             'comments' => 'nullable|max:300',
             'control_1' => 'nullable|numeric',
             'control_a' => 'nullable|numeric',
