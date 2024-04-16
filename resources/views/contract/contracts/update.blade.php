@@ -70,7 +70,8 @@
                                         <div class="col-sm-2">
                                             <div class="form-group @error('iddncp') has-danger @enderror">
                                                 <label class="col-form-label">ID DNCP</label>
-                                                <input type="text" id="iddncp" name="iddncp" value="{{ old('iddncp', $contract->iddncp) }}" class="form-control iddncp autonumber" data-a-sep="." data-a-dec=",">
+                                                <input type="text" id="iddncp" name="iddncp" value="{{ old('iddncp', number_format($contract->iddncp, 0, ',', '.')) }}" class="form-control iddncp autonumber" data-a-sep=".">
+
                                                 @error('iddncp')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
@@ -195,7 +196,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group @error('total_amount') has-danger @enderror">
                                                 <label class="col-form-label">Monto Total <br></label>
-                                                <input type="text" id="total_amount" name="total_amount" value="{{ old('total_amount', $contract->total_amount) }}" class="form-control total_amount autonumber" data-a-sep="." data-a-dec=",">
+                                                <input type="text" id="total_amount" name="total_amount" value="{{ old('total_amount', number_format($contract->total_amount, 0, ',', '.')) }}" class="form-control total_amount autonumber" data-a-sep="." data-a-dec=",">
                                                 @error('total_amount')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
@@ -520,7 +521,30 @@
 @endsection
 
 @push('scripts')
+
 <script type="text/javascript">
+
+// Script para formatear el valor con separador de miles mientras se ingresa IDDNCP
+document.getElementById('iddncp').addEventListener('input', function(event) {
+    // Obtenemos el valor ingresado y eliminamos los separadores de miles existentes
+    let monto = event.target.value.replace(/\./g, '');
+    // Formateamos el valor con separador de miles
+    monto = parseFloat(monto).toLocaleString('es-ES');
+    // Actualizamos el valor en el input text
+    event.target.value = monto;
+});
+
+// Script para formatear el valor con separador de miles mientras se ingresa TOTAL AMOUNT
+document.getElementById('total_amount').addEventListener('input', function(event) {
+    // Obtenemos el valor ingresado y eliminamos los separadores de miles existentes
+    let monto = event.target.value.replace(/\./g, '');
+    // Formateamos el valor con separador de miles
+    monto = parseFloat(monto).toLocaleString('es-ES');
+    // Actualizamos el valor en el input text
+    event.target.value = monto;
+});
+
+
 $(document).ready(function(){
 
     $('#dependency').select2();
@@ -622,36 +646,10 @@ $(document).ready(function(){
     }
 
 
-
-    // $('#addRow').click(function(){
-    //     new_row = $('#multi_year_template').clone();
-    //     new_row.removeClass('d-none');
-    //     new_row.find('#multi_year_year').attr('name', 'multi_year_year[]');
-    //     new_row.find('#multi_year_amount').attr('name', 'multi_year_amount[]');
-    //     $('#multi_years').append(new_row);
-    // });
-    // delRow = function(element){
-    //     element.closest('#multi_year_template').remove();
-    // }
-
-
     //VALIDACIÓN DE FECHAS DE ANTICIPOS
     $('#advance_validity_from').on('changeDate', function() {
         var fechaInicio = $(this).datepicker('getDate');
         var fechaFin = $('#advance_validity_to').datepicker('getDate');
-
-        //CARGA DE DATOS PARA PODER ACELERAR CARGA
-        // $('#advance_validity_to').val('23/03/2024');
-        // $('#fidelity_validity_from').val('23/03/2024');
-        // $('#fidelity_validity_to').val('23/03/2024');
-        // $('#accidents_validity_from').val('23/03/2024');
-        // $('#accidents_validity_to').val('23/03/2024');
-        // $('#risks_validity_from').val('23/03/2024');
-        // $('#risks_validity_to').val('23/03/2024');
-        // $('#civil_resp_validity_from').val('23/03/2024');
-        // $('#civil_resp_validity_to').val('23/03/2024');
-
-
         if (fechaFin == null){
 
         }else{
@@ -1059,8 +1057,9 @@ $(document).ready(function(){
             $('#control_e').val(restaFechas2(f2,f3));//resultado fecha días para vencer
         }
     });
-
-
 });
 </script>
 @endpush
+
+
+

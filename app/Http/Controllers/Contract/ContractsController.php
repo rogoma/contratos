@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 use App\Models\Contract;
 use App\Models\Order;
 use App\Models\OrderMultiYear;
@@ -144,22 +145,16 @@ class ContractsController extends Controller
             'financial_organism_id' => 'numeric|required|max:999999',
             'contract_type_id' => 'numeric|required|max:999999',
             'total_amount' => 'string|required|max:9223372036854775807',
-
             'advance_validity_from' => 'nullable|date_format:d/m/Y',
-            'advance_validity_to' => 'date_format:d/m/Y|after:advance_validity_from|nullable',
-
-            // 'fidelity_validity_from' => 'nullable|date_format:d/m/Y',
-            // 'fidelity_validity_to' => 'date_format:d/m/Y|after:fidelity_validity_from',
-
-            // 'accidents_validity_from' => 'nullable|date_format:d/m/Y',
-            // 'accidents_validity_to' => 'date_format:d/m/Y|after:accidents_validity_from',
-
-            // 'risks_validity_from' => 'nullable|date_format:d/m/Y',
-            // 'risks_validity_to' => 'date_format:d/m/Y|after:risks_validity_from',
-
-            // 'civil_resp_validity_from' => 'nullable|date_format:d/m/Y',
-            // 'civil_resp_validity_to' => 'date_format:d/m/Y|after:civil_resp_validity_from',
-
+            'advance_validity_to' => 'nullable|date_format:d/m/Y',
+            'fidelity_validity_from' => 'nullable|date_format:d/m/Y',
+            'fidelity_validity_to' => 'nullable|date_format:d/m/Y',
+            'accidents_validity_from' => 'nullable|date_format:d/m/Y',
+            'accidents_validity_to' => 'nullable|date_format:d/m/Y',
+            'risks_validity_from' => 'nullable|date_format:d/m/Y',
+            'risks_validity_to' => 'nullable|date_format:d/m/Y',
+            'civil_resp_validity_from' => 'nullable|date_format:d/m/Y',
+            'civil_resp_validity_to' => 'nullable|date_format:d/m/Y',
             'comments' => 'nullable|max:300',
             'control_1' => 'nullable|numeric',
             'control_a' => 'nullable|numeric',
@@ -173,12 +168,7 @@ class ContractsController extends Controller
             'control_e' => 'nullable|numeric'
         );
 
-        // $request->validate([
-        //     'advance_validity_from' => [new ValidarCalendarios],
-        //     'advance_validity_to' => [new ValidarCalendarios],
-        // ]);
-
-        $validator =  Validator::make($request->input(), $rules);
+        $validator =  Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -198,7 +188,6 @@ class ContractsController extends Controller
 
         $contract->linkdncp=$request->input('linkdncp');
         $contract->number_year=$request->input('number_year');
-
         $year_adj_fin = str_replace('.', '',($request->input('year_adj')));
         $contract->year_adj = $year_adj_fin;
         $contract->sign_date = date('Y-m-d', strtotime(str_replace("/", "-", $request->input('sign_date'))));
@@ -207,665 +196,212 @@ class ContractsController extends Controller
         $contract->modality_id=$request->input('modality_id');
         $contract->financial_organism_id=$request->input('financial_organism_id');
         $contract->contract_type_id=$request->input('contract_type_id');
+        
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
-        $contract->total_amount = $total_amount_fin;
+        if ($total_amount_fin <= 0 ) {
+            $validator->errors()->add('total_amount', 'Monto no puede ser cero ni negativo');
+            return back()->withErrors($validator)->withInput();
+        }else{
+            $contract->total_amount = $total_amount_fin;
+        }
 
         //CONTROLAR QUE LAS FECHAS SI SON VACIAS GRABEN NULL
-        if (is_null($request->input('advance_validity_from'))) {
+
+        //ANTICIPOS
+        $advanceValidityFrom = $request->input('advance_validity_from');
+        $advanceValidityTo = $request->input('advance_validity_to');
+        if (is_null($advanceValidityFrom) && !empty($advanceValidityTo)) {
+            $validator->errors()->add('advance_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($advanceValidityFrom) && is_null($advanceValidityTo)) {
+            $validator->errors()->add('advance_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($advanceValidityFrom) && is_null($advanceValidityTo)) {
             $contract->advance_validity_from=null;
+            $contract->advance_validity_to=null;
+            $contract->control_1=null;
+            $contract->control_a=null;
         }else{
             $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
-        }
-
-        if (is_null($request->input('advance_validity_to'))) {
-            $contract->advance_validity_to=null;
-        }else{
             $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));
+
+            //control para grabar control_1 y control_a
+            $control_1 = $request->input('control_1');
+            $control_a = $request->input('control_a');
+            if ($control_a < 0 ) {
+                $validator->errors()->add('control_a', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_1) || empty($control_a) ) {
+                    $validator->errors()->add('control_a', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_1=$request->input('control_1');
+                    $contract->control_a=$request->input('control_a');
+                }
+            }
         }
 
-        if (is_null($request->input('fidelity_validity_from'))) {
+        //FIEL CUMPLIMIENTO
+        $fidelityValidityFrom = $request->input('fidelity_validity_from');
+        $fidelityValidityTo = $request->input('fidelity_validity_to');
+        if (is_null($fidelityValidityFrom) && !empty($fidelityValidityTo)) {
+            $validator->errors()->add('fidelity_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($fidelityValidityFrom) && is_null($fidelityValidityTo)) {
+            $validator->errors()->add('fidelity_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($fidelityValidityFrom) && is_null($fidelityValidityTo)) {
             $contract->fidelity_validity_from=null;
+            $contract->fidelity_validity_to=null;
+            $contract->control_2=null;
+            $contract->control_b=null;
         }else{
             $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
-        }
-
-        if (is_null($request->input('fidelity_validity_to'))) {
-            $contract->fidelity_validity_to=null;
-        }else{
             $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
+
+            //control para grabar control_2 y control_b
+            $control_2 = $request->input('control_2');
+            $control_b = $request->input('control_b');
+            if ($control_b < 0 ) {
+                $validator->errors()->add('control_b', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_2) || empty($control_b) ) {
+                    $validator->errors()->add('control_b', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_2=$request->input('control_2');
+                    $contract->control_b=$request->input('control_b');
+                }
+            }
         }
 
-        if (is_null($request->input('accidents_validity_from'))) {
+        //ACCIDENTES
+        $accidentsValidityFrom = $request->input('accidents_validity_from');
+        $accidentsValidityTo = $request->input('accidents_validity_to');
+        if (is_null($accidentsValidityFrom) && !empty($accidentsValidityTo)) {
+            $validator->errors()->add('accidents_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($accidentsValidityFrom) && is_null($accidentsValidityTo)) {
+            $validator->errors()->add('accidents_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($accidentsValidityFrom) && is_null($accidentsValidityTo)) {
             $contract->accidents_validity_from=null;
+            $contract->accidents_validity_to=null;
+            $contract->control_3=null;
+            $contract->control_c=null;
         }else{
             $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
-        }
-
-        if (is_null($request->input('accidents_validity_to'))) {
-            $contract->accidents_validity_to=null;
-        }else{
             $contract->accidents_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_to'))));
+
+            //control para grabar control_3 y control_c
+            $control_3 = $request->input('control_3');
+            $control_c = $request->input('control_c');
+            if ($control_c < 0 ) {
+                $validator->errors()->add('control_c', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_3) || empty($control_c) ) {
+                    $validator->errors()->add('control_c', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_3=$request->input('control_3');
+                    $contract->control_c=$request->input('control_c');
+                }
+            }
         }
 
-        if (is_null($request->input('risks_validity_from'))) {
+        //RIESGO TOTAL
+        $risksValidityFrom = $request->input('risks_validity_from');
+        $risksValidityTo = $request->input('risks_validity_to');
+        if (is_null($risksValidityFrom) && !empty($risksValidityTo)) {
+            $validator->errors()->add('risks_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($risksValidityFrom) && is_null($risksValidityTo)) {
+            $validator->errors()->add('risks_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($risksValidityFrom) && is_null($risksValidityTo)) {
             $contract->risks_validity_from=null;
+            $contract->risks_validity_to=null;
+            $contract->control_4=null;
+            $contract->control_d=null;
         }else{
             $contract->risks_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_from'))));
-        }
-
-        if (is_null($request->input('risks_validity_to'))) {
-            $contract->risks_validity_to=null;
-        }else{
             $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
+
+            //control para grabar control_4 y control_d
+            $control_4 = $request->input('control_4');
+            $control_d = $request->input('control_d');
+            if ($control_d < 0 ) {
+                $validator->errors()->add('control_d', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_4) || empty($control_d) ) {
+                    $validator->errors()->add('control_d', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_4=$request->input('control_4');
+                    $contract->control_d=$request->input('control_d');
+                }
+            }
         }
 
-        if (is_null($request->input('civil_resp_validity_from'))) {
+        //RESPONSABILIDAD CIVIL
+        $civil_respValidityFrom = $request->input('civil_resp_validity_from');
+        $civil_respValidityTo = $request->input('civil_resp_validity_to');
+        if (is_null($civil_respValidityFrom) && !empty($civil_respValidityTo)) {
+            $validator->errors()->add('civil_resp_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($civil_respValidityFrom) && is_null($civil_respValidityTo)) {
+            $validator->errors()->add('civil_resp_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($civil_respValidityFrom) && is_null($civil_respValidityTo)) {
             $contract->civil_resp_validity_from=null;
+            $contract->civil_resp_validity_to=null;
+            $contract->control_5=null;
+            $contract->control_e=null;
         }else{
             $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
-        }
-
-        if (is_null($request->input('civil_resp_validity_to'))) {
-            $contract->civil_resp_validity_to=null;
-        }else{
             $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
+
+            //control para grabar control_5 y control_e
+            $control_5 = $request->input('control_5');
+            $control_e = $request->input('control_e');
+            if ($control_e < 0 ) {
+                $validator->errors()->add('control_e', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_5) || empty($control_e) ) {
+                    $validator->errors()->add('control_e', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_5=$request->input('control_5');
+                    $contract->control_e=$request->input('control_e');
+                }
+            }
         }
 
-        //CONTROLAR QUE SI EL CALENDAR DE UNA POLIZA TIENE DATOS EL OTRO TAMBIEN TENGA
-        // if (is_null($request->input('advance_validity_from'))) {
-        //     $contract->advance_validity_from=null;
-        // }else{
-        //     $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
-        // }
-
-        $contract->control_1=$request->input('control_1');
-        $contract->control_a=$request->input('control_a');
-        $contract->control_2=$request->input('control_2');
-        $contract->control_b=$request->input('control_b');
-        $contract->control_3=$request->input('control_3');
-        $contract->control_c=$request->input('control_c');
-        $contract->control_4=$request->input('control_4');
-        $contract->control_d=$request->input('control_d');
-        $contract->control_5=$request->input('control_5');
-        $contract->control_e=$request->input('control_e');
         $contract->comments=$request->input('comments');
         $contract->creator_user_id = $request->user()->id;  // usuario logueado
         $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario
         $contract->save();
         return redirect()->route('contracts.index')->with('success', 'Llamado agregado correctamente');
-    }
-
-    /**
-     * Formulario de agregacion de pedido cargando archivo excel.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function storeExcel(Request $request)
-    {
-        if($request->hasFile('excel')){
-            // chequeamos la extension del archivo subido
-            if($request->file('excel')->getClientOriginalExtension() != 'xls' && $request->file('excel')->getClientOriginalExtension() != 'xlsx'){
-                $validator = Validator::make($request->input(), []); // Creamos un objeto validator
-                $validator->errors()->add('excel', 'El archivo introducido debe ser un excel de tipo: xls o xlsx'); // Agregamos el error
-                return back()->withErrors($validator)->withInput();
-            }
-
-            // creamos un array de indices de la cabecera (1ra columna)
-
-            // CODIGO ORIGINAL
-            $header = array('responsible', 'year', 'modality', 'covid','program_type', 'program',
-            'sub_program', 'funding_source','financial_organism','description',
-
-            'expenditure_object','amount1',
-            'expenditure_object2','amount2',
-            'expenditure_object3','amount3',
-            'expenditure_object4','amount4',
-            'expenditure_object5','amount5',
-            'expenditure_object6','amount6',
-            'total_amount',
-
-            'ad_referendum',
-            'plurianualidad','system_awarded_by','fonacide','catalogs_technical_annexes',
-            'alternative_offers', 'open_contract', 'period_time','manufacturer_authorization',
-            'technical_specifications', 'samples','delivery_plan','contract_administrator',
-            'contract_validity','price_sheet',
-
-            'dncp_pac_id',
-            'begin_date',
-            'financial_advance_percentage_amount',
-            'evaluation_committee_proposal',
-            'payment_conditions',
-            'contract_guarantee',
-            'product_guarantee',
-            'additional_technical_documents',
-            'additional_qualified_documents',
-            'property_title',
-            'magnetic_medium',
-            'referring_person_data',
-            'form4_city', 'form4_date', 'dncp_resolution_number', 'dncp_resolution_date');
-
-            // $header = array('responsible', 'modality', 'program_type', 'program', 'sub_program', 'funding_source',
-            // 'financial_organism','expenditure_object','amount1',
-            // 'expenditure_object2','amount2','total_amount','description',
-            // 'ad_referendum', 'plurianualidad','system_awarded_by',
-            // 'fonacide', 'catalogs_technical_annexes', 'alternative_offers', 'open_contract', 'period_time',
-            // 'manufacturer_authorization','technical_specifications', 'samples',
-            // 'delivery_plan', 'contract_administrator','contract_validity', 'price_sheet');
-
-            // accedemos al archivo excel cargado
-            $reader = IOFactory::createReader(ucfirst($request->file('excel')->getClientOriginalExtension())); // pasamos la extension xls o xlsx
-            $reader->setReadDataOnly(true);
-            $reader->setReadEmptyCells(false);
-            $spreadsheet = $reader->load($request->excel->path());  // cargamos el archivo
-            // variable que guarda la plantilla activa
-            $worksheet = $spreadsheet->getActiveSheet();
-
-            $rows = $worksheet->getHighestRow();    // cantidad de filas
-            $columns = count($header);  // cantidad de columnas que debe tener el archivo
-            $last_column = Coordinate::stringFromColumnIndex($columns);
-
-            // Recorremos cada fila del archivo excel
-            for ($row = 2; $row <= $rows; ++$row) {
-                $data = $spreadsheet->getActiveSheet()->rangeToArray(
-                    'A'.$row.':'.$last_column.$row, //Ej: A2:L2 The worksheet range that we want to retrieve
-                    NULL,        // Value that should be returned for empty cells
-                    TRUE,        // Should formulas be calculated (the equivalent of getCalculatedValue() for each cell)
-                    TRUE,        // Should values be formatted (the equivalent of getFormattedValue() for each cell)
-                    TRUE         // Should the array be indexed by cell row and cell column
-                );
-
-                // Manejando BUG de la librería phpspreadsheet para archivos con formato xlsx
-                if(empty(trim(implode("", $data[$row])))){
-                    continue;
-                }
-
-                // creamos un array con indices igual al array de columnas y valores igual a los obtenidos en el archivo excel
-                $contract = array_combine($header, $data[$row]);
-
-                // creamos las reglas de validacion
-                $rules = array(
-                    'responsible' => 'string|required|max:100',
-                    'year' => 'numeric|required|max:9999|min:1',
-                    'modality' => 'string|required|max:10',
-                    'covid' => 'boolean|required|min:0|max:1',
-                    'program_type' => 'numeric|required|max:999',
-                    'program' => 'numeric|required|max:999',
-                    'sub_program' => 'numeric|required|max:999',
-                    'funding_source' => 'numeric|required|max:32767',
-                    'financial_organism' => 'numeric|required|max:32767',
-                    'description' => 'string|required|max:200',
-                    'expenditure_object' => 'numeric|required|max:32767',
-                    'amount1' => 'numeric|required|max:9223372036854775807',
-                    // 'expenditure_object2' => 'numeric|nullable|max:32767',
-                    'expenditure_object2' => 'numeric|max:32767',
-                    'amount2' => 'numeric|nullable|max:9223372036854775807',
-                    // 'expenditure_object3' => 'numeric|nullable|max:32767',
-                    'expenditure_object3' => 'numeric|max:32767',
-                    'amount3' => 'numeric|nullable|max:9223372036854775807',
-                    // 'expenditure_object4' => 'numeric|nullable|max:32767',
-                    'expenditure_object4' => 'numeric|max:32767',
-                    'amount4' => 'numeric|nullable|max:9223372036854775807',
-                    // 'expenditure_object5' => 'numeric|nullable|max:32767',
-                    'expenditure_object5' => 'numeric|max:32767',
-                    'amount5' => 'numeric|nullable|max:9223372036854775807',
-                    // 'expenditure_object6' => 'numeric|nullable|max:32767',
-                    'expenditure_object6' => 'numeric|max:32767',
-                    'amount6' => 'numeric|nullable|max:9223372036854775807',
-
-                    //total amount se valida más abajo
-                    'total_amount' => 'numeric|required|max:9223372036854775807',
-
-                    'ad_referendum' => 'boolean|required|min:0|max:1',
-                    'plurianualidad' => 'boolean|required|min:0|max:1',
-                    'system_awarded_by' => 'string|required|in:LOTE,ÍTEM,TOTAL,COMBINADO',
-                    // 'expenditure_object' => 'numeric|required|max:32767',
-                    'fonacide' => 'boolean|required|min:0|max:1',
-                    'catalogs_technical_annexes' => 'boolean|required|min:0|max:1',
-                    'alternative_offers' => 'boolean|required|min:0|max:1',
-                    'open_contract' => 'numeric|required|min:1|max:3',
-                    'period_time' => 'string|required|max:50',
-                    'manufacturer_authorization' => 'boolean|required|min:0|max:1',
-                    'technical_specifications' => 'string|required|max:100',
-                    'samples' => 'boolean|required|min:0|max:1',
-                    'delivery_plan' => 'string|nullable|max:150',
-                    'contract_administrator' => 'string|required|max:150',
-                    'contract_validity' => 'string|required|max:200',
-                    'price_sheet' => 'string|nullable|max:150',
-
-                    'dncp_pac_id' => 'numeric|nullable|max:2147483647',
-                    'begin_date' => 'date_format:d/m/Y|nullable',
-                    'financial_advance_percentage_amount' => 'boolean|nullable',
-                    'evaluation_committee_proposal' => 'string|nullable|max:200',
-                    'payment_conditions' => 'string|nullable',
-                    'contract_guarantee' => 'string|nullable',
-                    'product_guarantee' => 'string|nullable|max:200',
-                    'additional_technical_documents' => 'string|nullable|max:200',
-                    'additional_qualified_documents' => 'string|nullable|max:200',
-                    'property_title' => 'string|nullable|max:200',
-                    'magnetic_medium' => 'string|nullable|max:50',
-                    'referring_person_data' => 'string|nullable|max:100',
-
-                    'form4_city' => 'string|max:100|nullable',
-                    'form4_date' => 'date_format:d/m/Y|nullable',
-                    'dncp_resolution_number' => 'string|max:8|nullable',
-                    'dncp_resolution_date' => 'date_format:d/m/Y|nullable',
-                );
-
-                // var_dump($monto_contract,$monto_adjudicar);
-                //var_dump($contract['total_amount']);exit();
-                // var_dump($contract['total_amount']);exit();
-
-                // validamos los datos
-                $validator = Validator::make($contract, $rules); // Creamos un objeto validator
-                if ($validator->fails()) {
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-
-                $modality = Modality::where('code', $contract['modality'])->get()->first();
-                if (is_null($modality)) {
-                    $validator->errors()->add('modality', 'No existe modalidad igual a la ingresada. Por favor ingrese una de las modalidades registradas en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-                $sub_program = SubProgram::where('activity_code', $contract['sub_program'])->get()->first();
-                if (is_null($sub_program)) {
-                    $validator->errors()->add('sub_program', 'No existe código de sub_programa igual al ingresado. Por favor ingrese uno de los sub_programas registrados en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-                $input_program = intval($contract['program']);
-                if($sub_program->program->code != $input_program){
-                    $validator->errors()->add('program', 'No existe código de programa igual al ingresado. Por favor ingrese uno de los programas registrados en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-                $input_program_type = intval($contract['program_type']);
-                if($sub_program->program->programType->code != $input_program_type){
-                    $validator->errors()->add('program_type', 'No existe código de tipo de programa igual al ingresado. Por favor ingrese uno de los tipos de programa registrados en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-                $funding_source = FundingSource::where('code', $contract['funding_source'])->get()->first();
-                if (is_null($funding_source)) {
-                    $validator->errors()->add('funding_source', 'No existe fuente financiera igual a la ingresada. Por favor ingrese una de las siguientes: 10,20,30.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-                $financial_organism = FinancialOrganism::where('code', $contract['financial_organism'])->get()->first();
-                if (is_null($financial_organism)) {
-                    $validator->errors()->add('financial_organism', 'No existe un organismo financiero igual al ingresado. Por favor ingrese el código de los organismos financieros registrados.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-                $expenditure_object = ExpenditureObject::where('code', $contract['expenditure_object'])->where('level', 3)->get()->first();
-                if (is_null($expenditure_object)) {
-                    $validator->errors()->add('expenditure_object', 'No existe objeto de gasto igual al ingresado. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-
-                //CONTROLAMOS QUE MONTO TOTAL SEA MAYOR A CERO
-                $tot_amount = intval($contract['total_amount']);
-                // print_r($tot_amount);exit;
-
-                if($tot_amount <= 0){
-                    $validator->errors()->add('estado', 'Monto total debe ser mayor a 0, Verifique su planilla');
-                    return back()->withErrors($validator)->withInput();
-                }
-                //******************************************************
-
-
-                $OG1 = $contract['expenditure_object'];
-                if ($OG1 == 0) {
-                    $validator->errors()->add('expenditure_object', 'Debe ser asignado un Objeto de gasto en OG#1. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-
-                //VALIDACIONES DE OBJETOS DE GASTOS
-
-                //Controlamos OG1 - Si OG1 es 0 no permite carga debe tener si o si un OG
-                $OG1 = $contract['expenditure_object'];
-                if ($OG1 == 0) {
-                    $validator->errors()->add('expenditure_object', 'Debe ser asignado un Objeto de gasto en OG#1. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                    return back()->withErrors($validator)->withInput()->with('fila', $row);
-                }
-
-                //Si OG1 tiene OG y monto es 0 no permite carga debe tener si o si un monto
-                $amount_OG1 = $contract['amount1'];
-                if ($OG1 > 0) {
-                    if (is_null($amount_OG1)) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG1 no pude estar vacío. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG1 ==0) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG1 debe ser mayor a 0. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                }
-
-                //Controlamos OG2
-                $OG2 = $contract['expenditure_object2'];
-                $expenditure_object2 = ExpenditureObject::where('code', $contract['expenditure_object2'])->where('level', 3)->get()->first();
-                //Si OG2 está vacio no valida nada
-                if (is_null($OG2)) {
-
-                }else{
-                    if (is_null($expenditure_object2)) {
-                        $validator->errors()->add('expenditure_object2', 'No existe objeto de gasto OG2 igual al ingresado. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Si OG2 tiene OG y monto es 0 no permite carga debe tener si o si un monto
-                $amount_OG2 = $contract['amount2'];
-                if ($OG2 > 0) {
-                    if (is_null($amount_OG2) || ($amount_OG2 == 0 )) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG2 no pude estar VACIO ni ser CERO. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG2 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG2 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                if ($OG2 == 0) {
-                    if ($amount_OG2 > 0) {
-                        $validator->errors()->add('expenditure_object', 'Objeto de gasto OG2 no pude estar VACIO si existe MONTO asignado. Por favor ingrese un OG');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG2 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO de OG2 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-
-                //Controlamos OG3
-                $OG3 = $contract['expenditure_object3'];
-                $expenditure_object3 = ExpenditureObject::where('code', $contract['expenditure_object3'])->where('level', 3)->get()->first();
-                //Si OG3 está vacio no valida nada
-                if (is_null($OG3)) {
-
-                }else{
-                    if (is_null($expenditure_object3)) {
-                        $validator->errors()->add('expenditure_object3', 'No existe objeto de gasto OG3 igual al ingresado. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Si OG3 tiene OG y monto es 0 no permite carga debe tener si o si un monto
-                $amount_OG3 = $contract['amount3'];
-                if ($OG3 > 0) {
-                    if (is_null($amount_OG3) || ($amount_OG3 == 0 )) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG3 no pude estar VACIO ni ser CERO. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG3 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG3 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                if ($OG3 == 0) {
-                    if ($amount_OG3 > 0) {
-                        $validator->errors()->add('expenditure_object', 'Objeto de gasto OG3 no pude estar VACIO si existe MONTO asignado. Por favor ingrese un OG');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG3 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO de OG3 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Controlamos OG4
-                $OG4 = $contract['expenditure_object4'];
-                $expenditure_object4 = ExpenditureObject::where('code', $contract['expenditure_object4'])->where('level', 3)->get()->first();
-                //Si OG4 está vacio no valida nada
-                if (is_null($OG4)) {
-
-                }else{
-                    if (is_null($expenditure_object4)) {
-                        $validator->errors()->add('expenditure_object4', 'No existe objeto de gasto OG4 igual al ingresado. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Si OG4 tiene OG y monto es 0 no permite carga debe tener si o si un monto
-                $amount_OG4 = $contract['amount4'];
-                if ($OG4 > 0) {
-                    if (is_null($amount_OG4) || ($amount_OG4 == 0 )) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG4 no pude estar VACIO ni ser CERO. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG4 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG4 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                if ($OG4 == 0) {
-                    if ($amount_OG4 > 0) {
-                        $validator->errors()->add('expenditure_object', 'Objeto de gasto OG4 no pude estar VACIO si existe MONTO asignado. Por favor ingrese un OG');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG4 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO de OG4 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Controlamos OG5
-                $OG5 = $contract['expenditure_object5'];
-                $expenditure_object5 = ExpenditureObject::where('code', $contract['expenditure_object5'])->where('level', 3)->get()->first();
-                //Si OG5 está vacio no valida nada
-                if (is_null($OG5)) {
-
-                }else{
-                    if (is_null($expenditure_object5)) {
-                        $validator->errors()->add('expenditure_object5', 'No existe objeto de gasto OG5 igual al ingresado. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Si OG5 tiene OG y monto es 0 no permite carga debe tener si o si un monto
-                $amount_OG5 = $contract['amount5'];
-                if ($OG5 > 0) {
-                    if (is_null($amount_OG5) || ($amount_OG5 == 0 )) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG5 no pude estar VACIO ni ser CERO. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG5 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG5 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                if ($OG5 == 0) {
-                    if ($amount_OG5 > 0) {
-                        $validator->errors()->add('expenditure_object', 'Objeto de gasto OG5 no pude estar VACIO si existe MONTO asignado. Por favor ingrese un OG');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG5 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG5 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Controlamos OG6
-                $OG6 = $contract['expenditure_object6'];
-                $expenditure_object6 = ExpenditureObject::where('code', $contract['expenditure_object6'])->where('level', 3)->get()->first();
-                //Si OG6 está vacio no valida nada
-                if (is_null($OG6)) {
-
-                }else{
-                    if (is_null($expenditure_object6)) {
-                        $validator->errors()->add('expenditure_object6', 'No existe objeto de gasto OG6 igual al ingresado. Por favor ingrese uno de los objetos de gasto registrados en el sistema.');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                //Si OG6 tiene OG y monto es 0 no permite carga debe tener si o si un monto
-                $amount_OG6 = $contract['amount6'];
-                if ($OG6 > 0) {
-                    if (is_null($amount_OG6) || ($amount_OG6 == 0 )) {
-                        $validator->errors()->add('expenditure_object', 'Monto del objeto de gasto OG6 no pude estar VACIO ni ser CERO. Por favor ingrese un valor');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG6 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG6 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-                if ($OG6 == 0) {
-                    if ($amount_OG6 > 0) {
-                        $validator->errors()->add('expenditure_object', 'Objeto de gasto OG6 no pude estar VACIO si existe MONTO asignado. Por favor ingrese un OG');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-
-                    if ($amount_OG6 < 0) {
-                        $validator->errors()->add('expenditure_object', 'MONTO OG6 debe ser mayor a 0');
-                        return back()->withErrors($validator)->withInput()->with('fila', $row);
-                    }
-                }
-
-
-
-                $contract['modality_id'] = $modality->id;
-                $contract['sub_program_id'] = $sub_program->id;
-                $contract['funding_source_id'] = $funding_source->id;
-                $contract['financial_organism_id'] = $financial_organism->id;
-                $contract['expenditure_object_id'] = $expenditure_object->id;
-
-                //Si OG3 está vacio prepara null para la carga en el array
-                if (is_null($OG2)) {
-                    $contract['expenditure_object2_id'] = null;
-                }else{
-                    $contract['expenditure_object2_id'] = $expenditure_object2->id;
-                }
-
-                //Si OG3 está vacio prepara null para la carga en el array
-                if (is_null($OG3)) {
-                    $contract['expenditure_object3_id'] = null;
-                }else{
-                    $contract['expenditure_object3_id'] = $expenditure_object3->id;
-                }
-
-                //Si OG4 está vacio prepara null para la carga en el array
-                if (is_null($OG4)) {
-                    $contract['expenditure_object4_id'] = null;
-                }else{
-                    $contract['expenditure_object4_id'] = $expenditure_object4->id;
-                }
-
-                //Si OG5 está vacio prepara null para la carga en el array
-                if (is_null($OG5)) {
-                    $contract['expenditure_object5_id'] = null;
-                }else{
-                    $contract['expenditure_object5_id'] = $expenditure_object5->id;
-                }
-
-                //Si OG6 está vacio prepara null para la carga en el array
-                if (is_null($OG6)) {
-                    $contract['expenditure_object6_id'] = null;
-                }else{
-                    $contract['expenditure_object6_id'] = $expenditure_object6->id;
-                }
-
-                // agregamos la fila al array de pedidos
-                $contracts[] = $contract;
-            }
-
-
-            // En caso de haber pasado todas las validaciones guardamos los datos
-            foreach ($contracts as $contract) {
-                $new_order = new Order;
-                $new_order->dependency_id = $request->user()->dependency_id;
-                $new_order->responsible = $contract['responsible'];
-                $new_order->year = $contract['year'];
-                $new_order->modality_id = $contract['modality_id'];
-                $new_order->covid = $contract['covid'];
-                $new_order->dncp_pac_id = $contract['dncp_pac_id'];
-                $new_order->begin_date = empty($contract['begin_date']) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $contract['begin_date'])));
-                $new_order->sub_program_id = $contract['sub_program_id'];
-                $new_order->funding_source_id = $contract['funding_source_id'];
-                $new_order->financial_organism_id = $contract['financial_organism_id'];
-
-                $new_order->expenditure_object_id = $contract['expenditure_object_id'];
-                $new_order->amount1 = $contract['amount1'];
-                $new_order->expenditure_object2_id = $contract['expenditure_object2_id'];
-                $new_order->amount2 = $contract['amount2'];
-
-                $new_order->expenditure_object3_id = $contract['expenditure_object3_id'];
-                $new_order->amount3 = $contract['amount3'];
-
-                $new_order->expenditure_object4_id = $contract['expenditure_object4_id'];
-                $new_order->amount4 = $contract['amount4'];
-                $new_order->expenditure_object5_id = $contract['expenditure_object5_id'];
-                $new_order->amount5 = $contract['amount5'];
-                $new_order->expenditure_object6_id = $contract['expenditure_object6_id'];
-                $new_order->amount6 = $contract['amount6'];
-                $new_order->total_amount = $contract['total_amount'];
-
-                $new_order->description = $contract['description'];
-                $new_order->ad_referendum = $contract['ad_referendum'];
-                $new_order->plurianualidad = $contract['plurianualidad'];
-                $new_order->system_awarded_by = $contract['system_awarded_by'];
-                // $new_order->expenditure_object_id = $contract['expenditure_object_id'];
-                $new_order->fonacide = $contract['fonacide'];
-                $new_order->catalogs_technical_annexes = $contract['catalogs_technical_annexes'];
-                $new_order->alternative_offers = $contract['alternative_offers'];
-                $new_order->open_contract = $contract['open_contract'];
-                $new_order->period_time = $contract['period_time'];
-                $new_order->manufacturer_authorization = $contract['manufacturer_authorization'];
-                $new_order->financial_advance_percentage_amount = $contract['financial_advance_percentage_amount'];
-                $new_order->technical_specifications = $contract['technical_specifications'];
-                $new_order->samples = $contract['samples'];
-                $new_order->delivery_plan = $contract['delivery_plan'];
-                $new_order->evaluation_committee_proposal = $contract['evaluation_committee_proposal'];
-                $new_order->payment_conditions = $contract['payment_conditions'];
-                $new_order->contract_guarantee = $contract['contract_guarantee'];
-                $new_order->product_guarantee = $contract['product_guarantee'];
-                $new_order->contract_administrator = $contract['contract_administrator'];
-                $new_order->contract_validity = $contract['contract_validity'];
-                $new_order->additional_technical_documents = $contract['additional_technical_documents'];
-                $new_order->additional_qualified_documents = $contract['additional_qualified_documents'];
-                $new_order->price_sheet = $contract['price_sheet'];
-                $new_order->property_title = $contract['property_title'];
-                $new_order->magnetic_medium = $contract['magnetic_medium'];
-                $new_order->referring_person_data = $contract['referring_person_data'];
-                $new_order->form4_city = $contract['form4_city'];
-                // $new_order->form4_date = date('Y-m-d', strtotime(str_replace("/", "-", $contract['form4_date'])));
-                $new_order->form4_date = empty($contract['form4_date']) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $contract['form4_date'])));
-                $new_order->dncp_resolution_number = $contract['dncp_resolution_number'];
-                // $new_order->dncp_resolution_date = date('Y-m-d', strtotime(str_replace("/", "-", $contract['dncp_resolution_date'])));
-                $new_order->dncp_resolution_date = empty($contract['dncp_resolution_date']) ? NULL : date('Y-m-d', strtotime(str_replace("/", "-", $contract['dncp_resolution_date'])));
-
-                $new_order->creator_user_id = $request->user()->id;  // usuario logueado
-                $new_order->actual_state = 1; // ESTADO igual a SOLICITUD
-                $new_order->save();
-
-                //DESCOMENTAR SIN FALTA OJO
-                // Registramos el movimiento de estado en la tabla orders_order_state
-                $contract_order_state = new OrderOrderState;
-                $contract_order_state->order_id = $new_order->id;
-                $contract_order_state->order_state_id = 1;
-                $contract_order_state->creator_user_id = $request->user()->id;
-                $contract_order_state->save();
-            }
-
-            return redirect()->route('orders.index')->with('success', 'Pedido importado correctamente');
-
-        }else{
-            $validator = Validator::make($request->input(), []);
-            $validator->errors()->add('excel', 'El campo es requerido, debe ingresar un archivo excel.');
-            return back()->withErrors($validator)->withInput();
-        }
     }
 
     /**
@@ -1015,80 +551,206 @@ class ContractsController extends Controller
         $contract->modality_id=$request->input('modality_id');
         $contract->financial_organism_id=$request->input('financial_organism_id');
         $contract->contract_type_id=$request->input('contract_type_id');
+
         $total_amount_fin = str_replace('.', '',($request->input('total_amount')));
-        $contract->total_amount = $total_amount_fin;
+        if ($total_amount_fin <= 0 ) {
+            $validator->errors()->add('total_amount', 'Monto no puede ser cero ni negativo');
+            return back()->withErrors($validator)->withInput();
+        }else{
+            $contract->total_amount = $total_amount_fin;
+        }
 
         //CONTROLAR QUE LAS FECHAS SI SON VACIAS GRABEN NULL
-        if (is_null($request->input('advance_validity_from'))) {
+
+        //ANTICIPOS
+        $advanceValidityFrom = $request->input('advance_validity_from');
+        $advanceValidityTo = $request->input('advance_validity_to');
+        if (is_null($advanceValidityFrom) && !empty($advanceValidityTo)) {
+            $validator->errors()->add('advance_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($advanceValidityFrom) && is_null($advanceValidityTo)) {
+            $validator->errors()->add('advance_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($advanceValidityFrom) && is_null($advanceValidityTo)) {
             $contract->advance_validity_from=null;
+            $contract->advance_validity_to=null;
+            $contract->control_1=null;
+            $contract->control_a=null;
         }else{
             $contract->advance_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_from'))));
-        }
-
-        if (is_null($request->input('advance_validity_to'))) {
-            $contract->advance_validity_to=null;
-        }else{
             $contract->advance_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('advance_validity_to'))));
+
+            //control para grabar control_1 y control_a
+            $control_1 = $request->input('control_1');
+            $control_a = $request->input('control_a');
+            if ($control_a < 0 ) {
+                $validator->errors()->add('control_a', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_1) || empty($control_a) ) {
+                    $validator->errors()->add('control_a', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_1=$request->input('control_1');
+                    $contract->control_a=$request->input('control_a');
+                }
+            }
         }
 
-        if (is_null($request->input('fidelity_validity_from'))) {
+        //FIEL CUMPLIMIENTO
+        $fidelityValidityFrom = $request->input('fidelity_validity_from');
+        $fidelityValidityTo = $request->input('fidelity_validity_to');
+        if (is_null($fidelityValidityFrom) && !empty($fidelityValidityTo)) {
+            $validator->errors()->add('fidelity_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($fidelityValidityFrom) && is_null($fidelityValidityTo)) {
+            $validator->errors()->add('fidelity_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($fidelityValidityFrom) && is_null($fidelityValidityTo)) {
             $contract->fidelity_validity_from=null;
+            $contract->fidelity_validity_to=null;
+            $contract->control_2=null;
+            $contract->control_b=null;
         }else{
             $contract->fidelity_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_from'))));
-        }
-
-        if (is_null($request->input('fidelity_validity_to'))) {
-            $contract->fidelity_validity_to=null;
-        }else{
             $contract->fidelity_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('fidelity_validity_to'))));
+
+            //control para grabar control_2 y control_b
+            $control_2 = $request->input('control_2');
+            $control_b = $request->input('control_b');
+            if ($control_b < 0 ) {
+                $validator->errors()->add('control_b', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_2) || empty($control_b) ) {
+                    $validator->errors()->add('control_b', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_2=$request->input('control_2');
+                    $contract->control_b=$request->input('control_b');
+                }
+            }
         }
 
-        if (is_null($request->input('accidents_validity_from'))) {
+        //ACCIDENTES
+        $accidentsValidityFrom = $request->input('accidents_validity_from');
+        $accidentsValidityTo = $request->input('accidents_validity_to');
+        if (is_null($accidentsValidityFrom) && !empty($accidentsValidityTo)) {
+            $validator->errors()->add('accidents_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($accidentsValidityFrom) && is_null($accidentsValidityTo)) {
+            $validator->errors()->add('accidents_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($accidentsValidityFrom) && is_null($accidentsValidityTo)) {
             $contract->accidents_validity_from=null;
+            $contract->accidents_validity_to=null;
+            $contract->control_3=null;
+            $contract->control_c=null;
         }else{
             $contract->accidents_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_from'))));
-        }
-
-        if (is_null($request->input('accidents_validity_to'))) {
-            $contract->accidents_validity_to=null;
-        }else{
             $contract->accidents_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('accidents_validity_to'))));
+
+            //control para grabar control_3 y control_c
+            $control_3 = $request->input('control_3');
+            $control_c = $request->input('control_c');
+            if ($control_c < 0 ) {
+                $validator->errors()->add('control_c', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_3) || empty($control_c) ) {
+                    $validator->errors()->add('control_c', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_3=$request->input('control_3');
+                    $contract->control_c=$request->input('control_c');
+                }
+            }
         }
 
-        if (is_null($request->input('risks_validity_from'))) {
+        //RIESGO TOTAL
+        $risksValidityFrom = $request->input('risks_validity_from');
+        $risksValidityTo = $request->input('risks_validity_to');
+        if (is_null($risksValidityFrom) && !empty($risksValidityTo)) {
+            $validator->errors()->add('risks_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($risksValidityFrom) && is_null($risksValidityTo)) {
+            $validator->errors()->add('risks_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($risksValidityFrom) && is_null($risksValidityTo)) {
             $contract->risks_validity_from=null;
+            $contract->risks_validity_to=null;
+            $contract->control_4=null;
+            $contract->control_d=null;
         }else{
             $contract->risks_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_from'))));
-        }
-
-        if (is_null($request->input('risks_validity_to'))) {
-            $contract->risks_validity_to=null;
-        }else{
             $contract->risks_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('risks_validity_to'))));
+
+            //control para grabar control_4 y control_d
+            $control_4 = $request->input('control_4');
+            $control_d = $request->input('control_d');
+            if ($control_d < 0 ) {
+                $validator->errors()->add('control_d', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_4) || empty($control_d) ) {
+                    $validator->errors()->add('control_d', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_4=$request->input('control_4');
+                    $contract->control_d=$request->input('control_d');
+                }
+            }
         }
 
-        if (is_null($request->input('civil_resp_validity_from'))) {
+        //RESPONSABILIDAD CIVIL
+        $civil_respValidityFrom = $request->input('civil_resp_validity_from');
+        $civil_respValidityTo = $request->input('civil_resp_validity_to');
+        if (is_null($civil_respValidityFrom) && !empty($civil_respValidityTo)) {
+            $validator->errors()->add('civil_resp_validity_from', 'Por favor, seleccione una fecha para adavance_validity_from');
+            return back()->withErrors($validator)->withInput();
+        }
+        if (!empty($civil_respValidityFrom) && is_null($civil_respValidityTo)) {
+            $validator->errors()->add('civil_resp_validity_to', 'Por favor, seleccione una fecha para adavance_validity_to');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if (empty($civil_respValidityFrom) && is_null($civil_respValidityTo)) {
             $contract->civil_resp_validity_from=null;
+            $contract->civil_resp_validity_to=null;
+            $contract->control_5=null;
+            $contract->control_e=null;
         }else{
             $contract->civil_resp_validity_from=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_from'))));
-        }
-
-        if (is_null($request->input('civil_resp_validity_to'))) {
-            $contract->civil_resp_validity_to=null;
-        }else{
             $contract->civil_resp_validity_to=date('Y-m-d', strtotime(str_replace("/", "-", $request->input('civil_resp_validity_to'))));
-        }
 
-        $contract->control_1=$request->input('control_1');
-        $contract->control_a=$request->input('control_a');
-        $contract->control_2=$request->input('control_2');
-        $contract->control_b=$request->input('control_b');
-        $contract->control_3=$request->input('control_3');
-        $contract->control_c=$request->input('control_c');
-        $contract->control_4=$request->input('control_4');
-        $contract->control_d=$request->input('control_d');
-        $contract->control_5=$request->input('control_5');
-        $contract->control_e=$request->input('control_e');
+            //control para grabar control_5 y control_e
+            $control_5 = $request->input('control_5');
+            $control_e = $request->input('control_e');
+            if ($control_e < 0 ) {
+                $validator->errors()->add('control_e', 'Número no puede ser negativo');
+                return back()->withErrors($validator)->withInput();
+            }else{
+                if (empty($control_5) || empty($control_e) ) {
+                    $validator->errors()->add('control_e', 'ANTICIPOS - Dias Vigencia o a Vencer no pueden estar sin datos');
+                    return back()->withErrors($validator)->withInput();
+                }else{
+                    $contract->control_5=$request->input('control_5');
+                    $contract->control_e=$request->input('control_e');
+                }
+            }
+        }
         $contract->comments=$request->input('comments');
         $contract->creator_user_id = $request->user()->id;  // usuario logueado
         $contract->dependency_id = $request->user()->dependency_id;//dependencia del usuario

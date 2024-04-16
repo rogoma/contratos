@@ -78,7 +78,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group @error('iddncp') has-danger @enderror">
                                                 <label class="col-form-label">ID DNCP</label>
-                                                <input type="text" id="iddncp" name="iddncp" value="{{ old('iddncp') }}" class="form-control iddncp autonumber" data-a-sep="." data-a-dec=",">
+                                                <input type="text" id="iddncp" name="iddncp" value="{{ old('iddncp') }}" class="form-control iddncp autonumber" data-a-sep=".">
                                                 @error('iddncp')
                                                     <div class="col-form-label">{{ $message }}</div>
                                                 @enderror
@@ -225,11 +225,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Agrega estos enlaces en la sección head de tu archivo de diseño o la vista directamente -->
-                                        {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
-                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                        <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script> --}}
-
                                         <div class="container">
                                             <br>
                                             <h3 style="text-align: center;">Opciones de Pólizas</h3>
@@ -269,14 +264,14 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_1') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_1" readonly name="control_1" class="form-control">
+                                                        <input type="text" id="control_1" readonly name="control_1" value="{{ old('control_1') }}" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_a') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_a" readonly name="control_a" class="form-control">
+                                                        <input type="text" id="control_a" readonly name="control_a" value="{{ old('control_a') }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,13 +312,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_2') has-danger @enderror">
                                                         <label class="col-form-label">Dias Vigencia</label>
-                                                        <input type="text" id="control_2" readonly name="control_2" class="form-control">
+                                                        <input type="text" id="control_2" readonly name="control_2" value="{{ old('control_2') }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_b') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_b" readonly name="control_b" class="form-control">
+                                                        <input type="text" id="control_b" readonly name="control_b" value="{{ old('control_b') }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -364,13 +359,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_3') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_3" readonly name="control_3" class="form-control">
+                                                        <input type="text" id="control_3" readonly name="control_3" value="{{ old('control_3') }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_c') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_c" readonly name="control_c" class="form-control">
+                                                        <input type="text" id="control_c" readonly name="control_c" value="{{ old('control_c') }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -411,13 +406,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_4') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_4" readonly name="control_4" class="form-control">
+                                                        <input type="text" id="control_4" readonly name="control_4" value="{{ old('control_4') }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_d') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_d" readonly name="control_d" class="form-control">
+                                                        <input type="text" id="control_d" readonly name="control_d" value="{{ old('control_d') }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -458,13 +453,13 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_5') has-danger @enderror">
                                                         <label class="col-form-label">Días Vigencia</label>
-                                                        <input type="text" id="control_5" readonly name="control_5" class="form-control">
+                                                        <input type="text" id="control_5" readonly name="control_5" value="{{ old('control_5') }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_e') has-danger @enderror">
                                                         <label class="col-form-label">Días para Vencer</label>
-                                                        <input type="text" id="control_e" readonly name="control_e" class="form-control">
+                                                        <input type="text" id="control_e" readonly name="control_e" value="{{ old('control_e') }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -510,17 +505,20 @@ $(document).ready(function(){
         // startDate: '-3d',
         // endDate: '+3d',
     });
+
     $('#advance_validity_from').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
     });
+
     $('#advance_validity_to').datepicker({
         language: 'es',
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
+        // startDate: 'today'
     });
 
     $('#fidelity_validity_from').datepicker({
@@ -534,6 +532,7 @@ $(document).ready(function(){
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
+        // startDate: 'today'
     });
 
     $('#accidents_validity_from').datepicker({
@@ -547,6 +546,7 @@ $(document).ready(function(){
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
+        // startDate: 'today'
     });
 
     $('#risks_validity_from').datepicker({
@@ -560,6 +560,7 @@ $(document).ready(function(){
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
+        // startDate: 'today'
     });
     $('#civil_resp_validity_from').datepicker({
         language: 'es',
@@ -572,26 +573,13 @@ $(document).ready(function(){
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true,
+        // startDate: 'today'
     });
 
 
     show = function(id){
         $('#'+id).datepicker('show');
     }
-
-
-
-    // $('#addRow').click(function(){
-    //     new_row = $('#multi_year_template').clone();
-    //     new_row.removeClass('d-none');
-    //     new_row.find('#multi_year_year').attr('name', 'multi_year_year[]');
-    //     new_row.find('#multi_year_amount').attr('name', 'multi_year_amount[]');
-    //     $('#multi_years').append(new_row);
-    // });
-    // delRow = function(element){
-    //     element.closest('#multi_year_template').remove();
-    // }
-
 
     //VALIDACIÓN DE FECHAS DE ANTICIPOS
     $('#advance_validity_from').on('changeDate', function() {
