@@ -2,7 +2,11 @@
         </div>
     </div>
 </div>
-@if(Auth::user()->role_id == 6)
+
+{{-- dispara control de fechas para contratos --}}
+@include('include.footers.contracts')
+
+{{-- @if(Auth::user()->role_id == 6)
     @include('include.footers.minor_purchase')
 @endif
 
@@ -15,9 +19,9 @@
 @endif
 
 @if(Auth::user()->role_id == 7)
-    @include('include.footers.awards')    
+    @include('include.footers.awards')
 @endif
 
 @if(Auth::user()->role_id == 8)
     @include('include.footers.contracts')
-@endif
+@endif --}}

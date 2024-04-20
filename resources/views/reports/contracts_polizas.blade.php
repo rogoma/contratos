@@ -82,8 +82,8 @@
                 {{-- <th>Año adjud.</th>
                 <th>Fecha Firma Contr.</th> --}}
                 <th>Contratista</th>
-                {{-- <th>Estado</th>
-                <th>Modalidad</th> --}}
+                <th>Estado</th>
+                {{-- <th>Modalidad</th> --}}
                 <th>Monto total LLAMADO</th>
                 <th>Anticipo-Vigencia Desde</th>
                 <th>Anticipo-Vigencia Hasta</th>
@@ -105,6 +105,7 @@
                 <td> {{ number_format($contracts[$i]->iddncp,'0', ',','.') }} </td>
                 <td> {{ $contracts[$i]->number_year }}</td>
                 <td> {{ $contracts[$i]->contratista}}</td>
+                <td> {{ $contracts[$i]->estado}}</td>
                 <td> Gs.{{ number_format($contracts[$i]->total_amount,'0', ',','.') }} </td>
                 {{-- <td>{{ is_null($contract->number)? $contract->description : $contract->modality->description." N° ".$contract->number."/".$contract->year."-".$contract->description }} --}}
                 {{-- <td>{{ is_null($orders[$i]->number)? $orders[$i]->description." - ".$orders[$i]->dependency->description : $orders[$i]->modality->code." N° ".$orders[$i]->number."/".$orders[$i]->year." - ".$orders[$i]->description." - ".$orders[$i]->dependency->description }}</td> --}}

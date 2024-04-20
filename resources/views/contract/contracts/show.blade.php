@@ -84,7 +84,7 @@ p.centrado {
                                         </div>
                                             <div class="col-sm-2">
 
-                                            @if (in_array($contract->contract_state_id, [1]))
+                                            @if (in_array($contract->contract_state_id, [1,3, 2]))
                                                 <button class="btn btn-primary dropdown-toggle waves-effect" type="button" id="acciones" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Acciones</button>
                                             @endif
                                             <div class="dropdown-menu" aria-labelledby="acciones" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -144,6 +144,7 @@ p.centrado {
                                                 <tbody>
                                                     <tr>
                                                         <td><label class="col-form-label f-w-600" >Nombre del Llamado:</label></td>
+                                                        <td><label class="col-form-label f-w-600" >Tipo Llamado:</label></td>
                                                         <td><label class="col-form-label f-w-600">IDDNCP:</label></td>
                                                         <td><label class="col-form-label f-w-600">Link DNCP:</label></td>
                                                         <td><label class="col-form-label f-w-600">N° Contrato/Año:</label></td>
@@ -153,9 +154,10 @@ p.centrado {
                                                     <tr>
                                                         <td>{{ $contract->description }}</td>
                                                         <td>{{ $contract->modality->description }}</td>
-                                                        <td>{{ $contract->iddncp }}</td>
+                                                        <td> {{ number_format($contract->iddncp,'0', ',','.') }} </td>
+                                                        <td style="color:blue">{{ $contract->linkdncp }}</td>
                                                         <td>{{ $contract->number_year }}</td>
-                                                        <td>{{ $contract->year_adj }}</td>
+                                                        <td> {{ number_format($contract->year_adj,'0', ',','.') }} </td>
                                                         <td>{{ $contract->signDateFormat() }}</td>
                                                     </tr>
                                                     <tr>
@@ -355,7 +357,7 @@ $(document).ready(function(){
       swal({
             title: "Atención",
             text: "Está seguro que desea eliminar el registro?",
-            
+
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",

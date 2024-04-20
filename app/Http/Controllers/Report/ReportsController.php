@@ -140,7 +140,7 @@ class ReportsController extends Controller{
         // 'year_adj',
         // 'sign_date',
         'contratista',
-        // 'estado',
+        'estado',
         // 'code',
         // 'modalidad',
         // 'org_financ',
