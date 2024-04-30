@@ -770,25 +770,26 @@ class ContractsController extends Controller
         // obtenemos los pedidos que sean Licitaciones modality = 1
         // que estén con estado mayor o igual a 20 (PROCESADO PLANIFICACIÓN)
         // y estado menor o igual a 130 (DERIVADO DE DOC PARA PROCESAR PEDIDO)
-        $orders = Contract::where('contract_state_id', '>=', 20)->where('actual_state', '<=', 130)
-        ->get();
+        $contracts = Contract::where('contract_state_id', '=', 1)->get();
 
         // Por cada orden verificamos fecha tope y consultas sin responder
-        $alerta_consultas = array();
-        $alerta_aclaraciones = array();
-        $tope_recepcion_consultas = 0;
-        $dias_tope_consultas = 0;
-        $dias_tope_aclaraciones = 0;
+        $alerta_advance = array();
+        $fidelity_fidelity = array();
+        $accidents_fidelity = array();
+        $risks_fidelity = array();
+        $civil_resp_fidelity = array();
+        $dias_tope = 60;
         $hoy = strtotime(date('Y-m-d'));
-        foreach($orders as $order){
+
+        foreach($contracts as $contract){
             // en caso de no haber cargado la fecha tope continuamos con el siguiente pedido
-            if(empty($order->queries_deadline)){
-                continue;
-            }
+            // if(empty($contract->queries_deadline)){
+            //     continue;
+            // }
 
             // se cargó la fecha tope, definimos fecha de recepcion de consultas
-            $dia_apertura_sobres = date('N', strtotime($order->queries_deadline));
-            switch ($order->modality_id) {
+            $dia_apertura_sobres = date('N', strtotime($contract->queries_deadline));
+            switch ($contract->modality_id) {
                 // LPN, LPN-SBE, LPI
                 case 1: case 2: case 3:
                     // lunes a domingo
@@ -828,27 +829,27 @@ class ContractsController extends Controller
             }
 
             // definimos dias de aviso recepcion de consultas
-            $apertura_sobres = strtotime($order->queries_deadline);
-            $limite_mayor_consultas = strtotime($order->queries_deadline . ' -'.$tope_recepcion_consultas.' days');
+            $apertura_sobres = strtotime($contract->queries_deadline);
+            $limite_mayor_consultas = strtotime($contract->queries_deadline . ' -'.$tope_recepcion_consultas.' days');
             $dias_aviso = $tope_recepcion_consultas + 5;
-            $limite_menor_consultas = strtotime($order->queries_deadline . ' -'.$dias_aviso.' days');
+            $limite_menor_consultas = strtotime($contract->queries_deadline . ' -'.$dias_aviso.' days');
             if($hoy <= $limite_mayor_consultas && $hoy >= $limite_menor_consultas){
                 $segundos_llegar_tope = $limite_mayor_consultas - $hoy;
                 $dias_tope_consultas = floor(abs($segundos_llegar_tope / 60 / 60 / 24 ));
 
-                $pac_id = number_format($order->dncp_pac_id,0,",",".");
+                $pac_id = number_format($contract->dncp_pac_id,0,",",".");
 
                 $hoy = date('d-m-Y');
                 $fecha_fin = date("d-m-Y",strtotime($hoy."+ $dias_tope_consultas days"));
 
-                // array_push($alerta_consultas, array('pac_id' => $order->dncp_pac_id,'llamado' => $order->number, 'dias' => $dias_tope_consultas));
-                array_push($alerta_consultas, array('pac_id' => $pac_id,'llamado' => $order->number, 'dias' => $dias_tope_consultas, 'fecha_fin' => $fecha_fin));
+                // array_push($alerta_consultas, array('pac_id' => $contract->dncp_pac_id,'llamado' => $contract->number, 'dias' => $dias_tope_consultas));
+                array_push($alerta_consultas, array('pac_id' => $pac_id,'llamado' => $contract->number, 'dias' => $dias_tope_consultas, 'fecha_fin' => $fecha_fin));
             }
 
             // definimos dias de aviso aclaracion de consultas
-            $limite_mayor_aclaraciones = strtotime($order->queries_deadline . ' -'.$tope_aclaraciones.' days');
+            $limite_mayor_aclaraciones = strtotime($contract->queries_deadline . ' -'.$tope_aclaraciones.' days');
             $dias_aviso = $tope_aclaraciones + 5;
-            $limite_menor_aclaraciones = strtotime($order->queries_deadline . ' -'.$dias_aviso.' days');
+            $limite_menor_aclaraciones = strtotime($contract->queries_deadline . ' -'.$dias_aviso.' days');
             if($hoy <= $limite_mayor_aclaraciones && $hoy >= $limite_menor_aclaraciones){
                 $segundos_llegar_tope = $limite_mayor_aclaraciones - $hoy;
                 $dias_tope_aclaraciones = floor(abs($segundos_llegar_tope / 60 / 60 / 24 ));
@@ -856,9 +857,9 @@ class ContractsController extends Controller
 
             // chequeamos si el pedido esta por llegar a fecha tope de aclaracion de consultas
             // y tiene consultas sin ser respondidas
-            $consultas_faltantes_respuesta = $order->queries->where('answered', false)->count();
+            $consultas_faltantes_respuesta = $contract->queries->where('answered', false)->count();
             if($consultas_faltantes_respuesta > 0 && $dias_tope_aclaraciones > 0){
-                array_push($alerta_aclaraciones, array('llamado' => $order->number,
+                array_push($alerta_aclaraciones, array('llamado' => $contract->number,
                     'consultas_pendientes' => $consultas_faltantes_respuesta,
                     'dias' => $dias_tope_aclaraciones));
             }

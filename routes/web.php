@@ -515,7 +515,7 @@ Route::middleware('auth')->group(function () {  // Las siguientes funcionalidade
 
 
 
-    Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
+    // Route::get('contracts/getNotifications', [ContractsController::class, 'getNotifications'])->name('contracts.getNotifications');
 
     Route::resource('contracts', ContractsController::class);
 

@@ -319,7 +319,8 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group @error('control_2') has-danger @enderror">
                                                         <label class="col-form-label">Dias Vigencia</label>
-                                                        <input type="text" id="control_2" readonly name="control_2" value="{{ old('control_2',$contract->control_2) }}" class="form-control">
+                                                        {{-- <input type="text" id="control_2" readonly name="control_2" value="{{ old('control_2',$contract->control_2) }}" class="form-control"> --}}
+                                                        <input type="text" id="control_2" readonly name="control_2" value="{{ old('control_2') }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
