@@ -70,10 +70,18 @@ p.centrado {
                                     <div class="float-left">
                                         <h5>Listado de Llamados de Licitaciones</h5>
                                     </div>
+                                                                        
+                                    {{-- @php                                                   
+                                        var_dump(Auth::user()->role_id); exit; 
+                                    @endphp --}}
 
                                     @if (Auth::user()->hasPermission(['derive_contracts.contracts.show','contracts.contracts.create','admin.orders.create']))
                                         <div class="float-right">
-                                            <a href="{{ route('contracts.create') }}" title="Agregar pedido" class="btn btn-primary">Agregar Llamado</a>
+                                            <a href="{{ route('contracts.create') }}" title="Agregar llamado" class="btn btn-primary">Agregar Llamado</a>                                            
+                                        </div>
+                                        
+                                        <div class="float-right">
+                                            <a href="{{ route('contracts.getNotifications') }}" title="Agregar llamado" class="btn btn-danger">Alerta</a>                                            
                                         </div>
                                     @endif
                                 </div>
