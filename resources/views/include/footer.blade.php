@@ -6,8 +6,8 @@
 
 
 {{-- dispara control de fechas para contratos --}}
-@if(Auth::user()->role_id == 8)    
-    @include('include.footers.contracts')    
+@if(Auth::user()->role_id == 8)
+    @include('include.footers.contracts')
 @endif
 
 

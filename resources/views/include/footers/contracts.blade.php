@@ -41,43 +41,15 @@ $(document).ready(function(){
                                                     '<p class="notification-msg">FECHA INICIO: '+ (element.fecha_ini)+'</p>'+
                                                     '<p style="font-size: 14px;color:red" class="notification-msg">FECHA FINAL: '+ (element.fecha_fin)+'</p>'+                                                    
                                                     '<span style="font-size: 14px;color:red;background-color:yellow;" class="notification-time f-w-600">'+limite+'</span>'+
-                                                    '</div></div></li>';3
+                                                    '</div></div></li>'
                                             });
-
-                                        }
-
-                                        // notificaciones tope aclaracion consultas
-                                        if(data.alerta_aclaraciones.length > 0){
-                                            data.alerta_aclaraciones.forEach(element => {
-                                                alertas += 1;
-                                                var limite = '';
-                                                if(element.dias == 0){
-                                                    limite = 'Fecha límite hoy.'
-                                                }else if(element.dias == 1){
-                                                    limite = 'Fecha límite dentro de 1 día.'
-                                                }else{
-                                                    limite = 'Fecha límite dentro de '+element.dias+' días.'
-                                                }
-                                                var consultas = 0;
-                                                if(element.consultas_pendientes == 1){
-                                                    consultas = '1 consulta pendiente de respuesta.'
-                                                }else{
-                                                    consultas = element.consultas_pendientes +' consultas pendientes de respuesta.'
-                                                }
-                                                notificaciones += '<li><div class="media"><div class="media-body">'+
-                                                    '<h5 class="notification-user">Pendiente de respuesta</h5>'+
-                                                    '<p class="notification-msg">Llamado Nº '+element.llamado+', '+consultas+'</p>'+
-                                                    '<span style="font-size: 14px;color:red" class="notification-time f-w-600">'+limite+'</span>'+
-                                                    '</div></div></li>';3
-                                            });
-                                        }
-
-                                        if(data.alerta_consultas.length > 0 || data.alerta_aclaraciones.length > 0){
+                                        }                                      
+                                        if(data.alerta_consultas.length > 0){
                                             $('#numero-notificaciones').text(alertas);
                                             parent.innerHTML = notificaciones;
                                         }
                                     }else{
-                                        console.log(data.message);
+                                         console.log(data.message);
                                     }
                                 }catch(error2){
                                     console.log(error2);
